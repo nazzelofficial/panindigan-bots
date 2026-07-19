@@ -27,6 +27,8 @@ ENV NODE_ENV=production
 COPY --from=builder /app/package.json ./package.json
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/src/commands ./commands
+COPY --from=builder /app/src/events ./events
 COPY --from=builder /app/config.json ./config.json
 
 # Create application user and writable directories

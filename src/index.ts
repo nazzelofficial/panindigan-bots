@@ -91,7 +91,7 @@ async function main(): Promise<void> {
   }
 
   // ── 7. Monitoring ─────────────────────────────────────────────────────────
-  client.once("ready", () => {
+  client.once("clientReady", () => {
     const monitor = new Monitor(client);
     monitor.start();
 
