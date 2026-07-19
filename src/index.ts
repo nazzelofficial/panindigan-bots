@@ -1,0 +1,129 @@
+import "dotenv/config";
+import { PanindiganClient } from "@/structures/Client";
+import { setClientInstance } from "@/structures/clientRegistry";
+import { connectDatabase } from "@/database/connection";
+import { loadCommands } from "@/handlers/commandHandler";
+import { loadEvents } from "@/handlers/eventHandler";
+import { validateEnv, requireEnv } from "@/config/config";
+import { scopedLogger, printBanner } from "@/utils/logger";
+import { initLavalink } from "@/features/music/musicManager";
+import { startApiServer } from "@/api/server";
+import { startReminderScheduler } from "@/features/scheduler/reminderScheduler";
+import { startGiveawayScheduler } from "@/features/scheduler/giveawayScheduler";
+import { startPremiumExpiryAudit } from "@/features/scheduler/premiumAudit";
+import { startTempbanScheduler } from "@/features/scheduler/tempbanScheduler";
+import { startBirthdayScheduler } from "@/features/scheduler/birthdayScheduler";
+import { Monitor } from "@/structures/Monitor";
+import type { StartupPhaseResult } from "@/structures/types";
+
+const VERSION = "0.1.7";
+const log = scopedLogger("bootstrap");
+
+/** Run a named startup phase, record its duration, and surface errors cleanly. */
+async function phase(name: string, fn: () => Promise<unknown>): Promise<StartupPhaseResult> {
+  const t0 = Date.now();
+  try {
+    await fn();
+    const durationMs = Date.now() - t0;
+    log.info(`✔ ${name}`, { durationMs });
+    return { phase: name, success: true, durationMs };
+  } catch (err: unknown) {
+    const message    = err instanceof Error ? err.message : String(err);
+    const durationMs = Date.now() - t0;
+    log.error(`✖ ${name} failed`, { error: message, durationMs });
+    return { phase: name, success: false, durationMs, detail: message };
+  }
+}
+
+async function main(): Promise<void> {
+  const bootStart = Date.now();
+
+  printBanner(VERSION);
+  log.info("Starting up…");
+
+  // ── 1. Env validation ────────────────────────────────────────────────────
+  const { missing, optionalMissing } = validateEnv();
+  if (missing.length) {
+    log.error("Missing required environment variables — refusing to start", {
+      missing: missing.map((m) => `${m.key} (${m.description})`),
+    });
+    process.exit(1);
+  }
+  if (optionalMissing.length) {
+    log.warn("Optional env vars not set — related features disabled", {
+      optional: optionalMissing.map((m) => m.key),
+    });
+  }
+
+  // ── 2. Database ──────────────────────────────────────────────────────────
+  const dbResult = await phase("Database connect", () => connectDatabase());
+  if (!dbResult.success) {
+    log.error("Cannot start without a database connection. Check MONGODB_URI.");
+    process.exit(1);
+  }
+
+  // ── 3. Discord client ────────────────────────────────────────────────────
+  const client = new PanindiganClient();
+  setClientInstance(client);
+
+  // ── 4. Commands & events ──────────────────────────────────────────────────
+  const [cmdResult, evtResult] = await Promise.all([
+    phase("Load commands", () => loadCommands(client)),
+    phase("Load events",   () => loadEvents(client)),
+  ]);
+
+  // ── 5. Optional services ──────────────────────────────────────────────────
+  await phase("Init Lavalink",      async () => initLavalink(client));
+  await phase("Start REST API",     async () => startApiServer(client));
+  await phase("Start schedulers",   async () => {
+    startReminderScheduler(client);
+    startGiveawayScheduler(client);
+    startPremiumExpiryAudit();
+    startTempbanScheduler(client);
+    startBirthdayScheduler(client);
+  });
+
+  // ── 6. Discord login ──────────────────────────────────────────────────────
+  const loginResult = await phase("Discord login", () => (client as unknown as { login(t: string): Promise<string> }).login(requireEnv("DISCORD_TOKEN")));
+  if (!loginResult.success) {
+    log.error("Discord login failed. Check DISCORD_TOKEN.");
+    process.exit(1);
+  }
+
+  // ── 7. Monitoring ─────────────────────────────────────────────────────────
+  client.once("ready", () => {
+    const monitor = new Monitor(client);
+    monitor.start();
+
+    const totalMs = Date.now() - bootStart;
+    const mem     = process.memoryUsage();
+    const heapMB  = Math.round(mem.heapUsed / 1_048_576);
+
+    log.info("═══ Startup complete ═══", {
+      version:        VERSION,
+      totalDurationMs: totalMs,
+      commands:       client.commands.size,
+      events:         client.events.size,
+      guilds:         client.guilds.cache.size,
+      heapMB,
+    });
+  });
+}
+
+main().catch((err: unknown) => {
+  const message = err instanceof Error ? err.message : String(err);
+  const stack   = err instanceof Error ? err.stack : undefined;
+  log.error("Fatal error during bootstrap", { error: message, stack });
+  process.exit(1);
+});
+
+// ── Process-level safety nets ──────────────────────────────────────────────
+process.on("unhandledRejection", (reason: unknown) => {
+  const message = reason instanceof Error ? reason.message : String(reason);
+  const stack   = reason instanceof Error ? reason.stack   : undefined;
+  log.error("Unhandled promise rejection", { error: message, stack });
+});
+
+process.on("uncaughtException", (err: Error) => {
+  log.error("Uncaught exception — process will continue", { error: err.message, stack: err.stack });
+});

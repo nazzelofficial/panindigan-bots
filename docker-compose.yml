@@ -1,0 +1,61 @@
+version: '3.8'
+
+services:
+  bot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: panindigan-bot
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - DISCORD_TOKEN=${DISCORD_TOKEN}
+      - DISCORD_CLIENT_ID=${DISCORD_CLIENT_ID}
+      - MONGODB_URI=mongodb://mongodb:27017/panindigan
+      - BOT_OWNER_IDS=${BOT_OWNER_IDS}
+      - LAVALINK_HOST=lavalink
+      - LAVALINK_PORT=2333
+      - LAVALINK_PASSWORD=${LAVALINK_PASSWORD:-youshallnotpass}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - API_PORT=3000
+      - API_JWT_SECRET=${API_JWT_SECRET}
+    depends_on:
+      - mongodb
+      - lavalink
+    networks:
+      - bot-network
+    volumes:
+      - ./logs:/app/logs
+
+  mongodb:
+    image: mongo:7.0
+    container_name: panindigan-mongodb
+    restart: unless-stopped
+    environment:
+      - MONGO_INITDB_DATABASE=panindigan
+    volumes:
+      - mongodb-data:/data/db
+    networks:
+      - bot-network
+    ports:
+      - "27017:27017"
+
+  lavalink:
+    image: ghcr.io/lavalink-devs/lavalink:4.0.0
+    container_name: panindigan-lavalink
+    restart: unless-stopped
+    environment:
+      - LAVALINK_SERVER_PASSWORD=youshallnotpass
+    volumes:
+      - ./lavalink/application.yml:/opt/Lavalink/application.yml:ro
+    networks:
+      - bot-network
+    ports:
+      - "2333:2333"
+
+networks:
+  bot-network:
+    driver: bridge
+
+volumes:
+  mongodb-data:

@@ -1,0 +1,16 @@
+import { SlashCommandBuilder } from "discord.js";
+import type { CommandDefinition } from "@/structures/types";
+import { infoEmbed } from "@/utils/embeds";
+
+const command: CommandDefinition = {
+  name: "akinator",
+  description: "Play Akinator - guess the character",
+  category: "Utility",
+  access: "general",
+  guildOnly: false,
+  slashData: (b) => b as SlashCommandBuilder,
+  async execute(ctx) {
+    await ctx.reply({ embeds: [infoEmbed("🧞 Akinator game started! Think of a character and I will try to guess it.")] });
+  },
+};
+export default command;

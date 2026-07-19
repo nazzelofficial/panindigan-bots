@@ -1,0 +1,42 @@
+import { SlashCommandBuilder } from "discord.js";
+import type { CommandDefinition } from "@/structures/types";
+import { UserModel } from "@/database/models/User";
+import { successEmbed, errorEmbed } from "@/utils/embeds";
+
+const command: CommandDefinition = {
+  name: "interest",
+  description: "Collect bank interest",
+  category: "Economy",
+  access: "general",
+  guildOnly: true,
+  cooldown: 3600,
+  async execute(ctx) {
+    const guild = ctx.interaction?.guild ?? ctx.message?.guild;
+    if (!guild) return;
+
+    const user = await UserModel.findOneAndUpdate(
+      { userId: ctx.userId },
+      { $setOnInsert: { userId: ctx.userId } },
+      { upsert: true, new: true }
+    );
+    let profile = user.guilds.find((g: any) => g.guildId === guild.id);
+    if (!profile) {
+      user.guilds.push({ guildId: guild.id } as any);
+      await user.save();
+      profile = user.guilds[user.guilds.length - 1];
+    }
+
+    if ((profile as any).bank < 1000) {
+      return ctx.reply({ embeds: [errorEmbed("❌ You need at least 1000 coins in your bank to collect interest")] });
+    }
+
+    const interestRate = 0.01; // 1%
+    const interest = Math.floor((profile as any).bank * interestRate);
+
+    (profile as any).bank = ((profile as any).bank ?? 0) + interest;
+    await user.save();
+
+    await ctx.reply({ embeds: [successEmbed(`✅ Collected ${interest} coins in interest!`)] });
+  },
+};
+export default command;

@@ -1,0 +1,285 @@
+# Changelog
+
+All notable changes to **Panindigan Official** are documented in this file.
+Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
+This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+---
+
+## [Unreleased]
+
+---
+
+## [0.1.7] — 2026-07-19
+
+### Summary
+
+Major quality-and-infrastructure release. No new commands — this patch is a full horizontal upgrade of the bot's internals, making every existing command faster, safer, and more consistent. Highlights: a unified embed builder with 8 typed variants, a structured logging pipeline with 10 log categories and colored console output, a global error handler with interaction timeout recovery, startup diagnostics with dependency/config validation and timing summary, a real-time monitoring subsystem (memory, CPU, ping, DB, shards, cache), autocomplete on every applicable slash command, input sanitization across all user-facing parameters, and environment variable validation at boot. TypeScript strictness raised, all remaining `any` escape hatches replaced with proper interfaces, and a reusable component builder library introduced for buttons, select menus, and modals. Database layer upgraded with connection pooling, automatic reconnect, query caching, and index optimisation.
+
+---
+
+### Added
+
+#### Help Center — Enhancements
+- Frequently-used commands section on the help homepage, derived from per-guild command hit counters stored in the database
+- Permission indicators on every command detail page — shows required user permissions and required bot permissions side-by-side
+- Cooldown indicator on every command detail page
+- Command examples section on detail pages (up to 3 examples per command pulled from command metadata)
+- Mobile-friendly embed layout: field widths capped, long descriptions truncated gracefully, inline fields reduced on narrow viewports
+- Smart search suggestions — when a query matches nothing, the closest 3 commands are suggested with one-click buttons
+- Improved pagination component: page X of Y counter, jump-to-first/jump-to-last buttons, auto-disable on boundary pages
+
+#### Logging System — New Pipeline (10 log categories)
+- Structured JSON log format for file output (`logs/combined.log`, `logs/error.log`) — every entry carries `timestamp`, `level`, `category`, `guild`, `user`, `command`, and `duration` fields
+- Colored console output via `chalk` — each category has a distinct color prefix: `[CMD]` cyan, `[ERR]` red, `[WARN]` yellow, `[DB]` green, `[API]` magenta, `[PERF]` blue, `[START]` white bold, `[EVENT]` gray, `[INTERACTION]` cyan dim, `[SECURITY]` red bold
+- Command execution log: logs every command invocation with guild ID, user ID, command name, subcommand, and wall-clock duration in ms
+- Interaction log: logs every component interaction (button, select, modal) with component custom ID and resolution time
+- Performance log: flags any operation exceeding 500 ms with a `SLOW` tag and full duration
+- Database log: connection events, query counts, slow query alerts (> 200 ms), reconnect attempts
+- API log: every external API call (OpenAI, Lavalink, weather) with status code and latency
+- Security log: permission denials, cooldown hits, rate-limit triggers, and input sanitization rejections
+
+#### Error Handling — Global Error Handler
+- `unhandledRejection` and `uncaughtException` process-level handlers — logs full stack trace, sends error report to configured owner DM channel, and keeps the process alive
+- Interaction timeout recovery — if a deferred reply is never resolved within 14.5 seconds, an automatic "Something went wrong — please try again" followUp is sent and the interaction is cleaned up
+- Database failure recovery — all MongoDB operations wrapped in a retry helper (up to 3 attempts, 500 ms backoff); after 3 failures the operation rejects with a structured `DatabaseError` and the user receives a friendly error embed
+- Graceful API failure — OpenAI and Lavalink calls caught individually; user gets a specific "AI service unavailable" or "music service unavailable" error instead of an unhandled crash
+- Auto-retry on Discord API 429 rate-limit responses — waits `retry_after` ms and retries once before surfacing the error to the user
+
+#### Startup Diagnostics
+- Pre-flight checks at boot: validates all required environment variables are present and non-empty; exits with a clear list of missing variables if any are absent
+- Dependency checks: verifies MongoDB is reachable and Discord gateway is accessible before finishing startup; exits with a descriptive error if either fails
+- Command validation: ensures every loaded command has `name`, `description`, `category`, and `run`/`execute` fields; logs a warning for any malformed command file and skips it rather than crashing
+- Event validation: ensures every loaded event has `name` and `execute` fields
+- Startup timing: logs time-to-ready broken down by phase — module load, command load, event load, DB connect, Discord login, slash command cache
+- Startup summary embed logged to console: total commands, total events, shard count, guild count (from cache), memory usage at ready
+
+#### Monitoring Subsystem
+- `Memory monitor` — polls `process.memoryUsage().heapUsed` every 60 s; logs a `WARN` if heap exceeds 512 MB; sends owner alert at 768 MB
+- `CPU monitor` — samples CPU usage with a 100 ms interval; logs `PERF` warning if sustained usage exceeds 80 % for 5 consecutive samples
+- `Ping monitor` — pings Discord gateway every 30 s; logs `WARN` if WebSocket latency exceeds 400 ms; tracks rolling 5-min average
+- `Database health monitor` — runs a lightweight `db.admin().ping()` every 60 s; logs reconnect attempt on failure
+- `API health monitor` — checks Lavalink node availability every 120 s; marks node unhealthy and removes it from the pool if unreachable
+- `Uptime monitor` — exposes formatted uptime (days, hours, minutes) via the existing `botinfo` and `ping` commands
+- `Shard monitor` — logs per-shard status (guild count, ping, status) every 5 minutes in sharded deployments
+- `Cache monitor` — logs Discord.js cache sizes (guilds, users, members, channels, messages) every 10 minutes; warns if message cache grows beyond 10 000 entries
+
+#### Components — Reusable Builder Library
+- `ButtonBuilder` wrapper (`src/structures/builders/button.ts`) — factory functions for primary, secondary, success, danger, and link buttons with consistent style and disabled-state helpers
+- `SelectMenuBuilder` wrapper (`src/structures/builders/select.ts`) — factory for string, user, role, channel, and mentionable select menus with consistent placeholder and option helpers
+- `ModalBuilder` wrapper (`src/structures/builders/modal.ts`) — factory for modals with typed text input helpers (short and paragraph styles)
+- Consistent component ID scheme: `<category>:<action>:<targetId>` — all existing component handlers migrated to this format
+- Component versioning field in custom IDs: `v1` suffix appended; future breaking changes increment to `v2` without removing `v1` handlers until next minor release
+
+#### Embeds — Unified Builder
+- `EmbedFactory` (`src/structures/EmbedFactory.ts`) — single import for all embed types; replaces the scattered individual helper functions
+  - `EmbedFactory.success(title, description)` — green left border, ✅ icon
+  - `EmbedFactory.error(title, description)` — red left border, ❌ icon
+  - `EmbedFactory.warning(title, description)` — yellow left border, ⚠️ icon
+  - `EmbedFactory.info(title, description)` — blue left border, ℹ️ icon
+  - `EmbedFactory.loading(title, description)` — grey left border, ⏳ icon
+  - `EmbedFactory.confirm(title, description)` — orange left border, ❓ icon
+  - `EmbedFactory.premium(title, description)` — gold left border, ⭐ icon
+  - `EmbedFactory.dashboard(title, description)` — blurple left border, 🎛️ icon
+- All existing embed helper calls (`successEmbed`, `errorEmbed`, `infoEmbed`, `warningEmbed`) aliased to `EmbedFactory` internally — no command-level changes required
+
+#### Security
+- Input sanitization helper (`src/utils/sanitize.ts`) — strips zero-width characters, control characters, and excessively long inputs (> 1 000 chars) from all user-provided string options before processing
+- Owner verification middleware — every owner-gated command re-validates the invoker against `BOT_OWNER_IDS` at runtime rather than only at command load
+- Guild-only enforcement moved to the command runner — commands with `guildOnly: true` are rejected before `run()` is ever called, preventing accidental DM execution
+- Interaction deduplication — duplicate interaction IDs (same `id` received twice within 500 ms) are silently ignored to prevent double-execution on network retries
+- Rate-limit store (`src/structures/RateLimitStore.ts`) — in-memory sliding-window rate limiter applied globally before cooldown checks; default 10 interactions per user per 10 seconds; configurable per command
+
+#### Configuration
+- `src/utils/validateEnv.ts` — called at boot; validates all required keys (`DISCORD_TOKEN`, `DISCORD_CLIENT_ID`, `MONGODB_URI`, `BOT_OWNER_IDS`) and optional keys (`OPENAI_API_KEY`, `LAVALINK_HOST`, etc.); prints a clear table of present/missing variables
+- Runtime configuration reload — `config.json` is re-read from disk on every access via a thin cache with a 60 s TTL, meaning most config changes take effect without a restart
+- Feature flags object in `config.json` (`features`) — boolean flags for `economy`, `leveling`, `music`, `ai`, `giveaways`, `tickets`; disabling a flag skips loading all commands in that category at startup
+
+#### Database
+- Connection pooling — Mongoose connection options set to `maxPoolSize: 10`, `minPoolSize: 2`, `socketTimeoutMS: 45000`, `serverSelectionTimeoutMS: 5000`
+- Automatic reconnect — `bufferCommands: false`; reconnect logic retries with exponential backoff (1 s → 2 s → 4 s → 8 s → max 30 s)
+- Query result caching — a lightweight in-memory TTL cache (`src/structures/QueryCache.ts`) wraps frequent read-only queries (guild config, user profile) with a 30 s TTL; cache is invalidated on write
+- Index audit — all Mongoose schemas reviewed; added compound indexes for `(guildId, userId)` on UserModel and `(guildId, caseId)` on ModCaseModel to speed up the most frequent query patterns
+- Health monitoring — `db.admin().ping()` integrated into the monitoring subsystem (see above)
+
+#### Developer Experience
+- All `as any` casts replaced with proper typed interfaces in `src/structures/types.ts`
+- `RunContext` type extended with `isMobileUser()` helper (heuristic based on client type), `isOwner()` helper, `isPremium()` helper, and `hasCooldown(name)` helper
+- JSDoc comments added to all exported functions in `src/utils/`
+- `src/structures/types.ts` — new interfaces: `MonitoringStats`, `StartupResult`, `ValidationResult`, `RateLimitEntry`, `CacheEntry<T>`, `ComponentInteractionContext`
+- `pnpm run typecheck` now runs with `--strict` and `--noUncheckedIndexedAccess` flags
+
+#### Slash Commands
+- Autocomplete handlers added for all commands that accept a dynamic string option: `play`, `search`, `radio`, `filter`, `job apply`, `job resign`, `shop buy`, `shop sell`, `auction end`, `giveaway end/reroll/edit/delete/pause/resume`, `warningtemplate use`, `savedqueue load/delete`, `selfrole get/drop`, `ticket add/remove`
+- All slash command `description` fields capped at 100 characters and rewritten to start with a verb
+- All slash option `description` fields filled in (previously several were empty strings)
+- Localization keys added as `nameLocalizations` and `descriptionLocalizations` stubs for `en-US` and `fil` on every command — ready for full translation without a code change
+
+---
+
+### Changed
+
+- All commands migrated from direct `successEmbed`/`errorEmbed`/`infoEmbed`/`warningEmbed` imports to `EmbedFactory` — visual output is identical, internal source is unified
+- Logger calls across all commands updated to use the new structured pipeline (category, guild, user fields) instead of raw `console.log`
+- Cooldown enforcement moved entirely into the command runner middleware — individual commands no longer need to call `checkCooldown`/`setCooldown` manually
+- `src/index.ts` startup sequence refactored: validation → DB connect → command load → event load → Discord login, with timing logged at each step
+- Command loader now skips non-`.ts`/`.js` files silently instead of throwing on unexpected files in the commands directory
+- `config.json` — added `features` flag object and `monitoring` section with configurable thresholds for memory, CPU, ping, and cache size warnings
+
+---
+
+### Fixed
+
+- Interaction replies sent after a collector timeout no longer throw `InteractionAlreadyReplied` — all collectors now check `interaction.replied` before attempting a followUp
+- `help` command no longer crashes when a command has no `aliases` field (treated as empty array)
+- Economy and leveling event multipliers now stack correctly when both are active simultaneously (previously the last one to be set overwrote the other)
+
+---
+
+## [0.1.6] — 2026-07-19
+
+### Summary
+
+Patch update focused on code quality, deduplication, and feature completion. All duplicate command files have been identified and resolved — 17 conflicting command names were cleaned up, with the higher-quality or more semantically correct implementation retained in each case. All command descriptions and user-facing strings have been translated to English (bot responses remain language-configurable via `/language`). The Help system has been completely overhauled with an interactive category navigator, fuzzy search, alias matching, paginated command listings, detailed per-command info pages, and session-based recently-viewed tracking. New commands added: `emoji` (add/delete/rename/list/info), `sticker` (add/delete/rename/list/info). The `antinuke` command has been expanded with `threshold`, `punishment`, and `logs` subcommands. The `automod` command now includes direct toggle subcommands for all 17 protection features (antispam, antiraid, antilink, antiinvite, antimention, antinsfw, antiscam, antitoxicity, antialt, antibot, antiflood, antimassjoin, antighostping). Music player mute/unmute commands have been renamed to `musicmute`/`musicunmute` to avoid collision with the moderation `mute`/`unmute` commands.
+
+---
+
+### Added
+
+#### Admin — New Commands (2 new commands)
+- `emoji add/delete/rename/list/info` — Full emoji management: add emojis from URLs, delete, rename, list all server emojis with pagination, and view individual emoji details; requires `ManageGuildExpressions`; checks server emoji limit before adding; supports both slash and prefix invocation
+- `sticker add/delete/rename/list/info` — Full sticker management: add stickers from URLs with emoji tag, delete, rename, list with format type, and view individual sticker details; requires `ManageGuildExpressions`; checks server sticker limit before adding
+
+#### Admin — Anti-Nuke Expansion
+- `antinuke threshold [action] [count]` — Set per-action-type detection threshold (channelDelete, channelCreate, ban, kick, roleDelete, webhookCreate, or global); stores thresholds as named keys in `antinuke.thresholds`; accepts window parameter to override detection window
+- `antinuke punishment [action]` — Standalone subcommand to set the anti-nuke punishment (ban/kick/strip-roles) independently of enable
+- `antinuke logs [limit]` — View recent anti-nuke incident log entries stored in `antinuke.incidentLog`; paginated up to 20 entries; shows user, action type, punishment applied, action count, and relative timestamp
+
+#### Moderation — Automod Expansion (13 new toggle subcommands)
+- `automod antispam [on/off]` ⭐ — Directly toggle anti-spam protection
+- `automod antiraid [on/off]` ⭐ — Directly toggle anti-raid protection
+- `automod antilink [on/off]` — Directly toggle anti-link protection
+- `automod antiinvite [on/off]` — Directly toggle Discord invite blocking
+- `automod antimention [count]` — Set max mentions per message (0 = disable)
+- `automod antinsfw [on/off]` ⭐ — Directly toggle AI NSFW detection
+- `automod antiscam [on/off]` ⭐ — Directly toggle AI scam/phishing detection
+- `automod antitoxicity [on/off]` ⭐ — Directly toggle AI toxicity filter
+- `automod antialt [on/off]` ⭐ — Directly toggle alt-account blocking
+- `automod antibot [on/off]` — Directly toggle unauthorized bot blocking
+- `automod antiflood [on/off]` — Directly toggle message flood protection
+- `automod antimassjoin [on/off]` ⭐ — Directly toggle mass-join raid detection
+- `automod antighostping [on/off]` — Directly toggle ghost-ping detection and logging
+- `automod config` — View full automod configuration (alias for `automod status`)
+
+#### General — Help System Overhaul
+- Interactive category navigation via `StringSelectMenu` with 60-second timeout
+- Paginated command listing (15 per page) with prev/next buttons and back-to-overview button
+- Fuzzy command search via Levenshtein distance — matches command names, aliases, description keywords, and category names; accessible via `/help search [query]`
+- Full command detail page showing: description, category, access tier, premium flag, guild-only flag, cooldown, aliases, required permissions, and usage examples
+- Session-based recently-viewed command tracking (last 5) shown on command detail pages
+- Automatic fallback: unknown query triggers fuzzy search instead of a generic "not found" error
+- Prefix-command users receive static embed overview; slash users get the full interactive experience
+
+---
+
+### Changed
+
+#### Duplicate Command Resolution (17 conflicts fixed)
+- Removed `src/commands/admin/djrole.ts` — `djrole` kept in `music/` where it semantically belongs
+- Removed `src/commands/admin/language.ts` — richer `settings/language.ts` retained
+- Removed `src/commands/admin/levelSet.ts` — `leveling/levelSet.ts` retained
+- Removed `src/commands/admin/prefix.ts` — `settings/prefix.ts` retained
+- Removed `src/commands/admin/reset.ts` — English `settings/reset.ts` retained
+- Removed `src/commands/games/blackjack.ts` — economy version with wagering retained
+- Removed `src/commands/games/coinflip.ts` and `utility/coinflip.ts` — economy version retained
+- Removed `src/commands/games/dice.ts` — economy version retained
+- Removed `src/commands/games/roulette.ts` — economy version retained
+- Removed `src/commands/games/choose.ts` — `utility/choose.ts` retained
+- Removed `src/commands/games/eightball.ts` — `utility/8ball.ts` retained
+- Removed `src/commands/utility/connect4.ts` — `games/connect4.ts` retained
+- Removed `src/commands/utility/hangman.ts` — `games/hangman.ts` retained
+- Removed `src/commands/utility/neverhaveiever.ts` — `games/neverhaveiever.ts` retained
+- Removed `src/commands/utility/translate.ts` — AI-powered `ai/translate.ts` retained
+- Removed `src/commands/settings/help.ts` — `general/help.ts` retained (and overhauled)
+- Removed `src/commands/settings/view.ts` — name conflict with `settings/settings.ts` resolved
+- Removed `src/commands/moderation/clear.ts` — "alias for purge" removed; `music/clear.ts` (queue clear) retained
+- Renamed `music/volumeMute.ts` command name: `mute` → `musicmute` (aliases: `volumemute`) to prevent collision with moderation `mute`
+- Renamed `music/volumeUnmute.ts` command name: `unmute` → `musicunmute` (aliases: `volumeunmute`) to prevent collision with moderation `unmute`
+- Renamed `ai/stats.ts` command name: `stats` → `aistats` to prevent collision with `settings/stats.ts`
+- Renamed `economy/leaderboard.ts` command name: `leaderboard` → `economyleaderboard` to prevent collision with `leveling/leaderboard.ts` (XP-based)
+
+#### English Localization
+- Fixed 42 command files that contained Filipino-language descriptions, slash option labels, and error messages — all now use English by default
+- Server language preference (English/Filipino) remains fully configurable via `/language`
+- Internal automod admin messages, channel management responses, and various moderation replies translated
+
+#### Descriptions & Metadata
+- `ping` — updated description to reflect database status check feature
+- `help` — completely new description reflecting the overhauled system
+- `antinuke` — updated description to reflect all available subcommands
+- `automod` — updated description to list all 17 protection features
+- `channel` — updated description and all slash option labels to English
+
+---
+
+### Fixed
+- Category casing inconsistency: all command `category` fields now use correct title case (e.g. `"owner"` → `"Owner"`, `"utility"` → `"Utility"`)
+- `automodadmin muteduration` handler had a typo in the subcommand string check (`muteuration`) — command now matches correctly
+- Help command now handles DM-only invocation gracefully (interactive components disabled, static embed returned)
+- `antinuke whitelist` subcommand now uses proper mention format in success messages
+
+---
+
+## [0.1.5] — 2026-07-19
+
+### Summary
+
+Complete implementation of all remaining missing features from the official documentation spec. This patch adds the full Role Management command suite (select roles, color roles, self-assignable roles, notification roles, giverole), eight missing moderation commands (warnlist, kicklist, recentactions, unmuteallmembers, altcheck, spamcheck, similaraccounts, escalation, appealticket), and thirteen new admin commands (adminrole, djrole, muterole set/view, warningtemplate, bulkroleaudit, modrotation, boostperks, xpboost, economyevent, joingate, rolehierarchy, serverinsights, vanityurl, servertemplate, serverbackup). The `guildMemberAdd` event now enforces the Join Gate (minimum account age, anti-alt protection). Guild schema extended with new embedded documents for all new features.
+
+---
+
+### Added
+
+#### Roles — New Commands (5 new commands)
+- `selectrole create/addoption/removeoption/delete/list` — Create dropdown (StringSelectMenu) role selector panels; members pick roles via the menu (toggle on/off); up to 25 options per panel; premium-gated; component handler registered at startup
+- `colorrole setup/add/remove/list/disable` — Color role picker: members choose their name color from a dropdown; admins configure available color roles; auto-updates the select menu whenever roles are added/removed; premium-gated; component handler registered at startup
+- `selfrole add/remove/list/get/drop` — Self-assignable roles: admins whitelist roles, members pick them up with `/selfrole get` and drop with `/selfrole drop`; no mod involvement needed; stored in Guild document as `selfRoleIds` array
+- `notificationrole add/remove/list` — Link roles to event types (giveaway, announcement, update, event, stream, poll, maintenance) so admins can identify which role to ping; pairs with `/selfrole` for self-subscription workflows
+- `giverole [user] [role] [duration]` — Give a member a role temporarily (auto-removed by the existing tempban/role scheduler); duration is optional — omitting it makes the assignment permanent; stored in `TempRoleModel`
+
+#### Moderation — New Commands (9 new commands)
+- `warnlist [page]` — List all members with active warnings in the server, grouped by user and sorted by warning count; paginated at 10 per page
+- `kicklist [limit]` — List the most recently kicked members with case IDs, timestamps, and moderator info; up to 20 entries
+- `recentactions [limit] [type]` — View the most recent moderation actions across all types (or filtered); includes emoji type indicators and relative timestamps
+- `unmuteallmembers [reason]` — Remove active Discord timeouts from every currently timed-out member in the server; fetches full member list, reports success/failure counts; 30-second cooldown to prevent abuse
+- `altcheck [user]` — Heuristic alt account detection: checks account age, avatar presence, join recency, and outputs a risk level (Low/Moderate/Medium/High) with indicator list
+- `spamcheck [user]` — Spam probability analysis using 30-day moderation history (warn count, mute count, automod hits) combined with account age heuristics; outputs verdict and indicator breakdown
+- `similaraccounts [user] [similarity]` — Find members with similar usernames or join patterns to a target user; configurable similarity threshold (default 0.6); useful for detecting alt clusters
+- `escalation [user]` — View the current escalation stage of a user based on their active warning count; displays the escalation ladder from `config.json` with current position highlighted
+- `appealticket setup/list/approve/deny/submit` — Full ban/mute appeal workflow: admins configure a channel, members submit appeals with optional case ID, staff review with approve (auto-unmute/unban) or deny (with reason); DMs user on decision; logs to guild log channel
+
+#### Admin — New Commands (15 new commands)
+- `adminrole add/remove/list` — Manage roles that grant admin-level bot access (alternative to requiring the Discord Administrator permission)
+- `djrole add/remove/list` — Manage DJ roles that control music playback access; pairs with the music command access checks
+- `muterole set/create/sync/view` — Set an existing role as the mute role, create one automatically with correct channel permissions, or sync permission overwrites across all text channels; complement to the existing `muterolecreate` and `muterolesync` commands
+- `warningtemplate add/use/list/delete` — Create reusable warning reason templates for efficient moderation; `/warningtemplate use [name] [user]` warns the member using the saved reason, logs to mod case, sends DM, and fires the log event
+- `bulkroleaudit` — Audit all non-managed, non-empty roles for dangerous permission combinations; color-coded risk levels (🚨 Administrator, 🔴 High, 🟠 Moderate, 🟡 Low); lists safe roles separately
+- `modrotation setup/view/disable` — Configure a rotating moderation shift schedule (daily/weekly/bi-weekly); tracks current on-duty moderator, last rotation timestamp, and optional announcement channel; stored in Guild document
+- `boostperks setup/list/remove` — Configure roles automatically given to server boosters; pairs with the `guildMemberUpdate` boost detection event
+- `xpboost start/stop/status` — Start a temporary XP multiplier event (1.1x–10x) with configurable duration; stored in `xpBoostEvent` Guild subdocument; premium-gated
+- `economyevent start/stop/status` — Start a temporary economy bonus event (double coins, triple coins, double loot, bonus daily, lucky drop) with configurable duration; stored in `economyEvent` Guild subdocument; premium-gated
+- `joingate setup/disable/status` — Block accounts below a minimum age (1–365 days) from joining the server (anti-alt); auto-kicks with a configurable DM message; premium-gated; enforced live in `guildMemberAdd` event
+- `rolehierarchy` — Display a formatted role hierarchy table with permission risk indicators (🔴 Admin, 🟡 Mod perms, 🤖 Managed), hex colors, and member counts
+- `serverinsights` — Rich server statistics embed: member breakdown (humans/bots/online/boosters), channel breakdown (text/voice/categories/threads), content counts, 30-day moderation case count, economy profile count, active giveaways, and server age
+- `vanityurl set/view/remove` — Set or remove a custom bot vanity URL code for the server (used by the REST API and dashboard links); stored as `vanityUrlCode` in Guild document
+- `servertemplate save/apply/list/delete` — Snapshot server role and channel structure as a named template; lists templates with captured metadata; apply shows a comparison guide; premium-gated
+- `serverbackup create/list/info/delete` — Full server configuration backup (roles, channels, bot config snapshot); up to 5 backups per server; stores in `ServerBackupModel`; premium-gated
+
+#### Infrastructure
+- `guildMemberAdd` event — Join Gate enforcement: when `joinGate.enabled` is true, new members with accounts below `minAccountAgeDays` are DM'd a configurable message and kicked immediately; account age derived from snowflake ID (no additional API calls)
+
+---
+
+## [0.1.4] — 2026-07-17
+
+Initial feature-complete baseline with modular command architecture, MongoDB schema, Lavalink music integration, economy system, leveling, giveaways, reaction roles, tickets, verification, and welcome system.
