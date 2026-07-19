@@ -2,28 +2,31 @@ import { defineConfig } from "tsup";
 
 export default defineConfig({
   entry: [
-    "src/index.ts"
+    "src/index.ts",
+    "src/deploy-commands.ts"
   ],
 
   outDir: "dist",
 
-  format: [
-    "esm"
-  ],
+  format: ["esm"],
 
   platform: "node",
-
   target: "node24",
 
-  bundle: false,
-
+  bundle: true,
   splitting: false,
 
   sourcemap: true,
-
   clean: true,
 
   minify: false,
+  treeshake: true,
 
-  dts: false
+  dts: false,
+
+  skipNodeModulesBundle: true,
+
+  noExternal: [
+    /^@\//
+  ]
 });
