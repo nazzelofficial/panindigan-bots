@@ -1,5 +1,5 @@
-import { UserModel } from "@/database/models/User";
-import { errorEmbed, warnEmbed, baseEmbed } from "@/utils/embeds";
+import { UserModel } from "../../database/models/User";
+import { errorEmbed, warnEmbed, baseEmbed } from "../../utils/embeds";
 const ROB_COOLDOWN_MS = 2 * 60 * 60 * 1000; // 2 hours
 const SUCCESS_CHANCE = 0.45;
 const MIN_VICTIM_BALANCE = 100;

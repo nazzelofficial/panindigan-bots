@@ -1,6 +1,6 @@
 import { PermissionFlagsBits } from "discord.js";
-import { GuildModel } from "@/database/models/Guild";
-import { successEmbed, errorEmbed, baseEmbed, infoEmbed } from "@/utils/embeds";
+import { GuildModel } from "../../database/models/Guild";
+import { successEmbed, errorEmbed, baseEmbed, infoEmbed } from "../../utils/embeds";
 const command = {
     name: "disable",
     description: "Disable or enable commands in this server, or view the disabled list",

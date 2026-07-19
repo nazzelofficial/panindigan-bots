@@ -1,6 +1,6 @@
 import { PermissionFlagsBits } from "discord.js";
-import { GuildModel } from "@/database/models/Guild";
-import { successEmbed, errorEmbed } from "@/utils/embeds";
+import { GuildModel } from "../../database/models/Guild";
+import { successEmbed, errorEmbed } from "../../utils/embeds";
 const command = {
     name: "ticketblacklist",
     description: "Prevent a user from creating new tickets",

@@ -1,4 +1,4 @@
-import { baseEmbed, errorEmbed } from "@/utils/embeds";
+import { baseEmbed, errorEmbed } from "../../utils/embeds";
 // Parses NdM notation, e.g. "2d6", "1d20", "4d4"
 function parseDice(input) {
     const match = input.match(/^(\d+)d(\d+)$/i);

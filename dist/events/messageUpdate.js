@@ -1,7 +1,7 @@
 import { Events } from "discord.js";
-import { sendLogEvent } from "@/features/logging/logEngine";
-import { baseEmbed } from "@/utils/embeds";
-import { cacheEditedMessage } from "@/commands/utility/snipe";
+import { sendLogEvent } from "../features/logging/logEngine";
+import { baseEmbed } from "../utils/embeds";
+import { cacheEditedMessage } from "../commands/utility/snipe";
 const event = {
     name: Events.MessageUpdate,
     async execute(_client, oldMessage, newMessage) {

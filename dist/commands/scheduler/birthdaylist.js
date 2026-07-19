@@ -1,5 +1,5 @@
-import { BirthdayModel } from "@/database/models/Community";
-import { baseEmbed, infoEmbed } from "@/utils/embeds";
+import { BirthdayModel } from "../../database/models/Community";
+import { baseEmbed, infoEmbed } from "../../utils/embeds";
 const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const command = {
     name: "birthdaylist",

@@ -1,6 +1,6 @@
 import { PermissionFlagsBits } from "discord.js";
-import { GuildModel } from "@/database/models/Guild";
-import { successEmbed, errorEmbed, infoEmbed } from "@/utils/embeds";
+import { GuildModel } from "../../database/models/Guild";
+import { successEmbed, errorEmbed, infoEmbed } from "../../utils/embeds";
 function parseDuration(str) {
     const match = str.match(/^(\d+)(m|h|d)$/i);
     if (!match)

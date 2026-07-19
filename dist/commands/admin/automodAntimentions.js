@@ -1,6 +1,6 @@
 import { PermissionFlagsBits } from "discord.js";
-import { GuildModel } from "@/database/models/Guild";
-import { successEmbed, errorEmbed, baseEmbed } from "@/utils/embeds";
+import { GuildModel } from "../../database/models/Guild";
+import { successEmbed, errorEmbed, baseEmbed } from "../../utils/embeds";
 const command = {
     name: "antimentions",
     description: "Configure anti-mass-mention protection — limit how many pings a message can contain",

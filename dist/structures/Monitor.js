@@ -5,8 +5,8 @@
  * uptime, shards, and cache sizes. All monitors are lightweight polling loops
  * that log warnings when thresholds are breached.
  */
-import { scopedLogger } from "@/utils/logger";
-import { isDatabaseConnected } from "@/database/connection";
+import { scopedLogger } from "../utils/logger";
+import { isDatabaseConnected } from "../database/connection";
 const log = scopedLogger("monitor");
 const DEFAULT_THRESHOLDS = {
     heapWarnMB: 512,

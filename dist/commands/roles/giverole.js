@@ -1,6 +1,6 @@
 import { PermissionFlagsBits } from "discord.js";
-import { TempRoleModel } from "@/database/models/Community";
-import { successEmbed, errorEmbed } from "@/utils/embeds";
+import { TempRoleModel } from "../../database/models/Community";
+import { successEmbed, errorEmbed } from "../../utils/embeds";
 function parseDuration(str) {
     const match = str.match(/^(\d+)(s|m|h|d)$/i);
     if (!match)

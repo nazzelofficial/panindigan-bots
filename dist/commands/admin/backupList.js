@@ -1,4 +1,4 @@
-import { baseEmbed } from "@/utils/embeds";
+import { baseEmbed } from "../../utils/embeds";
 const command = {
     name: "backup_list",
     description: "List all server backups",

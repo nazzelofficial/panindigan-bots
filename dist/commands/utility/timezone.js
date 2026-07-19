@@ -1,4 +1,4 @@
-import { baseEmbed, errorEmbed } from "@/utils/embeds";
+import { baseEmbed, errorEmbed } from "../../utils/embeds";
 const TIMEZONES = {
     "Manila": "Asia/Manila",
     "Singapore": "Asia/Singapore",

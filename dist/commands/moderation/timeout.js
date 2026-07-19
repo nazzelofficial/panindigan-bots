@@ -1,7 +1,7 @@
 import { PermissionFlagsBits } from "discord.js";
-import { successEmbed, errorEmbed, baseEmbed } from "@/utils/embeds";
-import { createModCase } from "@/features/moderation/caseEngine";
-import { sendLogEvent } from "@/features/logging/logEngine";
+import { successEmbed, errorEmbed, baseEmbed } from "../../utils/embeds";
+import { createModCase } from "../../features/moderation/caseEngine";
+import { sendLogEvent } from "../../features/logging/logEngine";
 function parseDuration(str) {
     const match = str?.match(/^(\d+)(s|m|h|d)$/i);
     if (!match)

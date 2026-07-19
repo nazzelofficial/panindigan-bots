@@ -1,5 +1,5 @@
-import { GuildModel } from '@/database/models/Guild';
-import { successEmbed } from '@/utils/embeds';
+import { GuildModel } from '../../database/models/Guild';
+import { successEmbed } from '../../utils/embeds';
 const command = {
     name: 'level_multiplier_set',
     description: 'Set XP multiplier for a role',

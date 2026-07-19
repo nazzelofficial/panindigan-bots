@@ -1,5 +1,5 @@
 import { ButtonStyle, ActionRowBuilder, ButtonBuilder } from "discord.js";
-import { baseEmbed, errorEmbed, infoEmbed } from "@/utils/embeds";
+import { baseEmbed, errorEmbed, infoEmbed } from "../../utils/embeds";
 const command = {
     name: "controls",
     description: "Show interactive music player controls",

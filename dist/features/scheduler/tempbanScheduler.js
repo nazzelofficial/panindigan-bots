@@ -1,6 +1,6 @@
 import cron from "node-cron";
-import { ModCaseModel } from "@/database/models/Moderation";
-import { scopedLogger } from "@/utils/logger";
+import { ModCaseModel } from "../../database/models/Moderation";
+import { scopedLogger } from "../../utils/logger";
 const log = scopedLogger("tempban-scheduler");
 export function startTempbanScheduler(client) {
     // Check every minute for expired tempbans

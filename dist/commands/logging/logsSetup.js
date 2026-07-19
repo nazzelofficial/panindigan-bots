@@ -1,6 +1,6 @@
 import { PermissionFlagsBits } from "discord.js";
-import { GuildModel } from "@/database/models/Guild";
-import { successEmbed, errorEmbed } from "@/utils/embeds";
+import { GuildModel } from "../../database/models/Guild";
+import { successEmbed, errorEmbed } from "../../utils/embeds";
 const command = {
     name: "logssetup",
     description: "Quick logging setup — enable logging and set the default log channel",

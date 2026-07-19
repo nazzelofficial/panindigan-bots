@@ -1,5 +1,5 @@
-import { ModCaseModel } from '@/database/models/Moderation';
-import { baseEmbed, errorEmbed } from '@/utils/embeds';
+import { ModCaseModel } from '../../database/models/Moderation';
+import { baseEmbed, errorEmbed } from '../../utils/embeds';
 const command = {
     name: 'history',
     description: 'View full moderation history for a user',

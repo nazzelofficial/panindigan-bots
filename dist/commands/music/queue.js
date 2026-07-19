@@ -1,4 +1,4 @@
-import { baseEmbed, errorEmbed, infoEmbed } from "@/utils/embeds";
+import { baseEmbed, errorEmbed, infoEmbed } from "../../utils/embeds";
 const command = {
     name: "queue",
     description: "View the current music queue",

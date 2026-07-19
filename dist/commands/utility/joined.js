@@ -1,4 +1,4 @@
-import { baseEmbed } from "@/utils/embeds";
+import { baseEmbed } from "../../utils/embeds";
 const command = {
     name: "joined",
     description: "Show when a user joined the server",

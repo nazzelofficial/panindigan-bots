@@ -1,6 +1,6 @@
 import { PermissionFlagsBits } from "discord.js";
-import { GuildModel } from "@/database/models/Guild";
-import { baseEmbed, infoEmbed } from "@/utils/embeds";
+import { GuildModel } from "../../database/models/Guild";
+import { baseEmbed, infoEmbed } from "../../utils/embeds";
 const command = {
     name: "autorolelist",
     description: "List all roles that are automatically assigned to new members",

@@ -1,6 +1,6 @@
 import { PermissionFlagsBits } from "discord.js";
-import { GiveawayModel } from "@/database/models/Community";
-import { successEmbed, errorEmbed, baseEmbed } from "@/utils/embeds";
+import { GiveawayModel } from "../../database/models/Community";
+import { successEmbed, errorEmbed, baseEmbed } from "../../utils/embeds";
 import { randomUUID } from "node:crypto";
 const command = {
     name: "giveawaystart",

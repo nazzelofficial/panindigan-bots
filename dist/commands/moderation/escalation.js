@@ -1,6 +1,6 @@
-import { ModCaseModel } from "@/database/models/Moderation";
-import { config } from "@/config/config";
-import { baseEmbed, errorEmbed } from "@/utils/embeds";
+import { ModCaseModel } from "../../database/models/Moderation";
+import { config } from "../../config/config";
+import { baseEmbed, errorEmbed } from "../../utils/embeds";
 const command = {
     name: "escalation",
     description: "View the current escalation stage of a user based on their warning count",

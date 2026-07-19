@@ -1,6 +1,6 @@
 import { EmbedBuilder } from 'discord.js';
-import { UserModel } from '@/database/models/User';
-import { errorEmbed } from '@/utils/embeds';
+import { UserModel } from '../../database/models/User';
+import { errorEmbed } from '../../utils/embeds';
 /**
  * Crash Game — set an auto-cashout target multiplier.
  * The game generates a random crash point using a house-edge formula.

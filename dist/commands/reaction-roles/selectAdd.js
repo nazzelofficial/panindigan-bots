@@ -1,6 +1,6 @@
 import { PermissionFlagsBits, ActionRowBuilder, StringSelectMenuBuilder } from "discord.js";
-import { GuildModel } from "@/database/models/Guild";
-import { successEmbed, errorEmbed } from "@/utils/embeds";
+import { GuildModel } from "../../database/models/Guild";
+import { successEmbed, errorEmbed } from "../../utils/embeds";
 const command = {
     name: "selectadd",
     description: "Add a select-menu role panel — users pick roles from a dropdown",

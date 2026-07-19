@@ -1,6 +1,6 @@
 import { PermissionFlagsBits, ActionRowBuilder, ButtonBuilder, ButtonStyle } from "discord.js";
-import { ButtonRolePanelModel as ButtonRoleModel } from "@/database/models/Community";
-import { baseEmbed, successEmbed, errorEmbed, infoEmbed } from "@/utils/embeds";
+import { ButtonRolePanelModel as ButtonRoleModel } from "../../database/models/Community";
+import { baseEmbed, successEmbed, errorEmbed, infoEmbed } from "../../utils/embeds";
 const command = {
     name: "buttonrole",
     description: "Create button-based role selectors",

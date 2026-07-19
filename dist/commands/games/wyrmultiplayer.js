@@ -1,4 +1,4 @@
-import { baseEmbed } from '@/utils/embeds';
+import { baseEmbed } from '../../utils/embeds';
 const command = {
     name: 'wyrmultiplayer',
     description: 'Play Would You Rather with multiple players',

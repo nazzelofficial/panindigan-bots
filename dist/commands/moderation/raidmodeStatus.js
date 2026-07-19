@@ -1,5 +1,5 @@
-import { GuildModel } from "@/database/models/Guild";
-import { baseEmbed } from "@/utils/embeds";
+import { GuildModel } from "../../database/models/Guild";
+import { baseEmbed } from "../../utils/embeds";
 const command = {
     name: "raidmodestatus",
     description: "Check whether raid mode is currently active in this server",

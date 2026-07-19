@@ -1,4 +1,4 @@
-import { successEmbed, errorEmbed } from "@/utils/embeds";
+import { successEmbed, errorEmbed } from "../../utils/embeds";
 const command = {
     name: "remove",
     description: "Remove a song from the queue by position",

@@ -1,4 +1,4 @@
-import { infoEmbed } from "@/utils/embeds";
+import { infoEmbed } from "../../utils/embeds";
 const command = {
     name: "holiday",
     description: "Check if today is a holiday",

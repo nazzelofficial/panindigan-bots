@@ -1,6 +1,6 @@
 import { PermissionFlagsBits } from "discord.js";
-import { PremiumModel } from "@/database/models/Premium";
-import { errorEmbed, baseEmbed } from "@/utils/embeds";
+import { PremiumModel } from "../../database/models/Premium";
+import { errorEmbed, baseEmbed } from "../../utils/embeds";
 const command = {
     name: "premiumactivate",
     description: "Activate a premium code to unlock Premium features for this server",

@@ -1,4 +1,4 @@
-import { successEmbed, errorEmbed } from "@/utils/embeds";
+import { successEmbed, errorEmbed } from "../../utils/embeds";
 const LOOP_MODES = ["off", "track", "queue"];
 const command = {
     name: "loop",

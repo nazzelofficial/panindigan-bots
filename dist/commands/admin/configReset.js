@@ -1,4 +1,4 @@
-import { GuildModel } from "@/database/models/Guild";
+import { GuildModel } from "../../database/models/Guild";
 const command = {
     name: "config_reset",
     description: "Reset server configuration to defaults",

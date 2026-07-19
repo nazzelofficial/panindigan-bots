@@ -1,5 +1,5 @@
-import { StaffNoteModel } from '@/database/models/Moderation';
-import { baseEmbed, errorEmbed } from '@/utils/embeds';
+import { StaffNoteModel } from '../../database/models/Moderation';
+import { baseEmbed, errorEmbed } from '../../utils/embeds';
 const command = {
     name: 'staffnotes',
     description: 'View staff notes for a user',

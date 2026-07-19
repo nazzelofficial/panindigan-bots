@@ -1,6 +1,6 @@
 import { PermissionFlagsBits } from "discord.js";
-import { GuildModel } from "@/database/models/Guild";
-import { baseEmbed, successEmbed, errorEmbed, infoEmbed } from "@/utils/embeds";
+import { GuildModel } from "../../database/models/Guild";
+import { baseEmbed, successEmbed, errorEmbed, infoEmbed } from "../../utils/embeds";
 const command = {
     name: "modrotation",
     description: "Set up and view the rotating moderation shift schedule for staff",

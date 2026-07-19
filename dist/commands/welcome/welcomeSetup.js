@@ -1,6 +1,6 @@
 import { PermissionFlagsBits } from "discord.js";
-import { GuildModel } from "@/database/models/Guild";
-import { successEmbed, errorEmbed } from "@/utils/embeds";
+import { GuildModel } from "../../database/models/Guild";
+import { successEmbed, errorEmbed } from "../../utils/embeds";
 const command = {
     name: "welcomesetup",
     description: "Quick setup for welcome messages — set the channel and optionally a custom message",

@@ -1,4 +1,4 @@
-import { baseEmbed } from "@/utils/embeds";
+import { baseEmbed } from "../../utils/embeds";
 const command = {
     name: "nitrocheck",
     description: "Check if a user has Nitro",

@@ -1,5 +1,5 @@
-import { warnEmbed } from "@/utils/embeds";
-import { scopedLogger } from "@/utils/logger";
+import { warnEmbed } from "../../utils/embeds";
+import { scopedLogger } from "../../utils/logger";
 const log = scopedLogger("owner:shutdown");
 const command = {
     name: "shutdown",

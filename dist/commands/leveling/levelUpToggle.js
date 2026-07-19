@@ -1,6 +1,6 @@
 import { PermissionFlagsBits } from "discord.js";
-import { GuildModel } from "@/database/models/Guild";
-import { successEmbed } from "@/utils/embeds";
+import { GuildModel } from "../../database/models/Guild";
+import { successEmbed } from "../../utils/embeds";
 const command = {
     name: "leveluptoggle",
     description: "Enable or disable level-up announcement messages",

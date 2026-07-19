@@ -1,8 +1,8 @@
 import { PermissionFlagsBits } from "discord.js";
-import { ModCaseModel } from "@/database/models/Moderation";
-import { successEmbed, errorEmbed } from "@/utils/embeds";
-import { sendLogEvent } from "@/features/logging/logEngine";
-import { baseEmbed } from "@/utils/embeds";
+import { ModCaseModel } from "../../database/models/Moderation";
+import { successEmbed, errorEmbed } from "../../utils/embeds";
+import { sendLogEvent } from "../../features/logging/logEngine";
+import { baseEmbed } from "../../utils/embeds";
 const command = {
     name: "noteclear",
     description: "Clear all moderator notes for a specific user",

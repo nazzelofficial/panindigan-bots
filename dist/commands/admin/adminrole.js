@@ -1,6 +1,6 @@
 import { PermissionFlagsBits } from "discord.js";
-import { GuildModel } from "@/database/models/Guild";
-import { baseEmbed, successEmbed, errorEmbed, infoEmbed } from "@/utils/embeds";
+import { GuildModel } from "../../database/models/Guild";
+import { baseEmbed, successEmbed, errorEmbed, infoEmbed } from "../../utils/embeds";
 const command = {
     name: "adminrole",
     description: "Add, remove, or list roles that grant admin-level access to the bot",

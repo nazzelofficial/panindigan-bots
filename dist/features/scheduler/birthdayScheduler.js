@@ -1,8 +1,8 @@
 import cron from "node-cron";
-import { BirthdayModel } from "@/database/models/Community";
-import { GuildModel } from "@/database/models/Guild";
-import { scopedLogger } from "@/utils/logger";
-import { baseEmbed } from "@/utils/embeds";
+import { BirthdayModel } from "../../database/models/Community";
+import { GuildModel } from "../../database/models/Guild";
+import { scopedLogger } from "../../utils/logger";
+import { baseEmbed } from "../../utils/embeds";
 const log = scopedLogger("birthday-scheduler");
 export function startBirthdayScheduler(client) {
     // Run daily at 8am UTC

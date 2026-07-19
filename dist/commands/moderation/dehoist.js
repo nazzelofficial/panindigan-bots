@@ -1,4 +1,4 @@
-import { successEmbed } from '@/utils/embeds';
+import { successEmbed } from '../../utils/embeds';
 const command = {
     name: 'dehoist',
     description: 'Remove special characters from nicknames',

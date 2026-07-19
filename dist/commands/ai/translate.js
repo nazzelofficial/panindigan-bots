@@ -1,5 +1,5 @@
-import { baseEmbed, errorEmbed } from "@/utils/embeds";
-import { getOpenAiClient, isAiConfigured } from "@/features/ai/openaiClient";
+import { baseEmbed, errorEmbed } from "../../utils/embeds";
+import { getOpenAiClient, isAiConfigured } from "../../features/ai/openaiClient";
 const LANGUAGES = {
     en: "English", fil: "Filipino/Tagalog", es: "Spanish", fr: "French",
     de: "German", ja: "Japanese", ko: "Korean", zh: "Chinese (Simplified)",

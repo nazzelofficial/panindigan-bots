@@ -1,4 +1,4 @@
-import { infoEmbed } from "@/utils/embeds";
+import { infoEmbed } from "../../utils/embeds";
 const command = {
     name: "invite",
     description: "Get an invite link for the bot",

@@ -1,5 +1,5 @@
 import { EmbedBuilder } from "discord.js";
-import { GuildModel } from "@/database/models/Guild";
+import { GuildModel } from "../../database/models/Guild";
 const command = {
     name: "command_disabled_list",
     description: "List all disabled commands",

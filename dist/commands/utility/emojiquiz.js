@@ -1,4 +1,4 @@
-import { baseEmbed } from "@/utils/embeds";
+import { baseEmbed } from "../../utils/embeds";
 const command = {
     name: "emojiquiz",
     description: "Guess the word from emojis",

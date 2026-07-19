@@ -1,5 +1,5 @@
-import { baseEmbed, errorEmbed } from "@/utils/embeds";
-import { getOpenAiClient, isAiConfigured } from "@/features/ai/openaiClient";
+import { baseEmbed, errorEmbed } from "../../utils/embeds";
+import { getOpenAiClient, isAiConfigured } from "../../features/ai/openaiClient";
 const command = {
     name: "rewrite",
     description: "Rewrite text in a different tone or style",

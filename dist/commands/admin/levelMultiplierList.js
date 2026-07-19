@@ -1,5 +1,5 @@
-import { GuildModel } from '@/database/models/Guild';
-import { baseEmbed } from '@/utils/embeds';
+import { GuildModel } from '../../database/models/Guild';
+import { baseEmbed } from '../../utils/embeds';
 const command = {
     name: 'level_multiplier_list',
     description: 'List all XP multipliers',

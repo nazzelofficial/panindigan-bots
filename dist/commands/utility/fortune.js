@@ -1,4 +1,4 @@
-import { baseEmbed } from "@/utils/embeds";
+import { baseEmbed } from "../../utils/embeds";
 const command = {
     name: "fortune",
     description: "Get a fortune cookie message",

@@ -1,5 +1,5 @@
-import { UserModel } from "@/database/models/User";
-import { errorEmbed, baseEmbed } from "@/utils/embeds";
+import { UserModel } from "../../database/models/User";
+import { errorEmbed, baseEmbed } from "../../utils/embeds";
 const COOLDOWN_MS = 30 * 24 * 60 * 60 * 1000; // 30 days
 const REWARD = 10_000;
 const command = {

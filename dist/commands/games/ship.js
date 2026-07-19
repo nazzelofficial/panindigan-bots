@@ -1,4 +1,4 @@
-import { baseEmbed, errorEmbed } from "@/utils/embeds";
+import { baseEmbed, errorEmbed } from "../../utils/embeds";
 function getCompatibility(id1, id2) {
     // Deterministic from both IDs so it's consistent per pair
     const combined = [id1, id2].sort().join("");

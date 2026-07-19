@@ -1,6 +1,6 @@
 import { Events } from "discord.js";
-import { ReactionRoleModel } from "@/database/models/Community";
-import { scopedLogger } from "@/utils/logger";
+import { ReactionRoleModel } from "../database/models/Community";
+import { scopedLogger } from "../utils/logger";
 const log = scopedLogger("reaction-remove");
 const event = {
     name: Events.MessageReactionRemove,

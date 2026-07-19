@@ -1,6 +1,6 @@
 import { PermissionFlagsBits } from "discord.js";
-import { TicketModel } from "@/database/models/Tickets";
-import { errorEmbed, baseEmbed } from "@/utils/embeds";
+import { TicketModel } from "../../database/models/Tickets";
+import { errorEmbed, baseEmbed } from "../../utils/embeds";
 const command = {
     name: "ticketarchive",
     description: "Archive a ticket — lock and move it to the archive category instead of deleting it",

@@ -1,4 +1,4 @@
-import { GuildModel } from "@/database/models/Guild";
+import { GuildModel } from "../../database/models/Guild";
 const command = {
     name: "command_enable",
     description: "Enable a disabled command",

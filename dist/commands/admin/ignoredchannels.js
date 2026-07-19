@@ -1,6 +1,6 @@
 import { PermissionFlagsBits } from "discord.js";
-import { GuildModel } from "@/database/models/Guild";
-import { baseEmbed, infoEmbed } from "@/utils/embeds";
+import { GuildModel } from "../../database/models/Guild";
+import { baseEmbed, infoEmbed } from "../../utils/embeds";
 const command = {
     name: "ignoredchannels",
     description: "List all channels where bot commands are ignored",

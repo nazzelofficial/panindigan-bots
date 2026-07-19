@@ -1,5 +1,5 @@
-import { successEmbed, errorEmbed } from "@/utils/embeds";
-import { SavedQueueModel } from "@/database/models/Community";
+import { successEmbed, errorEmbed } from "../../utils/embeds";
+import { SavedQueueModel } from "../../database/models/Community";
 const command = {
     name: "savedqueuesave",
     description: "Save the current queue for later use",

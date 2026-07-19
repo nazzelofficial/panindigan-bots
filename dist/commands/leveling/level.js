@@ -1,5 +1,5 @@
-import { UserModel } from '@/database/models/User';
-import { baseEmbed } from '@/utils/embeds';
+import { UserModel } from '../../database/models/User';
+import { baseEmbed } from '../../utils/embeds';
 const command = {
     name: 'level',
     description: 'View your level',

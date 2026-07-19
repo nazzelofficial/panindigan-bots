@@ -1,4 +1,4 @@
-import { baseEmbed, errorEmbed, infoEmbed } from "@/utils/embeds";
+import { baseEmbed, errorEmbed, infoEmbed } from "../../utils/embeds";
 const CATEGORIES = {
     animals: ["elephant", "kangaroo", "crocodile", "butterfly", "rhinoceros", "flamingo", "dolphin", "octopus", "penguin", "giraffe"],
     countries: ["philippines", "indonesia", "cambodia", "vietnam", "malaysia", "thailand", "myanmar", "singapore", "laos", "brunei"],

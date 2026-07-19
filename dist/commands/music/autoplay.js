@@ -1,4 +1,4 @@
-import { successEmbed, errorEmbed } from "@/utils/embeds";
+import { successEmbed, errorEmbed } from "../../utils/embeds";
 const command = {
     name: "autoplay",
     description: "Toggle autoplay mode (auto-adds related songs when queue ends)",

@@ -1,5 +1,5 @@
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, ComponentType } from "discord.js";
-import { baseEmbed, successEmbed, errorEmbed } from "@/utils/embeds";
+import { baseEmbed, successEmbed, errorEmbed } from "../../utils/embeds";
 const RIDDLES = [
     { q: "I speak without a mouth and hear without ears. I have no body, but I come alive with wind. What am I?", a: "echo" },
     { q: "The more you take, the more you leave behind. What am I?", a: "footsteps" },

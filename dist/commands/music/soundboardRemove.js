@@ -1,5 +1,5 @@
-import { successEmbed, errorEmbed } from "@/utils/embeds";
-import { GuildModel } from "@/database/models/Guild";
+import { successEmbed, errorEmbed } from "../../utils/embeds";
+import { GuildModel } from "../../database/models/Guild";
 const command = {
     name: "soundboardremove",
     description: "Remove a sound from the server soundboard",

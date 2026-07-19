@@ -1,7 +1,7 @@
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, PermissionFlagsBits } from "discord.js";
-import { SuggestionModel } from "@/database/models/Community";
-import { GuildModel } from "@/database/models/Guild";
-import { baseEmbed, successEmbed, errorEmbed } from "@/utils/embeds";
+import { SuggestionModel } from "../../database/models/Community";
+import { GuildModel } from "../../database/models/Guild";
+import { baseEmbed, successEmbed, errorEmbed } from "../../utils/embeds";
 const command = {
     name: "suggest",
     description: "Submit or manage suggestions for this server",

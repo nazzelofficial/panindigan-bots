@@ -1,4 +1,4 @@
-import { successEmbed, errorEmbed } from "@/utils/embeds";
+import { successEmbed, errorEmbed } from "../../utils/embeds";
 const command = {
     name: "volumeup",
     description: "Increase volume by 10",

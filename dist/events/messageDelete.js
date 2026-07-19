@@ -1,7 +1,7 @@
 import { Events } from "discord.js";
-import { sendLogEvent } from "@/features/logging/logEngine";
-import { baseEmbed } from "@/utils/embeds";
-import { cacheDeletedMessage } from "@/commands/utility/snipe";
+import { sendLogEvent } from "../features/logging/logEngine";
+import { baseEmbed } from "../utils/embeds";
+import { cacheDeletedMessage } from "../commands/utility/snipe";
 const event = {
     name: Events.MessageDelete,
     async execute(_client, message) {

@@ -1,7 +1,7 @@
 import cron from "node-cron";
-import { UserModel } from "@/database/models/User";
-import { baseEmbed } from "@/utils/embeds";
-import { scopedLogger } from "@/utils/logger";
+import { UserModel } from "../../database/models/User";
+import { baseEmbed } from "../../utils/embeds";
+import { scopedLogger } from "../../utils/logger";
 const log = scopedLogger("scheduler:reminders");
 /** Sweeps due reminders every 30 seconds and delivers them to the origin channel. */
 export function startReminderScheduler(client) {

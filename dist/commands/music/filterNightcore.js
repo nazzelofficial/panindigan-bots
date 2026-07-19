@@ -1,4 +1,4 @@
-import { successEmbed, errorEmbed } from "@/utils/embeds";
+import { successEmbed, errorEmbed } from "../../utils/embeds";
 const command = {
     name: "nightcore",
     description: "Toggle nightcore filter (faster, higher pitch)",

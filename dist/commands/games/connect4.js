@@ -1,5 +1,5 @@
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, ComponentType } from "discord.js";
-import { baseEmbed, errorEmbed, infoEmbed } from "@/utils/embeds";
+import { baseEmbed, errorEmbed, infoEmbed } from "../../utils/embeds";
 const ROWS = 6;
 const COLS = 7;
 const EMPTY = "⚫";

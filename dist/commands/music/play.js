@@ -1,4 +1,4 @@
-import { baseEmbed, errorEmbed } from "@/utils/embeds";
+import { baseEmbed, errorEmbed } from "../../utils/embeds";
 function getMusicNotConfiguredEmbed() {
     return errorEmbed("Music isn't configured on this bot yet — set `LAVALINK_HOST`, `LAVALINK_PORT`, and `LAVALINK_PASSWORD` in your environment.");
 }

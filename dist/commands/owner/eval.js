@@ -1,5 +1,5 @@
-import { baseEmbed, errorEmbed } from "@/utils/embeds";
-import { scopedLogger } from "@/utils/logger";
+import { baseEmbed, errorEmbed } from "../../utils/embeds";
+import { scopedLogger } from "../../utils/logger";
 const log = scopedLogger("eval");
 function clean(text) {
     return String(text).replace(/`/g, "`\u200B").replace(/@/g, "@\u200B").slice(0, 1950);

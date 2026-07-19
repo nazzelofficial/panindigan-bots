@@ -1,5 +1,5 @@
-import { UserModel } from "@/database/models/User";
-import { successEmbed, errorEmbed } from "@/utils/embeds";
+import { UserModel } from "../../database/models/User";
+import { successEmbed, errorEmbed } from "../../utils/embeds";
 const command = {
     name: "level_reset",
     description: "Reset a user level",

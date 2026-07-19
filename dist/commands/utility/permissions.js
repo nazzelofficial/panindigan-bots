@@ -1,5 +1,5 @@
 import { PermissionFlagsBits } from "discord.js";
-import { baseEmbed } from "@/utils/embeds";
+import { baseEmbed } from "../../utils/embeds";
 const command = {
     name: "permissions",
     description: "View your permissions in this server",

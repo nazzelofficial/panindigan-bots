@@ -1,4 +1,4 @@
-import { infoEmbed } from "@/utils/embeds";
+import { infoEmbed } from "../../utils/embeds";
 const command = {
     name: "support",
     description: "Get a link to the support server",

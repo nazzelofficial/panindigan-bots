@@ -1,4 +1,4 @@
-import { infoEmbed } from "@/utils/embeds";
+import { infoEmbed } from "../../utils/embeds";
 const command = {
     name: "checkers",
     description: "Play Checkers",

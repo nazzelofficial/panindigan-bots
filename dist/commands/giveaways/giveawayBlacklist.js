@@ -1,6 +1,6 @@
 import { PermissionFlagsBits } from "discord.js";
-import { GiveawayModel } from "@/database/models/Community";
-import { successEmbed, errorEmbed } from "@/utils/embeds";
+import { GiveawayModel } from "../../database/models/Community";
+import { successEmbed, errorEmbed } from "../../utils/embeds";
 const command = {
     name: "giveawayblacklist",
     description: "Blacklist or unblacklist a user from a specific giveaway",

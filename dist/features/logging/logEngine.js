@@ -1,5 +1,5 @@
-import { GuildModel } from "@/database/models/Guild";
-import { getClientInstance } from "@/structures/clientRegistry";
+import { GuildModel } from "../../database/models/Guild";
+import { getClientInstance } from "../../structures/clientRegistry";
 /**
  * Sends a log embed to whichever channel the guild has configured for the
  * given event key (e.g. "ban", "messageDelete", "roleUpdate"). No-ops

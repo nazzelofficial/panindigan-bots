@@ -1,5 +1,5 @@
-import { ModCaseModel } from "@/database/models/Moderation";
-import { baseEmbed, errorEmbed, infoEmbed } from "@/utils/embeds";
+import { ModCaseModel } from "../../database/models/Moderation";
+import { baseEmbed, errorEmbed, infoEmbed } from "../../utils/embeds";
 const command = {
     name: "warnlist",
     description: "List all members who have active warnings in this server",

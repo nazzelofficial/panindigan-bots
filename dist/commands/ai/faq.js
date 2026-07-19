@@ -1,4 +1,4 @@
-import { GuildModel } from "@/database/models/Guild";
+import { GuildModel } from "../../database/models/Guild";
 const command = {
     name: "faq",
     description: "Add FAQ for AI to answer",

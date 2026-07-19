@@ -1,4 +1,4 @@
-import { baseEmbed, errorEmbed } from "@/utils/embeds";
+import { baseEmbed, errorEmbed } from "../../utils/embeds";
 function toMockCase(s) {
     return s.split("").map((c, i) => i % 2 === 0 ? c.toLowerCase() : c.toUpperCase()).join("");
 }

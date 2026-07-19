@@ -1,5 +1,5 @@
-import { UserModel } from "@/database/models/User";
-import { successEmbed, errorEmbed } from "@/utils/embeds";
+import { UserModel } from "../../database/models/User";
+import { successEmbed, errorEmbed } from "../../utils/embeds";
 const command = {
     name: "pet_adopt",
     description: "Adopt a pet",

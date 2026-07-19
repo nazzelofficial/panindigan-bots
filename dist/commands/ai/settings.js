@@ -1,5 +1,5 @@
 import { EmbedBuilder } from "discord.js";
-import { GuildModel } from "@/database/models/Guild";
+import { GuildModel } from "../../database/models/Guild";
 export default {
     name: "aisettings",
     description: "View or configure AI settings for this server",

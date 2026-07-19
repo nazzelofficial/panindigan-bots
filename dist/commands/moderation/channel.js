@@ -1,5 +1,5 @@
 import { ChannelType, PermissionFlagsBits } from "discord.js";
-import { successEmbed, errorEmbed, baseEmbed } from "@/utils/embeds";
+import { successEmbed, errorEmbed, baseEmbed } from "../../utils/embeds";
 const command = {
     name: "channel",
     description: "Manage channels — create, delete, rename, topic, clone, slowmode, NSFW toggle, and info",

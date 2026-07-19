@@ -1,4 +1,4 @@
-import { baseEmbed, errorEmbed } from "@/utils/embeds";
+import { baseEmbed, errorEmbed } from "../../utils/embeds";
 function safeEval(expr) {
     if (!/^[\d\s+\-*/().%^]+$/.test(expr))
         return null;

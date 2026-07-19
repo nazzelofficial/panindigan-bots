@@ -1,6 +1,6 @@
-import { UserModel } from "@/database/models/User";
-import { errorEmbed, baseEmbed } from "@/utils/embeds";
-import { config } from "@/config/config";
+import { UserModel } from "../../database/models/User";
+import { errorEmbed, baseEmbed } from "../../utils/embeds";
+import { config } from "../../config/config";
 const DAILY_COOLDOWN_MS = 22 * 60 * 60 * 1000; // 22 hours
 const command = {
     name: "daily",

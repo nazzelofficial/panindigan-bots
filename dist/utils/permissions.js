@@ -1,6 +1,6 @@
-import { getOwnerIds } from "@/config/config";
-import { GuildModel } from "@/database/models/Guild";
-import { CoOwnerModel } from "@/database/models/System";
+import { getOwnerIds } from "../config/config";
+import { GuildModel } from "../database/models/Guild";
+import { CoOwnerModel } from "../database/models/System";
 const TIER_RANK = {
     general: 0,
     moderator: 1,

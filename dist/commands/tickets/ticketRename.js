@@ -1,6 +1,6 @@
 import { PermissionFlagsBits } from "discord.js";
-import { successEmbed, errorEmbed } from "@/utils/embeds";
-import { TicketModel } from "@/database/models/Tickets";
+import { successEmbed, errorEmbed } from "../../utils/embeds";
+import { TicketModel } from "../../database/models/Tickets";
 const command = {
     name: "ticketrename",
     description: "Rename the current ticket channel",

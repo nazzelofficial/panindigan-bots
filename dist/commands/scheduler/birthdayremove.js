@@ -1,5 +1,5 @@
-import { BirthdayModel } from "@/database/models/Community";
-import { successEmbed } from "@/utils/embeds";
+import { BirthdayModel } from "../../database/models/Community";
+import { successEmbed } from "../../utils/embeds";
 const command = {
     name: "birthdayremove",
     description: "Remove your birthday",

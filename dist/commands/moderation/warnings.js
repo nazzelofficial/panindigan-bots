@@ -1,6 +1,6 @@
 import { PermissionFlagsBits } from "discord.js";
-import { ModCaseModel } from "@/database/models/Moderation";
-import { baseEmbed, errorEmbed, infoEmbed, successEmbed } from "@/utils/embeds";
+import { ModCaseModel } from "../../database/models/Moderation";
+import { baseEmbed, errorEmbed, infoEmbed, successEmbed } from "../../utils/embeds";
 const command = {
     name: "warnings",
     description: "View or clear a member's active warnings",

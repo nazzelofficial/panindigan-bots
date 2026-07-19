@@ -1,4 +1,4 @@
-import { baseEmbed, errorEmbed } from "@/utils/embeds";
+import { baseEmbed, errorEmbed } from "../../utils/embeds";
 function safeEval(expr) {
     // Only allow safe math characters
     if (!/^[\d\s+\-*/().%^]+$/.test(expr))

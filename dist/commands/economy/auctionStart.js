@@ -1,5 +1,5 @@
-import { AuctionModel } from "@/database/models/Economy";
-import { successEmbed, errorEmbed, baseEmbed } from "@/utils/embeds";
+import { AuctionModel } from "../../database/models/Economy";
+import { successEmbed, errorEmbed, baseEmbed } from "../../utils/embeds";
 const command = {
     name: "auction_start",
     description: "Start an auction in this channel",

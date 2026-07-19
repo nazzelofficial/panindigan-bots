@@ -1,4 +1,4 @@
-import { successEmbed, errorEmbed } from "@/utils/embeds";
+import { successEmbed, errorEmbed } from "../../utils/embeds";
 const command = {
     name: "8d",
     description: "Toggle 8D audio filter (rotational surround sound effect)",

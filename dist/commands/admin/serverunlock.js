@@ -1,8 +1,8 @@
 import { PermissionFlagsBits } from "discord.js";
-import { GuildModel } from "@/database/models/Guild";
-import { successEmbed, errorEmbed } from "@/utils/embeds";
-import { sendLogEvent } from "@/features/logging/logEngine";
-import { baseEmbed } from "@/utils/embeds";
+import { GuildModel } from "../../database/models/Guild";
+import { successEmbed, errorEmbed } from "../../utils/embeds";
+import { sendLogEvent } from "../../features/logging/logEngine";
+import { baseEmbed } from "../../utils/embeds";
 const command = {
     name: "serverunlock",
     description: "Unlock the entire server and restore normal permissions",

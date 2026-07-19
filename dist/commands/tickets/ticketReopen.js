@@ -1,7 +1,7 @@
 import { EmbedBuilder } from "discord.js";
-import { successEmbed, errorEmbed } from "@/utils/embeds";
-import { TicketModel } from "@/database/models/Tickets";
-import { sendLogEvent } from "@/features/logging/logEngine";
+import { successEmbed, errorEmbed } from "../../utils/embeds";
+import { TicketModel } from "../../database/models/Tickets";
+import { sendLogEvent } from "../../features/logging/logEngine";
 const command = {
     name: "ticketreopen",
     description: "Reopen a closed ticket",

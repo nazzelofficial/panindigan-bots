@@ -1,6 +1,6 @@
 import { PermissionFlagsBits } from "discord.js";
-import { GuildModel } from "@/database/models/Guild";
-import { successEmbed, errorEmbed, baseEmbed, infoEmbed } from "@/utils/embeds";
+import { GuildModel } from "../../database/models/Guild";
+import { successEmbed, errorEmbed, baseEmbed, infoEmbed } from "../../utils/embeds";
 const command = {
     name: "autorole",
     description: "Configure roles automatically assigned to new members or bots on join",

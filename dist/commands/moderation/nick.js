@@ -1,5 +1,5 @@
 import { PermissionFlagsBits } from "discord.js";
-import { successEmbed, errorEmbed } from "@/utils/embeds";
+import { successEmbed, errorEmbed } from "../../utils/embeds";
 const command = {
     name: "nick",
     description: "Change or reset a member's nickname",

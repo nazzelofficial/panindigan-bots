@@ -1,8 +1,8 @@
 import express from "express";
-import { ApiKeyModel } from "@/database/models/System";
-import { GuildModel } from "@/database/models/Guild";
-import { getGuildTier } from "@/utils/premium";
-import { scopedLogger } from "@/utils/logger";
+import { ApiKeyModel } from "../database/models/System";
+import { GuildModel } from "../database/models/Guild";
+import { getGuildTier } from "../utils/premium";
+import { scopedLogger } from "../utils/logger";
 const log = scopedLogger("api");
 /**
  * Minimal REST API surface for Enterprise-tier "integrate the bot with your

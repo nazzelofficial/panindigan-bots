@@ -1,6 +1,6 @@
-import { UserModel } from "@/database/models/User";
-import { GuildModel } from "@/database/models/Guild";
-import { baseEmbed, successEmbed, errorEmbed, infoEmbed } from "@/utils/embeds";
+import { UserModel } from "../../database/models/User";
+import { GuildModel } from "../../database/models/Guild";
+import { baseEmbed, successEmbed, errorEmbed, infoEmbed } from "../../utils/embeds";
 // Server shop items stored in guild config. Each item: { id, name, price, description, stock }
 const command = {
     name: "shop",

@@ -1,4 +1,4 @@
-import { GuildModel } from "@/database/models/Guild";
+import { GuildModel } from "../../database/models/Guild";
 const command = {
     name: "autorole_add",
     description: "Add an auto role for new members",

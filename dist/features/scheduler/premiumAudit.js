@@ -1,5 +1,5 @@
 import cron from "node-cron";
-import { scopedLogger } from "@/utils/logger";
+import { scopedLogger } from "../../utils/logger";
 const log = scopedLogger("scheduler:premium-audit");
 /**
  * Panindigan Premium is explicitly permanent/one-time-payment (no renewals,

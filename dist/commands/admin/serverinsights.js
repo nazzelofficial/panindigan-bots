@@ -1,8 +1,8 @@
 import { PermissionFlagsBits } from "discord.js";
-import { ModCaseModel } from "@/database/models/Moderation";
-import { UserModel } from "@/database/models/User";
-import { GiveawayModel } from "@/database/models/Community";
-import { baseEmbed } from "@/utils/embeds";
+import { ModCaseModel } from "../../database/models/Moderation";
+import { UserModel } from "../../database/models/User";
+import { GiveawayModel } from "../../database/models/Community";
+import { baseEmbed } from "../../utils/embeds";
 const command = {
     name: "serverinsights",
     description: "View detailed statistics and insights about your server",

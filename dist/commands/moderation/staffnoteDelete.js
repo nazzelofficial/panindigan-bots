@@ -1,5 +1,5 @@
-import { StaffNoteModel } from '@/database/models/Moderation';
-import { errorEmbed, successEmbed } from '@/utils/embeds';
+import { StaffNoteModel } from '../../database/models/Moderation';
+import { errorEmbed, successEmbed } from '../../utils/embeds';
 const command = {
     name: 'staffnote_delete',
     description: 'Delete a staff note',

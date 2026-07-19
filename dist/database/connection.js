@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
-import { requireEnv } from "@/config/config";
-import { scopedLogger } from "@/utils/logger";
+import { requireEnv } from "../config/config";
+import { scopedLogger } from "../utils/logger";
 const log = scopedLogger("database");
 let connecting = null;
 /** Exponential backoff delays in ms: 1 s → 2 s → 4 s → 8 s → 30 s cap. */

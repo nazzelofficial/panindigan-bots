@@ -1,6 +1,6 @@
 import { Events } from "discord.js";
-import { sendLogEvent } from "@/features/logging/logEngine";
-import { baseEmbed } from "@/utils/embeds";
+import { sendLogEvent } from "../features/logging/logEngine";
+import { baseEmbed } from "../utils/embeds";
 const event = {
     name: Events.GuildMemberUpdate,
     async execute(_client, oldMember, newMember) {

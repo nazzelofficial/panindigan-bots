@@ -1,6 +1,6 @@
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, } from "discord.js";
-import { PollModel } from "@/database/models/Community";
-import { baseEmbed, successEmbed, errorEmbed } from "@/utils/embeds";
+import { PollModel } from "../../database/models/Community";
+import { baseEmbed, successEmbed, errorEmbed } from "../../utils/embeds";
 function normalizeVotes(votes) {
     if (votes instanceof Map)
         return votes;

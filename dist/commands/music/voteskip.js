@@ -1,4 +1,4 @@
-import { successEmbed, errorEmbed, baseEmbed } from "@/utils/embeds";
+import { successEmbed, errorEmbed, baseEmbed } from "../../utils/embeds";
 // Track active vote-skips per guild: Map<guildId, Set<userId>>
 const voteSkipSessions = new Map();
 const command = {

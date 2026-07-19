@@ -1,9 +1,9 @@
 import { PermissionFlagsBits, ActionRowBuilder, ButtonBuilder, ButtonStyle, ChannelType, } from "discord.js";
-import { baseEmbed, successEmbed, errorEmbed, infoEmbed } from "@/utils/embeds";
-import { TicketModel, TicketPanelModel } from "@/database/models/Tickets";
-import { GuildModel } from "@/database/models/Guild";
-import { sendLogEvent } from "@/features/logging/logEngine";
-import { getGuildTier, getTierLimits } from "@/utils/premium";
+import { baseEmbed, successEmbed, errorEmbed, infoEmbed } from "../../utils/embeds";
+import { TicketModel, TicketPanelModel } from "../../database/models/Tickets";
+import { GuildModel } from "../../database/models/Guild";
+import { sendLogEvent } from "../../features/logging/logEngine";
+import { getGuildTier, getTierLimits } from "../../utils/premium";
 // ─── helpers ──────────────────────────────────────────────────────────────────
 async function nextTicketNumber(guildId) {
     const doc = await GuildModel.findOneAndUpdate({ guildId }, { $inc: { "tickets.nextTicketNumber": 1 } }, { new: false, upsert: true }).lean();

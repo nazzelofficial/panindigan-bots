@@ -1,5 +1,5 @@
-import { successEmbed, errorEmbed } from "@/utils/embeds";
-import { GuildModel } from "@/database/models/Guild";
+import { successEmbed, errorEmbed } from "../../utils/embeds";
+import { GuildModel } from "../../database/models/Guild";
 const SUPPORTED_LANGUAGES = {
     en: "English", fil: "Filipino/Tagalog", es: "Spanish", fr: "French",
     de: "German", ja: "Japanese", ko: "Korean", zh: "Chinese",

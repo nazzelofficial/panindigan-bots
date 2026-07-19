@@ -4,7 +4,7 @@
  * The helpers in embeds.ts are kept as aliases for backward compatibility.
  */
 import { EmbedBuilder } from "discord.js";
-import { config } from "@/config/config";
+import { config } from "../config/config";
 function base(color) {
     return new EmbedBuilder()
         .setColor(config.colors[color])

@@ -1,5 +1,5 @@
-import { successEmbed, errorEmbed } from "@/utils/embeds";
-import { TicketModel } from "@/database/models/Tickets";
+import { successEmbed, errorEmbed } from "../../utils/embeds";
+import { TicketModel } from "../../database/models/Tickets";
 const command = {
     name: "tickethold",
     description: "Put the current ticket on hold",

@@ -1,4 +1,4 @@
-import { successEmbed, errorEmbed } from "@/utils/embeds";
+import { successEmbed, errorEmbed } from "../../utils/embeds";
 function fmtTime(s) {
     const m = Math.floor(s / 60), sec = s % 60;
     return `${m}:${String(sec).padStart(2, "0")}`;

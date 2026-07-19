@@ -1,4 +1,4 @@
-import { baseEmbed, errorEmbed } from "@/utils/embeds";
+import { baseEmbed, errorEmbed } from "../../utils/embeds";
 import { exec } from "node:child_process";
 import { promisify } from "node:util";
 const execAsync = promisify(exec);

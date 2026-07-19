@@ -1,5 +1,5 @@
-import { baseEmbed, successEmbed, errorEmbed } from "@/utils/embeds";
-import { GuildModel } from "@/database/models/Guild";
+import { baseEmbed, successEmbed, errorEmbed } from "../../utils/embeds";
+import { GuildModel } from "../../database/models/Guild";
 const command = {
     name: "persona",
     description: "Set or view the AI persona for this server",

@@ -1,5 +1,5 @@
 import { LavalinkManager } from "lavalink-client";
-import { scopedLogger } from "@/utils/logger";
+import { scopedLogger } from "../../utils/logger";
 const log = scopedLogger("music");
 /**
  * Initializes the Lavalink connection manager if Lavalink credentials are

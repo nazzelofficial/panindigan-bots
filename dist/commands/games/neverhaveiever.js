@@ -1,5 +1,5 @@
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, ComponentType } from "discord.js";
-import { baseEmbed } from "@/utils/embeds";
+import { baseEmbed } from "../../utils/embeds";
 const STATEMENTS = [
     "Never have I ever stayed awake for more than 24 hours.",
     "Never have I ever eaten an entire pizza by myself.",

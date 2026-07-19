@@ -1,6 +1,6 @@
 import { PermissionFlagsBits } from "discord.js";
-import { GiveawayModel } from "@/database/models/Community";
-import { baseEmbed, errorEmbed } from "@/utils/embeds";
+import { GiveawayModel } from "../../database/models/Community";
+import { baseEmbed, errorEmbed } from "../../utils/embeds";
 const command = {
     name: "giveawayentries",
     description: "View the current entry count (and list) for a giveaway",

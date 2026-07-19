@@ -1,5 +1,5 @@
-import { UserModel } from "@/database/models/User";
-import { baseEmbed, errorEmbed } from "@/utils/embeds";
+import { UserModel } from "../../database/models/User";
+import { baseEmbed, errorEmbed } from "../../utils/embeds";
 const command = {
     name: "leaderboard",
     description: "View the XP leaderboard for this server",

@@ -1,6 +1,6 @@
 import { EmbedBuilder } from 'discord.js';
-import { UserModel } from '@/database/models/User';
-import { errorEmbed } from '@/utils/embeds';
+import { UserModel } from '../../database/models/User';
+import { errorEmbed } from '../../utils/embeds';
 // Baccarat card value: 10/J/Q/K = 0, A = 1, others = face
 function baccaratValue(rank) {
     if (['10', 'J', 'Q', 'K'].includes(rank))

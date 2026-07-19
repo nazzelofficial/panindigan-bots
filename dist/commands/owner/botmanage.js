@@ -1,10 +1,10 @@
 import { execSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
-import { baseEmbed, errorEmbed, successEmbed, infoEmbed, warnEmbed } from "@/utils/embeds";
-import { MaintenanceStateModel, FeatureFlagModel } from "@/database/models/System";
-import { GuildModel } from "@/database/models/Guild";
-import { validateEnv } from "@/config/config";
+import { baseEmbed, errorEmbed, successEmbed, infoEmbed, warnEmbed } from "../../utils/embeds";
+import { MaintenanceStateModel, FeatureFlagModel } from "../../database/models/System";
+import { GuildModel } from "../../database/models/Guild";
+import { validateEnv } from "../../config/config";
 import os from "node:os";
 const LOG_DIR = path.resolve(process.cwd(), "logs");
 const command = {

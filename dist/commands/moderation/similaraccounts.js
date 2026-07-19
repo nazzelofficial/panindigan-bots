@@ -1,4 +1,4 @@
-import { baseEmbed, errorEmbed, infoEmbed } from "@/utils/embeds";
+import { baseEmbed, errorEmbed, infoEmbed } from "../../utils/embeds";
 function accountAgeDays(userId) {
     const createdAt = Number(BigInt(userId) >> 22n) + 1420070400000;
     return Math.floor((Date.now() - createdAt) / 86_400_000);

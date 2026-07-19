@@ -1,7 +1,7 @@
 import { EmbedBuilder } from "discord.js";
-import { AuctionModel } from "@/database/models/Economy";
-import { UserModel } from "@/database/models/User";
-import { errorEmbed, baseEmbed } from "@/utils/embeds";
+import { AuctionModel } from "../../database/models/Economy";
+import { UserModel } from "../../database/models/User";
+import { errorEmbed, baseEmbed } from "../../utils/embeds";
 const command = {
     name: "auction_end",
     description: "End the current auction and pay out the winner",

@@ -1,5 +1,5 @@
-import { UserModel } from "@/database/models/User";
-import { baseEmbed, errorEmbed, infoEmbed } from "@/utils/embeds";
+import { UserModel } from "../../database/models/User";
+import { baseEmbed, errorEmbed, infoEmbed } from "../../utils/embeds";
 const command = {
     name: "inventory",
     description: "View your item inventory",

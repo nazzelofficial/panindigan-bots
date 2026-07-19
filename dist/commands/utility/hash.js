@@ -1,4 +1,4 @@
-import { baseEmbed, errorEmbed } from "@/utils/embeds";
+import { baseEmbed, errorEmbed } from "../../utils/embeds";
 import * as crypto from "node:crypto";
 const ALGORITHMS = ["md5", "sha1", "sha256", "sha512", "sha3-256", "sha3-512"];
 const command = {

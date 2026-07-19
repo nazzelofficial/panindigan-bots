@@ -1,6 +1,6 @@
 import { PermissionFlagsBits, ActionRowBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder } from "discord.js";
-import { SelectRolePanelModel } from "@/database/models/Community";
-import { baseEmbed, successEmbed, errorEmbed, infoEmbed } from "@/utils/embeds";
+import { SelectRolePanelModel } from "../../database/models/Community";
+import { baseEmbed, successEmbed, errorEmbed, infoEmbed } from "../../utils/embeds";
 const command = {
     name: "selectrole",
     description: "Create dropdown/select-menu role selectors",

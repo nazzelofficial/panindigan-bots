@@ -1,5 +1,5 @@
-import { GuildModel } from '@/database/models/Guild';
-import { errorEmbed, successEmbed } from '@/utils/embeds';
+import { GuildModel } from '../../database/models/Guild';
+import { errorEmbed, successEmbed } from '../../utils/embeds';
 const command = {
     name: 'level_multiplier_remove',
     description: 'Remove XP multiplier from a role',

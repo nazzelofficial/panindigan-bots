@@ -1,5 +1,5 @@
-import { baseEmbed, errorEmbed } from "@/utils/embeds";
-import { getOpenAiClient, isAiConfigured } from "@/features/ai/openaiClient";
+import { baseEmbed, errorEmbed } from "../../utils/embeds";
+import { getOpenAiClient, isAiConfigured } from "../../features/ai/openaiClient";
 const command = {
     name: "moderate",
     description: "Check text for harmful content using AI moderation",

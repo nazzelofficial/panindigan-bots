@@ -1,4 +1,4 @@
-import { infoEmbed } from "@/utils/embeds";
+import { infoEmbed } from "../../utils/embeds";
 const command = {
     name: "dashboard",
     description: "Get a link to the web dashboard",

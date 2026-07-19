@@ -1,6 +1,6 @@
 import { PermissionFlagsBits } from "discord.js";
-import { ReactionRoleModel } from "@/database/models/Community";
-import { baseEmbed, successEmbed, errorEmbed, infoEmbed } from "@/utils/embeds";
+import { ReactionRoleModel } from "../../database/models/Community";
+import { baseEmbed, successEmbed, errorEmbed, infoEmbed } from "../../utils/embeds";
 const command = {
     name: "reactionrole",
     description: "Set up reaction roles on a message",

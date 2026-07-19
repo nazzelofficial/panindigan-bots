@@ -1,5 +1,5 @@
 import { PermissionFlagsBits } from "discord.js";
-import { baseEmbed, errorEmbed } from "@/utils/embeds";
+import { baseEmbed, errorEmbed } from "../../utils/embeds";
 const command = {
     name: "rolehierarchy",
     description: "View the complete role hierarchy of this server in a readable format",

@@ -1,7 +1,7 @@
 import { PermissionFlagsBits } from "discord.js";
-import { ServerBackupModel } from "@/database/models/Community";
-import { GuildModel } from "@/database/models/Guild";
-import { baseEmbed, successEmbed, errorEmbed, infoEmbed } from "@/utils/embeds";
+import { ServerBackupModel } from "../../database/models/Community";
+import { GuildModel } from "../../database/models/Guild";
+import { baseEmbed, successEmbed, errorEmbed, infoEmbed } from "../../utils/embeds";
 const command = {
     name: "serverbackup",
     description: "Create and manage server configuration backups",

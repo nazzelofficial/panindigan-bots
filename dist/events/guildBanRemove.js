@@ -1,6 +1,6 @@
 import { Events } from "discord.js";
-import { sendLogEvent } from "@/features/logging/logEngine";
-import { baseEmbed } from "@/utils/embeds";
+import { sendLogEvent } from "../features/logging/logEngine";
+import { baseEmbed } from "../utils/embeds";
 const event = {
     name: Events.GuildBanRemove,
     async execute(_client, ban) {

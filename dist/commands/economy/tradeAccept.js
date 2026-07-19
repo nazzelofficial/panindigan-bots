@@ -1,7 +1,7 @@
 import { EmbedBuilder } from "discord.js";
-import { TradeModel } from "@/database/models/Economy";
-import { UserModel } from "@/database/models/User";
-import { baseEmbed, errorEmbed } from "@/utils/embeds";
+import { TradeModel } from "../../database/models/Economy";
+import { UserModel } from "../../database/models/User";
+import { baseEmbed, errorEmbed } from "../../utils/embeds";
 const command = {
     name: "trade_accept",
     description: "Accept a pending trade request from another user",

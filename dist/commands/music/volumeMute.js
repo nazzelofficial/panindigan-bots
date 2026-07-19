@@ -1,4 +1,4 @@
-import { successEmbed, errorEmbed } from "@/utils/embeds";
+import { successEmbed, errorEmbed } from "../../utils/embeds";
 const command = {
     name: "musicmute",
     description: "Mute the music player volume (sets to 0). Use musicunmute to restore.",

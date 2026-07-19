@@ -1,5 +1,5 @@
-import { UserModel } from "@/database/models/User";
-import { successEmbed } from "@/utils/embeds";
+import { UserModel } from "../../database/models/User";
+import { successEmbed } from "../../utils/embeds";
 const command = {
     name: "economy_add",
     description: "Add money to a user",

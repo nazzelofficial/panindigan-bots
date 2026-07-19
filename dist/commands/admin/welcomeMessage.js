@@ -1,5 +1,5 @@
-import { GuildModel } from "@/database/models/Guild";
-import { successEmbed } from "@/utils/embeds";
+import { GuildModel } from "../../database/models/Guild";
+import { successEmbed } from "../../utils/embeds";
 const command = {
     name: "welcome_message",
     description: "Set welcome message",

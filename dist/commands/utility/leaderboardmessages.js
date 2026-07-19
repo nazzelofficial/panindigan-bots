@@ -1,5 +1,5 @@
-import { UserModel } from "@/database/models/User";
-import { baseEmbed, infoEmbed } from "@/utils/embeds";
+import { UserModel } from "../../database/models/User";
+import { baseEmbed, infoEmbed } from "../../utils/embeds";
 const command = {
     name: "leaderboardmessages",
     description: "Show the top message senders in this server",

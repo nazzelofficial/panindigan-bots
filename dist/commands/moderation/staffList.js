@@ -1,6 +1,6 @@
 import { PermissionFlagsBits } from "discord.js";
-import { GuildModel } from "@/database/models/Guild";
-import { baseEmbed } from "@/utils/embeds";
+import { GuildModel } from "../../database/models/Guild";
+import { baseEmbed } from "../../utils/embeds";
 const command = {
     name: "stafflist",
     description: "List all staff members (Admins, Moderators, DJs) configured in this server",

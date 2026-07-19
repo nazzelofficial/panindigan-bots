@@ -1,5 +1,5 @@
-import { successEmbed } from "@/utils/embeds";
-import { GuildModel } from "@/database/models/Guild";
+import { successEmbed } from "../../utils/embeds";
+import { GuildModel } from "../../database/models/Guild";
 const command = {
     name: "aiclear",
     description: "Clear the AI conversation history for this server",

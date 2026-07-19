@@ -1,6 +1,6 @@
 import { ActionRowBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder, ButtonBuilder, ButtonStyle, ComponentType, } from "discord.js";
-import { EmbedFactory } from "@/structures/EmbedFactory";
-import { topCommands } from "@/handlers/commandHandler";
+import { EmbedFactory } from "../../structures/EmbedFactory";
+import { topCommands } from "../../handlers/commandHandler";
 // ─────────────────────────────────────────────────────────────────────────────
 // Help System — v0.1.7
 // Features:

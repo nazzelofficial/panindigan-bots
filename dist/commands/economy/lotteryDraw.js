@@ -1,5 +1,5 @@
-import { UserModel } from "@/database/models/User";
-import { errorEmbed, baseEmbed } from "@/utils/embeds";
+import { UserModel } from "../../database/models/User";
+import { errorEmbed, baseEmbed } from "../../utils/embeds";
 const command = {
     name: "lottery_draw",
     description: "Draw the lottery (admin only)",

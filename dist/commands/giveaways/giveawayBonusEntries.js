@@ -1,6 +1,6 @@
 import { PermissionFlagsBits } from "discord.js";
-import { GiveawayModel } from "@/database/models/Community";
-import { successEmbed, errorEmbed } from "@/utils/embeds";
+import { GiveawayModel } from "../../database/models/Community";
+import { successEmbed, errorEmbed } from "../../utils/embeds";
 const command = {
     name: "giveawaybonusentries",
     description: "Grant bonus giveaway entries to a user",

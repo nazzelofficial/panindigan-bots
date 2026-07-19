@@ -1,5 +1,5 @@
-import { UserModel } from "@/database/models/User";
-import { successEmbed, errorEmbed } from "@/utils/embeds";
+import { UserModel } from "../../database/models/User";
+import { successEmbed, errorEmbed } from "../../utils/embeds";
 const command = {
     name: "withdraw",
     description: "Withdraw coins from your bank",

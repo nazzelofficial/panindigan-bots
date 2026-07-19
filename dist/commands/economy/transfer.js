@@ -1,5 +1,5 @@
-import { UserModel } from "@/database/models/User";
-import { successEmbed, errorEmbed } from "@/utils/embeds";
+import { UserModel } from "../../database/models/User";
+import { successEmbed, errorEmbed } from "../../utils/embeds";
 async function getOrCreateProfile(userId, guildId) {
     let user = await UserModel.findOneAndUpdate({ userId }, { $setOnInsert: { userId } }, { upsert: true, new: true });
     let profile = user.guilds.find((g) => g.guildId === guildId);

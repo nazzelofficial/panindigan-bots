@@ -1,5 +1,5 @@
 import { PermissionFlagsBits } from "discord.js";
-import { baseEmbed, errorEmbed } from "@/utils/embeds";
+import { baseEmbed, errorEmbed } from "../../utils/embeds";
 const command = {
     name: "prunedry",
     description: "Preview how many members would be pruned (dry run — no one is kicked)",

@@ -1,5 +1,5 @@
-import { UserModel } from '@/database/models/User';
-import { errorEmbed, baseEmbed } from '@/utils/embeds';
+import { UserModel } from '../../database/models/User';
+import { errorEmbed, baseEmbed } from '../../utils/embeds';
 const command = {
     name: 'scratchcard',
     description: 'Buy and scratch a scratch card',

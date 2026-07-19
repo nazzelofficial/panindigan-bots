@@ -1,5 +1,5 @@
-import { baseEmbed, errorEmbed } from "@/utils/embeds";
-import { getOpenAiClient, isAiConfigured } from "@/features/ai/openaiClient";
+import { baseEmbed, errorEmbed } from "../../utils/embeds";
+import { getOpenAiClient, isAiConfigured } from "../../features/ai/openaiClient";
 const command = {
     name: "code",
     description: "Generate code with AI based on a description",

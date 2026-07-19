@@ -1,5 +1,5 @@
-import { GuildModel } from "@/database/models/Guild";
-import { baseEmbed, infoEmbed } from "@/utils/embeds";
+import { GuildModel } from "../../database/models/Guild";
+import { baseEmbed, infoEmbed } from "../../utils/embeds";
 const command = {
     name: "selectlist",
     description: "List all select-menu role panels configured for this server",

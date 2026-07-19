@@ -1,4 +1,4 @@
-import { baseEmbed, errorEmbed } from "@/utils/embeds";
+import { baseEmbed, errorEmbed } from "../../utils/embeds";
 function getReview(score) {
     if (score === 100)
         return "PERFECT! Wala nang mas magaling pa dito! 🏆";

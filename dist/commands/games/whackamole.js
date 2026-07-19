@@ -1,4 +1,4 @@
-import { infoEmbed } from '@/utils/embeds';
+import { infoEmbed } from '../../utils/embeds';
 const command = {
     name: 'whackamole',
     description: 'Play Whack-a-Mole',

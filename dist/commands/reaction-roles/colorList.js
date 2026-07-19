@@ -1,5 +1,5 @@
-import { GuildModel } from "@/database/models/Guild";
-import { baseEmbed, infoEmbed } from "@/utils/embeds";
+import { GuildModel } from "../../database/models/Guild";
+import { baseEmbed, infoEmbed } from "../../utils/embeds";
 const command = {
     name: "colorlist",
     description: "List all color roles in the color chooser",

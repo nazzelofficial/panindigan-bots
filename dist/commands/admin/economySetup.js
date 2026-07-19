@@ -1,6 +1,6 @@
 import { PermissionFlagsBits } from "discord.js";
-import { GuildModel } from "@/database/models/Guild";
-import { successEmbed, errorEmbed, baseEmbed } from "@/utils/embeds";
+import { GuildModel } from "../../database/models/Guild";
+import { successEmbed, errorEmbed, baseEmbed } from "../../utils/embeds";
 const command = {
     name: "economysetup",
     description: "Configure economy settings for this server (currency name, starting balance, etc.)",

@@ -1,7 +1,7 @@
 import { Events } from "discord.js";
-import { sendLogEvent } from "@/features/logging/logEngine";
-import { baseEmbed } from "@/utils/embeds";
-import { GuildModel } from "@/database/models/Guild";
+import { sendLogEvent } from "../features/logging/logEngine";
+import { baseEmbed } from "../utils/embeds";
+import { GuildModel } from "../database/models/Guild";
 const event = {
     name: Events.GuildMemberRemove,
     async execute(_client, member) {

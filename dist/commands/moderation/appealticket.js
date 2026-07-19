@@ -1,10 +1,10 @@
 import { PermissionFlagsBits } from "discord.js";
-import { AppealTicketModel } from "@/database/models/Moderation";
-import { ModCaseModel } from "@/database/models/Moderation";
-import { GuildModel } from "@/database/models/Guild";
-import { baseEmbed, successEmbed, errorEmbed, infoEmbed } from "@/utils/embeds";
-import { createModCase } from "@/features/moderation/caseEngine";
-import { sendLogEvent } from "@/features/logging/logEngine";
+import { AppealTicketModel } from "../../database/models/Moderation";
+import { ModCaseModel } from "../../database/models/Moderation";
+import { GuildModel } from "../../database/models/Guild";
+import { baseEmbed, successEmbed, errorEmbed, infoEmbed } from "../../utils/embeds";
+import { createModCase } from "../../features/moderation/caseEngine";
+import { sendLogEvent } from "../../features/logging/logEngine";
 const command = {
     name: "appealticket",
     description: "Manage ban/mute appeal tickets for this server",

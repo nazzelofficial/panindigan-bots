@@ -1,6 +1,6 @@
 import { PermissionFlagsBits } from "discord.js";
-import { GuildModel } from "@/database/models/Guild";
-import { successEmbed } from "@/utils/embeds";
+import { GuildModel } from "../../database/models/Guild";
+import { successEmbed } from "../../utils/embeds";
 const command = {
     name: "autoroletoggle",
     description: "Enable or disable auto-role assignment (roles are preserved when disabled)",

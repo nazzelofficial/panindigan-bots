@@ -1,4 +1,4 @@
-import { baseEmbed, errorEmbed } from "@/utils/embeds";
+import { baseEmbed, errorEmbed } from "../../utils/embeds";
 function clean(text) {
     return text.replace(/\[([^\]]+)\]/g, "$1").slice(0, 1000);
 }

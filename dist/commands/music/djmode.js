@@ -1,6 +1,6 @@
 import { PermissionFlagsBits } from "discord.js";
-import { GuildModel } from "@/database/models/Guild";
-import { successEmbed, baseEmbed } from "@/utils/embeds";
+import { GuildModel } from "../../database/models/Guild";
+import { successEmbed, baseEmbed } from "../../utils/embeds";
 const command = {
     name: "djmode",
     description: "⭐ Toggle DJ mode — only members with the DJ role can control music",

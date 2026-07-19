@@ -1,6 +1,6 @@
 import { PermissionFlagsBits, ChannelType } from 'discord.js';
-import { sendLogEvent } from '@/features/logging/logEngine';
-import { baseEmbed, errorEmbed, infoEmbed } from '@/utils/embeds';
+import { sendLogEvent } from '../../features/logging/logEngine';
+import { baseEmbed, errorEmbed, infoEmbed } from '../../utils/embeds';
 const command = {
     name: 'nuke',
     description: 'Delete and recreate a channel, wiping all its messages',

@@ -1,7 +1,7 @@
 import { PermissionFlagsBits } from "discord.js";
-import { GuildModel } from "@/database/models/Guild";
-import { successEmbed, errorEmbed, baseEmbed } from "@/utils/embeds";
-import { config } from "@/config/config";
+import { GuildModel } from "../../database/models/Guild";
+import { successEmbed, errorEmbed, baseEmbed } from "../../utils/embeds";
+import { config } from "../../config/config";
 const command = {
     name: "prefix",
     description: "View or change the server's custom command prefix",

@@ -1,5 +1,5 @@
-import { successEmbed, errorEmbed } from "@/utils/embeds";
-import { TicketModel } from "@/database/models/Tickets";
+import { successEmbed, errorEmbed } from "../../utils/embeds";
+import { TicketModel } from "../../database/models/Tickets";
 const command = {
     name: "ticketadd",
     description: "Add a user to the current ticket",

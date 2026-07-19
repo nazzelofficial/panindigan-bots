@@ -1,5 +1,5 @@
-import { UserModel } from "@/database/models/User";
-import { errorEmbed, baseEmbed } from "@/utils/embeds";
+import { UserModel } from "../../database/models/User";
+import { errorEmbed, baseEmbed } from "../../utils/embeds";
 const ORES = [
     { name: "🪨 Stone", value: 10, weight: 40 },
     { name: "⛏️ Coal", value: 50, weight: 25 },

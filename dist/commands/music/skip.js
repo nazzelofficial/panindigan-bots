@@ -1,4 +1,4 @@
-import { successEmbed, errorEmbed, infoEmbed } from "@/utils/embeds";
+import { successEmbed, errorEmbed, infoEmbed } from "../../utils/embeds";
 const command = {
     name: "skip",
     description: "Skip the current or a specific number of tracks",

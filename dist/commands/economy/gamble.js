@@ -1,5 +1,5 @@
-import { UserModel } from "@/database/models/User";
-import { errorEmbed, baseEmbed } from "@/utils/embeds";
+import { UserModel } from "../../database/models/User";
+import { errorEmbed, baseEmbed } from "../../utils/embeds";
 const SLOT_SYMBOLS = ["🍒", "🍋", "🍊", "🍇", "💎", "7️⃣", "⭐"];
 const SLOT_MULTIPLIERS = { "💎": 10, "7️⃣": 7, "⭐": 5, "🍇": 3, "🍊": 2, "🍋": 1.5, "🍒": 1.2 };
 function spin() {

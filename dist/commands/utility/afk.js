@@ -1,5 +1,5 @@
-import { UserModel } from "@/database/models/User";
-import { successEmbed, infoEmbed } from "@/utils/embeds";
+import { UserModel } from "../../database/models/User";
+import { successEmbed, infoEmbed } from "../../utils/embeds";
 const command = {
     name: "afk",
     description: "Set or clear your AFK status",

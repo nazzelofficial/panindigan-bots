@@ -1,4 +1,4 @@
-import { errorEmbed } from "@/utils/embeds";
+import { errorEmbed } from "../../utils/embeds";
 const command = {
     name: "shop_add",
     description: "Add an item to the shop (admin only)",

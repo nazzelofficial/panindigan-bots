@@ -1,5 +1,5 @@
-import { baseEmbed } from "@/utils/embeds";
-import { isDatabaseConnected } from "@/database/connection";
+import { baseEmbed } from "../../utils/embeds";
+import { isDatabaseConnected } from "../../database/connection";
 const command = {
     name: "ping",
     description: "Check bot latency — WebSocket ping, roundtrip, and database status",

@@ -1,4 +1,4 @@
-import { GuildModel } from "@/database/models/Guild";
+import { GuildModel } from "../../database/models/Guild";
 const command = {
     name: "antinuke_whitelist_remove",
     description: "Remove user from anti-nuke whitelist",

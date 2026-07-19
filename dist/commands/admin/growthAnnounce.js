@@ -1,5 +1,5 @@
 import { PermissionFlagsBits, EmbedBuilder } from "discord.js";
-import { successEmbed, errorEmbed } from "@/utils/embeds";
+import { successEmbed, errorEmbed } from "../../utils/embeds";
 const command = {
     name: "growthannounce",
     description: "Send a formatted growth/milestone announcement to a channel",

@@ -1,6 +1,6 @@
 import { PermissionFlagsBits } from "discord.js";
-import { successEmbed, errorEmbed } from "@/utils/embeds";
-import { createModCase } from "@/features/moderation/caseEngine";
+import { successEmbed, errorEmbed } from "../../utils/embeds";
+import { createModCase } from "../../features/moderation/caseEngine";
 const command = {
     name: "voice",
     description: "Voice moderation: kick, mute, unmute, deafen, undeafen, move members",

@@ -1,9 +1,9 @@
 import { PermissionFlagsBits } from "discord.js";
-import { ModCaseModel } from "@/database/models/Moderation";
-import { successEmbed, errorEmbed, baseEmbed, warnEmbed } from "@/utils/embeds";
-import { createModCase } from "@/features/moderation/caseEngine";
-import { sendLogEvent } from "@/features/logging/logEngine";
-import { config } from "@/config/config";
+import { ModCaseModel } from "../../database/models/Moderation";
+import { successEmbed, errorEmbed, baseEmbed, warnEmbed } from "../../utils/embeds";
+import { createModCase } from "../../features/moderation/caseEngine";
+import { sendLogEvent } from "../../features/logging/logEngine";
+import { config } from "../../config/config";
 const command = {
     name: "warn",
     description: "Warn a member and auto-escalate based on warning thresholds",

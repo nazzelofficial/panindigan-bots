@@ -1,10 +1,10 @@
 import { PermissionFlagsBits } from "discord.js";
 import { readFileSync } from "node:fs";
 import path from "node:path";
-import { GuildModel } from "@/database/models/Guild";
-import { PremiumModel, PremiumCodeModel } from "@/database/models/Premium";
-import { baseEmbed, successEmbed, errorEmbed, infoEmbed } from "@/utils/embeds";
-import { config } from "@/config/config";
+import { GuildModel } from "../../database/models/Guild";
+import { PremiumModel, PremiumCodeModel } from "../../database/models/Premium";
+import { baseEmbed, successEmbed, errorEmbed, infoEmbed } from "../../utils/embeds";
+import { config } from "../../config/config";
 function getLatestChangelogExcerpt() {
     try {
         const changelogPath = path.resolve(process.cwd(), "CHANGELOG.md");

@@ -1,7 +1,7 @@
 import { EmbedBuilder } from "discord.js";
-import { MarketListingModel } from "@/database/models/Economy";
-import { UserModel } from "@/database/models/User";
-import { errorEmbed, baseEmbed } from "@/utils/embeds";
+import { MarketListingModel } from "../../database/models/Economy";
+import { UserModel } from "../../database/models/User";
+import { errorEmbed, baseEmbed } from "../../utils/embeds";
 const command = {
     name: "market_buy",
     description: "Buy an item from the server market by listing ID",

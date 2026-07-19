@@ -1,6 +1,6 @@
 import { PermissionFlagsBits } from "discord.js";
-import { GuildModel } from "@/database/models/Guild";
-import { successEmbed, errorEmbed, baseEmbed } from "@/utils/embeds";
+import { GuildModel } from "../../database/models/Guild";
+import { successEmbed, errorEmbed, baseEmbed } from "../../utils/embeds";
 // Schema field names (camelCase) → display label
 // Only features that exist in the AutoModSchema are listed here.
 const FEATURE_MAP = {

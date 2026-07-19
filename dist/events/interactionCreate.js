@@ -1,9 +1,9 @@
-import { dispatchCommand } from "@/handlers/commandHandler";
-import { EmbedFactory } from "@/structures/EmbedFactory";
-import { globalRateLimit } from "@/structures/RateLimitStore";
-import { scopedLogger } from "@/utils/logger";
-import { isBotOwner } from "@/utils/permissions";
-import { isGuildPremium } from "@/utils/premium";
+import { dispatchCommand } from "../handlers/commandHandler";
+import { EmbedFactory } from "../structures/EmbedFactory";
+import { globalRateLimit } from "../structures/RateLimitStore";
+import { scopedLogger } from "../utils/logger";
+import { isBotOwner } from "../utils/permissions";
+import { isGuildPremium } from "../utils/premium";
 const log = scopedLogger("interaction");
 /** Dedup guard — ignore the same interaction ID received twice within 500 ms. */
 const recentIds = new Map();

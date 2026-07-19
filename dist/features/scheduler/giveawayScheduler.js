@@ -1,7 +1,7 @@
 import cron from "node-cron";
-import { GiveawayModel } from "@/database/models/Community";
-import { baseEmbed } from "@/utils/embeds";
-import { scopedLogger } from "@/utils/logger";
+import { GiveawayModel } from "../../database/models/Community";
+import { baseEmbed } from "../../utils/embeds";
+import { scopedLogger } from "../../utils/logger";
 const log = scopedLogger("scheduler:giveaways");
 function pickWinners(participants, count) {
     const pool = [...participants];

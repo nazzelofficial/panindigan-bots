@@ -1,12 +1,12 @@
-import { dispatchCommand } from "@/handlers/commandHandler";
-import { GuildModel } from "@/database/models/Guild";
-import { UserModel } from "@/database/models/User";
-import { grantMessageXp } from "@/features/leveling/xpEngine";
-import { runAutomodChecks } from "@/features/automod/automodEngine";
-import { isBotOwner } from "@/utils/permissions";
-import { isGuildPremium } from "@/utils/premium";
-import { scopedLogger } from "@/utils/logger";
-import { botCache, CACHE_TTL } from "@/utils/cache";
+import { dispatchCommand } from "../handlers/commandHandler";
+import { GuildModel } from "../database/models/Guild";
+import { UserModel } from "../database/models/User";
+import { grantMessageXp } from "../features/leveling/xpEngine";
+import { runAutomodChecks } from "../features/automod/automodEngine";
+import { isBotOwner } from "../utils/permissions";
+import { isGuildPremium } from "../utils/premium";
+import { scopedLogger } from "../utils/logger";
+import { botCache, CACHE_TTL } from "../utils/cache";
 const log = scopedLogger("message");
 /** Remove flags unsupported by plain message replies (e.g. ephemeral). */
 function sanitizeForMessage(payload) {

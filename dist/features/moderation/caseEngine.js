@@ -1,5 +1,5 @@
-import { ModCaseModel } from "@/database/models/Moderation";
-import { GuildModel } from "@/database/models/Guild";
+import { ModCaseModel } from "../../database/models/Moderation";
+import { GuildModel } from "../../database/models/Guild";
 /**
  * Creates a new, guild-scoped, auto-incrementing moderation case. Case IDs
  * are per-guild (case #1, #2, ... per server) which is what moderators

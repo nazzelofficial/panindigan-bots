@@ -1,6 +1,6 @@
 import { PermissionFlagsBits } from "discord.js";
-import { GuildModel } from "@/database/models/Guild";
-import { successEmbed, errorEmbed, baseEmbed } from "@/utils/embeds";
+import { GuildModel } from "../../database/models/Guild";
+import { successEmbed, errorEmbed, baseEmbed } from "../../utils/embeds";
 const command = {
     name: "badwords",
     description: "Manage the server's bad-word filter — auto-delete messages containing blacklisted words",

@@ -1,6 +1,6 @@
-import { PremiumModel, PremiumCodeModel } from "@/database/models/Premium";
-import { baseEmbed, successEmbed, errorEmbed, infoEmbed } from "@/utils/embeds";
-import { nanoid } from "@/utils/nanoid";
+import { PremiumModel, PremiumCodeModel } from "../../database/models/Premium";
+import { baseEmbed, successEmbed, errorEmbed, infoEmbed } from "../../utils/embeds";
+import { nanoid } from "../../utils/nanoid";
 const TIERS = ["basic", "standard", "gold", "enterprise"];
 const TIER_LABELS = { basic: "Basic ⭐", standard: "Standard ⭐⭐", gold: "Gold 🥇", enterprise: "Enterprise 🏆" };
 const command = {

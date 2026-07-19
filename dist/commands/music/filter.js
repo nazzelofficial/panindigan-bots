@@ -1,4 +1,4 @@
-import { successEmbed, errorEmbed, baseEmbed } from "@/utils/embeds";
+import { successEmbed, errorEmbed, baseEmbed } from "../../utils/embeds";
 const FILTERS = {
     none: { label: "No Filter", desc: "Default — walang filter", preset: {} },
     bassboost: {

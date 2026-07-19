@@ -1,6 +1,6 @@
 import { EmbedBuilder } from 'discord.js';
-import { UserModel } from '@/database/models/User';
-import { errorEmbed } from '@/utils/embeds';
+import { UserModel } from '../../database/models/User';
+import { errorEmbed } from '../../utils/embeds';
 /**
  * Limbo — pick a target multiplier. The game generates a random result.
  * If result >= target, you win bet × target. 1% house edge built in.

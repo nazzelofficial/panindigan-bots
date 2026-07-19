@@ -1,5 +1,5 @@
 import { PermissionFlagsBits } from "discord.js";
-import { successEmbed, errorEmbed, baseEmbed } from "@/utils/embeds";
+import { successEmbed, errorEmbed, baseEmbed } from "../../utils/embeds";
 const command = {
     name: "pin",
     description: "I-pin o i-unpin ang isang message sa channel",

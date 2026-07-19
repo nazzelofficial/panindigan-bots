@@ -3,8 +3,8 @@
  * All commands can import from here or from EmbedFactory directly.
  */
 import { EmbedBuilder } from "discord.js";
-import { config } from "@/config/config";
-import { EmbedFactory } from "@/structures/EmbedFactory";
+import { config } from "../config/config";
+import { EmbedFactory } from "../structures/EmbedFactory";
 export { EmbedFactory };
 export function baseEmbed(color = "primary") {
     return new EmbedBuilder().setColor(config.colors[color]).setTimestamp();

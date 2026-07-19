@@ -1,4 +1,4 @@
-import { baseEmbed, errorEmbed } from "@/utils/embeds";
+import { baseEmbed, errorEmbed } from "../../utils/embeds";
 import * as crypto from "node:crypto";
 const CHARSET_LOWER = "abcdefghijklmnopqrstuvwxyz";
 const CHARSET_UPPER = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";

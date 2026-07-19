@@ -1,4 +1,4 @@
-import { successEmbed, errorEmbed } from "@/utils/embeds";
+import { successEmbed, errorEmbed } from "../../utils/embeds";
 const command = {
     name: "equalizercustom",
     description: "Set custom EQ: bass, mid, treble adjustments (-0.25 to 1.0)",

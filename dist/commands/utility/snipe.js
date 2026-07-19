@@ -1,4 +1,4 @@
-import { baseEmbed, infoEmbed } from "@/utils/embeds";
+import { baseEmbed, infoEmbed } from "../../utils/embeds";
 // In-memory snipe cache: channelId -> { content, author, timestamp }[]
 export const snipeCache = new Map();
 export const editSnipeCache = new Map();

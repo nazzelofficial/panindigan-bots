@@ -1,7 +1,7 @@
 import { PermissionFlagsBits, EmbedBuilder } from "discord.js";
-import { errorEmbed, warnEmbed } from "@/utils/embeds";
-import { TicketModel } from "@/database/models/Tickets";
-import { sendLogEvent } from "@/features/logging/logEngine";
+import { errorEmbed, warnEmbed } from "../../utils/embeds";
+import { TicketModel } from "../../database/models/Tickets";
+import { sendLogEvent } from "../../features/logging/logEngine";
 const command = {
     name: "ticketdelete",
     description: "Permanently delete a ticket channel",

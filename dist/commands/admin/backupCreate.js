@@ -1,5 +1,5 @@
-import { GuildModel } from "@/database/models/Guild";
-import { successEmbed, infoEmbed } from "@/utils/embeds";
+import { GuildModel } from "../../database/models/Guild";
+import { successEmbed, infoEmbed } from "../../utils/embeds";
 const command = {
     name: "backup_create",
     description: "Create a server configuration backup",

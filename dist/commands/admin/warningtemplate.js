@@ -1,9 +1,9 @@
 import { PermissionFlagsBits } from "discord.js";
-import { WarningTemplateModel } from "@/database/models/Moderation";
-import { ModCaseModel } from "@/database/models/Moderation";
-import { baseEmbed, successEmbed, errorEmbed, infoEmbed } from "@/utils/embeds";
-import { createModCase } from "@/features/moderation/caseEngine";
-import { sendLogEvent } from "@/features/logging/logEngine";
+import { WarningTemplateModel } from "../../database/models/Moderation";
+import { ModCaseModel } from "../../database/models/Moderation";
+import { baseEmbed, successEmbed, errorEmbed, infoEmbed } from "../../utils/embeds";
+import { createModCase } from "../../features/moderation/caseEngine";
+import { sendLogEvent } from "../../features/logging/logEngine";
 const command = {
     name: "warningtemplate",
     description: "Create and use reusable warning reason templates for efficient moderation",

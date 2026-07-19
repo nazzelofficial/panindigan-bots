@@ -1,4 +1,4 @@
-import { infoEmbed, successEmbed } from '@/utils/embeds';
+import { infoEmbed, successEmbed } from '../../utils/embeds';
 const command = {
     name: 'massrole',
     description: 'Add or remove a role from all members',

@@ -1,6 +1,6 @@
 import { PermissionFlagsBits, ChannelType } from "discord.js";
-import { GuildModel } from "@/database/models/Guild";
-import { successEmbed, warnEmbed } from "@/utils/embeds";
+import { GuildModel } from "../../database/models/Guild";
+import { successEmbed, warnEmbed } from "../../utils/embeds";
 const command = {
     name: "serverlock",
     description: "Lock or unlock all channels in the server (lockdown)",

@@ -1,6 +1,6 @@
 import { PermissionFlagsBits } from "discord.js";
-import { GuildModel } from "@/database/models/Guild";
-import { successEmbed, baseEmbed } from "@/utils/embeds";
+import { GuildModel } from "../../database/models/Guild";
+import { successEmbed, baseEmbed } from "../../utils/embeds";
 const command = {
     name: "muterolecreate",
     description: "Automatically create a Muted role with correct deny-send permissions on all channels",

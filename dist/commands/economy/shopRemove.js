@@ -1,4 +1,4 @@
-import { errorEmbed } from "@/utils/embeds";
+import { errorEmbed } from "../../utils/embeds";
 const command = {
     name: "shop_remove",
     description: "Remove an item from the shop (admin only)",

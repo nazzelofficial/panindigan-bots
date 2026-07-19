@@ -1,5 +1,5 @@
 import { PermissionFlagsBits } from "discord.js";
-import { successEmbed, errorEmbed, baseEmbed } from "@/utils/embeds";
+import { successEmbed, errorEmbed, baseEmbed } from "../../utils/embeds";
 const command = {
     name: "role",
     description: "Manage roles: add, remove, create, delete, change color, or view info",

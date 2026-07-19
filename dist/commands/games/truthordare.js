@@ -1,5 +1,5 @@
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, ComponentType } from "discord.js";
-import { baseEmbed } from "@/utils/embeds";
+import { baseEmbed } from "../../utils/embeds";
 const TRUTHS = [
     "Ano ang pinakamalaking lihim mo na ayaw mong malaman ng pamilya mo?",
     "Who do you have a crush on in real life right now?",

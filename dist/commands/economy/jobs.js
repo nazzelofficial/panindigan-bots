@@ -1,6 +1,6 @@
-import { UserModel } from "@/database/models/User";
-import { baseEmbed, successEmbed, errorEmbed, infoEmbed } from "@/utils/embeds";
-import { JOBS } from "@/features/economy/jobs";
+import { UserModel } from "../../database/models/User";
+import { baseEmbed, successEmbed, errorEmbed, infoEmbed } from "../../utils/embeds";
+import { JOBS } from "../../features/economy/jobs";
 const command = {
     name: "jobs",
     description: "Browse available jobs, apply, or resign from your current job",

@@ -1,6 +1,6 @@
 import { Client, Collection, GatewayIntentBits, Partials } from "discord.js";
-import { config } from "@/config/config";
-import { scopedLogger } from "@/utils/logger";
+import { config } from "../config/config";
+import { scopedLogger } from "../utils/logger";
 const log = scopedLogger("client");
 export class PanindiganClient extends Client {
     commands = new Collection();

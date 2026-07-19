@@ -1,4 +1,4 @@
-import { baseEmbed, errorEmbed } from "@/utils/embeds";
+import { baseEmbed, errorEmbed } from "../../utils/embeds";
 const command = {
     name: "roleinfo",
     description: "View impormasyon ng isang role",

@@ -1,5 +1,5 @@
-import { StaffNoteModel } from '@/database/models/Moderation';
-import { successEmbed } from '@/utils/embeds';
+import { StaffNoteModel } from '../../database/models/Moderation';
+import { successEmbed } from '../../utils/embeds';
 const command = {
     name: 'staffnote',
     description: 'Add a private staff note for a user',

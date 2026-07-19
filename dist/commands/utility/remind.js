@@ -1,5 +1,5 @@
-import { UserModel } from "@/database/models/User";
-import { successEmbed, errorEmbed, baseEmbed, infoEmbed } from "@/utils/embeds";
+import { UserModel } from "../../database/models/User";
+import { successEmbed, errorEmbed, baseEmbed, infoEmbed } from "../../utils/embeds";
 function parseDuration(str) {
     const match = str?.match(/^(\d+)(s|m|h|d|w)$/i);
     if (!match)

@@ -1,6 +1,6 @@
 import { PermissionFlagsBits } from "discord.js";
-import { ModCaseModel } from "@/database/models/Moderation";
-import { baseEmbed, errorEmbed, infoEmbed, successEmbed } from "@/utils/embeds";
+import { ModCaseModel } from "../../database/models/Moderation";
+import { baseEmbed, errorEmbed, infoEmbed, successEmbed } from "../../utils/embeds";
 const MOD_TYPE_EMOJIS = {
     warn: "⚠️", kick: "👢", ban: "🔨", tempban: "⏱️", unban: "✅",
     mute: "🔇", timeout: "⏱️", softban: "🧹", note: "📝",

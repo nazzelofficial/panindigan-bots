@@ -1,5 +1,5 @@
 import { PermissionFlagsBits } from "discord.js";
-import { successEmbed, errorEmbed, baseEmbed } from "@/utils/embeds";
+import { successEmbed, errorEmbed, baseEmbed } from "../../utils/embeds";
 const command = {
     name: "prunemember",
     description: "Kick members who have been inactive (no roles, not sent messages) for N days",

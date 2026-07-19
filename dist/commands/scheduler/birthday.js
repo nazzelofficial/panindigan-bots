@@ -1,7 +1,7 @@
 import { PermissionFlagsBits } from "discord.js";
-import { BirthdayModel } from "@/database/models/Community";
-import { GuildModel } from "@/database/models/Guild";
-import { baseEmbed, successEmbed, errorEmbed, infoEmbed } from "@/utils/embeds";
+import { BirthdayModel } from "../../database/models/Community";
+import { GuildModel } from "../../database/models/Guild";
+import { baseEmbed, successEmbed, errorEmbed, infoEmbed } from "../../utils/embeds";
 const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const command = {
     name: "birthday",

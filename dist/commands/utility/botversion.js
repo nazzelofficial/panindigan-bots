@@ -1,5 +1,5 @@
 import { version as djsVersion } from "discord.js";
-import { baseEmbed } from "@/utils/embeds";
+import { baseEmbed } from "../../utils/embeds";
 const command = {
     name: "botversion",
     description: "View the bot version",

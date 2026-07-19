@@ -1,6 +1,6 @@
 import { PermissionFlagsBits } from "discord.js";
-import { GuildModel } from "@/database/models/Guild";
-import { successEmbed, errorEmbed, infoEmbed } from "@/utils/embeds";
+import { GuildModel } from "../../database/models/Guild";
+import { successEmbed, errorEmbed, infoEmbed } from "../../utils/embeds";
 const command = {
     name: "joingate",
     description: "Block accounts below a minimum age from joining (anti-alt protection)",

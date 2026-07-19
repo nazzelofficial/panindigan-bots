@@ -1,5 +1,5 @@
 import { ActivityType } from "discord.js";
-import { scopedLogger } from "@/utils/logger";
+import { scopedLogger } from "../utils/logger";
 const log = scopedLogger("ready");
 const ACTIVITY_TYPE_MAP = {
     PLAYING: ActivityType.Playing,

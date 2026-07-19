@@ -1,4 +1,4 @@
-import { baseEmbed, errorEmbed } from "@/utils/embeds";
+import { baseEmbed, errorEmbed } from "../../utils/embeds";
 const command = {
     name: "timestamp",
     description: "Create Discord timestamp mula sa petsa/oras",

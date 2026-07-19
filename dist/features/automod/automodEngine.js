@@ -1,6 +1,6 @@
-import { GuildModel } from "@/database/models/Guild";
-import { warnEmbed } from "@/utils/embeds";
-import { createModCase } from "@/features/moderation/caseEngine";
+import { GuildModel } from "../../database/models/Guild";
+import { warnEmbed } from "../../utils/embeds";
+import { createModCase } from "../../features/moderation/caseEngine";
 const INVITE_REGEX = /(discord\.gg|discord(app)?\.com\/invite)\/[a-zA-Z0-9-]+/i;
 const LINK_REGEX = /(https?:\/\/)[^\s]+/gi;
 const recentMessages = new Map(); // `${guildId}:${userId}` -> timestamps, for spam/flood detection

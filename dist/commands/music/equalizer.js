@@ -1,4 +1,4 @@
-import { successEmbed, errorEmbed } from "@/utils/embeds";
+import { successEmbed, errorEmbed } from "../../utils/embeds";
 const EQ_PRESETS = {
     flat: { label: "Flat", bands: Array.from({ length: 15 }, (_, i) => ({ band: i, gain: 0 })) },
     bass: { label: "Bass Boost", bands: [{ band: 0, gain: 0.3 }, { band: 1, gain: 0.25 }, { band: 2, gain: 0.2 }, { band: 3, gain: 0.1 }, { band: 4, gain: 0.05 }, ...Array.from({ length: 10 }, (_, i) => ({ band: i + 5, gain: 0 }))] },

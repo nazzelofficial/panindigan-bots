@@ -1,5 +1,5 @@
-import { UserModel } from '@/database/models/User';
-import { successEmbed } from '@/utils/embeds';
+import { UserModel } from '../../database/models/User';
+import { successEmbed } from '../../utils/embeds';
 const command = {
     name: 'xp_remove',
     description: 'Remove XP from a user (admin only)',

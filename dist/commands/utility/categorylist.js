@@ -1,4 +1,4 @@
-import { baseEmbed, infoEmbed } from "@/utils/embeds";
+import { baseEmbed, infoEmbed } from "../../utils/embeds";
 const command = {
     name: "categorylist",
     description: "List all categories in the server",

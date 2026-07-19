@@ -1,5 +1,5 @@
-import { PremiumModel } from "@/database/models/Premium";
-import { baseEmbed, infoEmbed } from "@/utils/embeds";
+import { PremiumModel } from "../../database/models/Premium";
+import { baseEmbed, infoEmbed } from "../../utils/embeds";
 const TIER_LABELS = {
     none: "Free",
     basic: "🥈 Basic",

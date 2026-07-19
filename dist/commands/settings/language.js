@@ -1,6 +1,6 @@
 import { PermissionFlagsBits } from "discord.js";
-import { GuildModel } from "@/database/models/Guild";
-import { successEmbed, baseEmbed } from "@/utils/embeds";
+import { GuildModel } from "../../database/models/Guild";
+import { successEmbed, baseEmbed } from "../../utils/embeds";
 const LANGUAGES = [
     { name: "English", value: "en" },
     { name: "Filipino / Tagalog", value: "fil" },

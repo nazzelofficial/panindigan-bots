@@ -1,4 +1,4 @@
-import { baseEmbed, errorEmbed } from "@/utils/embeds";
+import { baseEmbed, errorEmbed } from "../../utils/embeds";
 const SUSPICION_THRESHOLD_DAYS = 14;
 function accountAgeDays(userId) {
     const createdAt = Number(BigInt(userId) >> 22n) + 1420070400000;

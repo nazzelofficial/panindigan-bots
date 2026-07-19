@@ -1,4 +1,4 @@
-import { baseEmbed, errorEmbed, infoEmbed } from "@/utils/embeds";
+import { baseEmbed, errorEmbed, infoEmbed } from "../../utils/embeds";
 const command = {
     name: "servers",
     description: "List all servers the bot is in or get info on a specific server (owner only)",

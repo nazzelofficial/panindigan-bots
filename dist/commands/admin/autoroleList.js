@@ -1,5 +1,5 @@
 import { EmbedBuilder } from "discord.js";
-import { GuildModel } from "@/database/models/Guild";
+import { GuildModel } from "../../database/models/Guild";
 const command = {
     name: "autorole_list",
     description: "List all auto roles",

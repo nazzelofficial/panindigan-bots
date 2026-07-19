@@ -1,6 +1,6 @@
-import { GuildModel } from "@/database/models/Guild";
-import { PremiumModel } from "@/database/models/Premium";
-import { baseEmbed } from "@/utils/embeds";
+import { GuildModel } from "../../database/models/Guild";
+import { PremiumModel } from "../../database/models/Premium";
+import { baseEmbed } from "../../utils/embeds";
 const command = {
     name: "config",
     description: "View the full configuration export for this server",

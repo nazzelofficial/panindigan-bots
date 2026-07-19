@@ -1,7 +1,7 @@
 import { PermissionFlagsBits } from "discord.js";
-import { ModCaseModel } from "@/database/models/Moderation";
-import { successEmbed, errorEmbed, baseEmbed } from "@/utils/embeds";
-import { sendLogEvent } from "@/features/logging/logEngine";
+import { ModCaseModel } from "../../database/models/Moderation";
+import { successEmbed, errorEmbed, baseEmbed } from "../../utils/embeds";
+import { sendLogEvent } from "../../features/logging/logEngine";
 const command = {
     name: "modlogsclear",
     description: "Clear all moderation case history for a specific user in this server",

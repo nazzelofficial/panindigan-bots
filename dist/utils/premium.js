@@ -1,5 +1,5 @@
-import { PremiumModel } from "@/database/models/Premium";
-import { config } from "@/config/config";
+import { PremiumModel } from "../database/models/Premium";
+import { config } from "../config/config";
 const TIER_ORDER = ["free", "basic", "standard", "gold", "enterprise"];
 export async function getGuildTier(guildId) {
     const record = await PremiumModel.findOne({ guildId }).lean();

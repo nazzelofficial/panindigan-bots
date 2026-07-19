@@ -1,6 +1,6 @@
 import { PermissionFlagsBits } from "discord.js";
-import { GuildModel } from "@/database/models/Guild";
-import { baseEmbed, successEmbed, errorEmbed } from "@/utils/embeds";
+import { GuildModel } from "../../database/models/Guild";
+import { baseEmbed, successEmbed, errorEmbed } from "../../utils/embeds";
 const ALL_EVENTS = [
     "messageDelete", "messageUpdate", "memberJoin", "memberLeave", "memberUpdate",
     "banAdd", "banRemove", "roleCreate", "roleDelete", "roleUpdate",

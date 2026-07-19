@@ -1,7 +1,7 @@
-import { UserModel } from "@/database/models/User";
-import { ModCaseModel } from "@/database/models/Moderation";
-import { baseEmbed } from "@/utils/embeds";
-import { JOBS } from "@/features/economy/jobs";
+import { UserModel } from "../../database/models/User";
+import { ModCaseModel } from "../../database/models/Moderation";
+import { baseEmbed } from "../../utils/embeds";
+import { JOBS } from "../../features/economy/jobs";
 const command = {
     name: "my",
     description: "View inyong personal na stats: level, balance, warnings, reminders, atbp.",

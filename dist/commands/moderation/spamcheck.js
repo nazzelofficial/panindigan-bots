@@ -1,5 +1,5 @@
-import { ModCaseModel } from "@/database/models/Moderation";
-import { baseEmbed, errorEmbed } from "@/utils/embeds";
+import { ModCaseModel } from "../../database/models/Moderation";
+import { baseEmbed, errorEmbed } from "../../utils/embeds";
 const command = {
     name: "spamcheck",
     description: "Analyze if a user is a likely spammer based on recent activity and moderation history",

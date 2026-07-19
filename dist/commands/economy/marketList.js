@@ -1,5 +1,5 @@
-import { MarketListingModel } from "@/database/models/Economy";
-import { baseEmbed, infoEmbed } from "@/utils/embeds";
+import { MarketListingModel } from "../../database/models/Economy";
+import { baseEmbed, infoEmbed } from "../../utils/embeds";
 const command = {
     name: "market_list",
     description: "Browse all active market listings in this server",

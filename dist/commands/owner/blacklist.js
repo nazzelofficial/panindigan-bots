@@ -1,5 +1,5 @@
-import { BlacklistModel } from "@/database/models/Moderation";
-import { successEmbed, errorEmbed, baseEmbed, infoEmbed } from "@/utils/embeds";
+import { BlacklistModel } from "../../database/models/Moderation";
+import { successEmbed, errorEmbed, baseEmbed, infoEmbed } from "../../utils/embeds";
 const command = {
     name: "blacklist",
     description: "Blacklist a user or guild from using the bot",

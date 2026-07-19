@@ -1,5 +1,5 @@
-import { successEmbed, infoEmbed } from "@/utils/embeds";
-import { scopedLogger } from "@/utils/logger";
+import { successEmbed, infoEmbed } from "../../utils/embeds";
+import { scopedLogger } from "../../utils/logger";
 const log = scopedLogger("owner:dbbackup");
 const command = {
     name: "databasebackup",

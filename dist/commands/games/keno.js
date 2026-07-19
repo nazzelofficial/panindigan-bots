@@ -1,6 +1,6 @@
 import { EmbedBuilder } from 'discord.js';
-import { UserModel } from '@/database/models/User';
-import { errorEmbed } from '@/utils/embeds';
+import { UserModel } from '../../database/models/User';
+import { errorEmbed } from '../../utils/embeds';
 // Payout multipliers: index = number of picks, value = [multiplier per match count]
 // payouts[picks][matches] = multiplier
 const PAYOUTS = {

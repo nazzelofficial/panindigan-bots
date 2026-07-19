@@ -1,6 +1,6 @@
 import { PermissionFlagsBits } from "discord.js";
-import { GiveawayModel } from "@/database/models/Community";
-import { successEmbed, errorEmbed } from "@/utils/embeds";
+import { GiveawayModel } from "../../database/models/Community";
+import { successEmbed, errorEmbed } from "../../utils/embeds";
 const command = {
     name: "giveawaypause",
     description: "Pause an active giveaway (no new entries will be accepted)",

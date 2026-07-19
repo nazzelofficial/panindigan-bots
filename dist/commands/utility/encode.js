@@ -1,4 +1,4 @@
-import { baseEmbed, errorEmbed } from "@/utils/embeds";
+import { baseEmbed, errorEmbed } from "../../utils/embeds";
 const command = {
     name: "encode",
     description: "Encode or decode text: base64, URL encoding, binary, hex, morse",

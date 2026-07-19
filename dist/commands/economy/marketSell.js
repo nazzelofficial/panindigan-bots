@@ -1,5 +1,5 @@
-import { MarketListingModel } from "@/database/models/Economy";
-import { errorEmbed, baseEmbed } from "@/utils/embeds";
+import { MarketListingModel } from "../../database/models/Economy";
+import { errorEmbed, baseEmbed } from "../../utils/embeds";
 const command = {
     name: "market_sell",
     description: "List an item for sale on the server market",

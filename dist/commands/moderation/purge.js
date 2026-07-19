@@ -1,5 +1,5 @@
 import { PermissionFlagsBits, ChannelType } from "discord.js";
-import { successEmbed, errorEmbed } from "@/utils/embeds";
+import { successEmbed, errorEmbed } from "../../utils/embeds";
 const command = {
     name: "purge",
     description: "Bulk-delete messages in a channel",

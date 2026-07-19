@@ -1,6 +1,6 @@
-import { UserModel } from "@/database/models/User";
-import { errorEmbed, baseEmbed } from "@/utils/embeds";
-import { JOBS, getPayForJob } from "@/features/economy/jobs";
+import { UserModel } from "../../database/models/User";
+import { errorEmbed, baseEmbed } from "../../utils/embeds";
+import { JOBS, getPayForJob } from "../../features/economy/jobs";
 const WORK_COOLDOWN_MS = 60 * 60 * 1000; // 1 hour
 const WORK_MESSAGES = [
     "You worked hard and completed all your tasks.",

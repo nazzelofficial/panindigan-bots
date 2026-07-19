@@ -1,7 +1,7 @@
 import { PermissionFlagsBits } from "discord.js";
-import { ModCaseModel } from "@/database/models/Moderation";
-import { baseEmbed, errorEmbed, infoEmbed, successEmbed } from "@/utils/embeds";
-import { createModCase } from "@/features/moderation/caseEngine";
+import { ModCaseModel } from "../../database/models/Moderation";
+import { baseEmbed, errorEmbed, infoEmbed, successEmbed } from "../../utils/embeds";
+import { createModCase } from "../../features/moderation/caseEngine";
 const command = {
     name: "note",
     description: "Add or list moderator notes on a user",

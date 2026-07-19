@@ -1,5 +1,5 @@
-import { UserModel } from "@/database/models/User";
-import { baseEmbed, errorEmbed } from "@/utils/embeds";
+import { UserModel } from "../../database/models/User";
+import { baseEmbed, errorEmbed } from "../../utils/embeds";
 const command = {
     name: "balance",
     description: "View your or another user's coin balance",

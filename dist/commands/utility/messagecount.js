@@ -1,4 +1,4 @@
-import { baseEmbed, infoEmbed } from "@/utils/embeds";
+import { baseEmbed, infoEmbed } from "../../utils/embeds";
 const command = {
     name: "messagecount",
     description: "Count messages in a channel",

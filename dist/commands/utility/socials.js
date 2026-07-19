@@ -1,5 +1,5 @@
-import { GuildModel } from "@/database/models/Guild";
-import { successEmbed, errorEmbed, baseEmbed } from "@/utils/embeds";
+import { GuildModel } from "../../database/models/Guild";
+import { successEmbed, errorEmbed, baseEmbed } from "../../utils/embeds";
 const SOCIAL_KEYS = ["website", "facebook", "twitter", "instagram", "youtube", "tiktok", "twitch", "github", "discord"];
 const command = {
     name: "socials",

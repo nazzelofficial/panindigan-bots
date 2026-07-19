@@ -1,6 +1,6 @@
 import { version as djsVersion } from "discord.js";
-import { baseEmbed } from "@/utils/embeds";
-import { isDatabaseConnected } from "@/database/connection";
+import { baseEmbed } from "../../utils/embeds";
+import { isDatabaseConnected } from "../../database/connection";
 function formatUptime(ms) {
     const d = Math.floor(ms / 86_400_000);
     const h = Math.floor((ms % 86_400_000) / 3_600_000);

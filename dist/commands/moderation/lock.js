@@ -1,5 +1,5 @@
 import { PermissionFlagsBits, ChannelType } from "discord.js";
-import { successEmbed, errorEmbed } from "@/utils/embeds";
+import { successEmbed, errorEmbed } from "../../utils/embeds";
 const command = {
     name: "lock",
     description: "Lock or unlock a channel",

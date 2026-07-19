@@ -1,5 +1,5 @@
-import { baseEmbed, errorEmbed } from "@/utils/embeds";
-import { getOpenAiClient, isAiConfigured } from "@/features/ai/openaiClient";
+import { baseEmbed, errorEmbed } from "../../utils/embeds";
+import { getOpenAiClient, isAiConfigured } from "../../features/ai/openaiClient";
 const command = {
     name: "grammar",
     description: "Check and fix grammar in your text",

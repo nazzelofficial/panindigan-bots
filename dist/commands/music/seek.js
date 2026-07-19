@@ -1,4 +1,4 @@
-import { successEmbed, errorEmbed } from "@/utils/embeds";
+import { successEmbed, errorEmbed } from "../../utils/embeds";
 function parseTime(input) {
     // Accepts: 1:23, 1:23:45, 90s, 90
     const colonMatch = input.match(/^(?:(\d+):)?(\d+):(\d+)$/);

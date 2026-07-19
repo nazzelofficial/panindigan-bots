@@ -1,5 +1,5 @@
-import { UserModel } from '@/database/models/User';
-import { successEmbed } from '@/utils/embeds';
+import { UserModel } from '../../database/models/User';
+import { successEmbed } from '../../utils/embeds';
 const command = {
     name: 'level_add',
     description: 'Add levels to a user (admin only)',

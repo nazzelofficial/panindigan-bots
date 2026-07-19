@@ -1,5 +1,5 @@
 import { PermissionFlagsBits } from "discord.js";
-import { baseEmbed, successEmbed, errorEmbed } from "@/utils/embeds";
+import { baseEmbed, successEmbed, errorEmbed } from "../../utils/embeds";
 const command = {
     name: "unmuteallmembers",
     description: "Remove active timeouts from all currently timed-out members in this server",

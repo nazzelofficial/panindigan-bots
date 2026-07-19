@@ -1,7 +1,7 @@
-import { UserModel } from "@/database/models/User";
-import { ModCaseModel } from "@/database/models/Moderation";
-import { baseEmbed } from "@/utils/embeds";
-import { JOBS } from "@/features/economy/jobs";
+import { UserModel } from "../../database/models/User";
+import { ModCaseModel } from "../../database/models/Moderation";
+import { baseEmbed } from "../../utils/embeds";
+import { JOBS } from "../../features/economy/jobs";
 const command = {
     name: "profile",
     description: "View a user's full profile card for this server",

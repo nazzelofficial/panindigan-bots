@@ -1,5 +1,5 @@
-import { TradeModel } from "@/database/models/Economy";
-import { successEmbed, errorEmbed } from "@/utils/embeds";
+import { TradeModel } from "../../database/models/Economy";
+import { successEmbed, errorEmbed } from "../../utils/embeds";
 const command = {
     name: "trade_decline",
     description: "Decline the most recent incoming trade request",

@@ -1,6 +1,6 @@
-import { UserModel } from "@/database/models/User";
-import { GuildModel } from "@/database/models/Guild";
-import { baseEmbed } from "@/utils/embeds";
+import { UserModel } from "../../database/models/User";
+import { GuildModel } from "../../database/models/Guild";
+import { baseEmbed } from "../../utils/embeds";
 export function xpForLevel(level) {
     return 5 * level ** 2 + 50 * level + 100;
 }

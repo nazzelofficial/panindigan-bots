@@ -1,6 +1,6 @@
 import { PermissionFlagsBits, ActionRowBuilder, ButtonBuilder, ButtonStyle } from "discord.js";
-import { GiveawayModel } from "@/database/models/Community";
-import { baseEmbed, successEmbed, errorEmbed, infoEmbed } from "@/utils/embeds";
+import { GiveawayModel } from "../../database/models/Community";
+import { baseEmbed, successEmbed, errorEmbed, infoEmbed } from "../../utils/embeds";
 function parseDuration(str) {
     const match = str?.match(/^(\d+)(s|m|h|d)$/i);
     if (!match)

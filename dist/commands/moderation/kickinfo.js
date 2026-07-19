@@ -1,5 +1,5 @@
-import { ModCaseModel } from '@/database/models/Moderation';
-import { baseEmbed, errorEmbed } from '@/utils/embeds';
+import { ModCaseModel } from '../../database/models/Moderation';
+import { baseEmbed, errorEmbed } from '../../utils/embeds';
 const command = {
     name: 'kickinfo',
     description: 'View kick history for a user',

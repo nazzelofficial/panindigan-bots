@@ -1,8 +1,8 @@
 import { PermissionFlagsBits } from "discord.js";
-import { successEmbed, errorEmbed, warnEmbed } from "@/utils/embeds";
-import { createModCase } from "@/features/moderation/caseEngine";
-import { sendLogEvent } from "@/features/logging/logEngine";
-import { baseEmbed } from "@/utils/embeds";
+import { successEmbed, errorEmbed, warnEmbed } from "../../utils/embeds";
+import { createModCase } from "../../features/moderation/caseEngine";
+import { sendLogEvent } from "../../features/logging/logEngine";
+import { baseEmbed } from "../../utils/embeds";
 const command = {
     name: "ban",
     description: "Ban a user from the server",

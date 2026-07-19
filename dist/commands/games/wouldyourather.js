@@ -1,5 +1,5 @@
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle } from "discord.js";
-import { baseEmbed } from "@/utils/embeds";
+import { baseEmbed } from "../../utils/embeds";
 const PROMPTS = [
     ["Always be too hot", "Always be too cold"],
     ["Speak every language", "Play every instrument"],

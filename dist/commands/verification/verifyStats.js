@@ -1,5 +1,5 @@
-import { GuildModel } from "@/database/models/Guild";
-import { baseEmbed, errorEmbed } from "@/utils/embeds";
+import { GuildModel } from "../../database/models/Guild";
+import { baseEmbed, errorEmbed } from "../../utils/embeds";
 const command = {
     name: "verifystats",
     description: "Show verification statistics for this server",

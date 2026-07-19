@@ -1,5 +1,5 @@
 import { PermissionFlagsBits } from "discord.js";
-import { errorEmbed, baseEmbed } from "@/utils/embeds";
+import { errorEmbed, baseEmbed } from "../../utils/embeds";
 const command = {
     name: "say",
     description: "Make the bot say something in a channel (plain text or embed)",

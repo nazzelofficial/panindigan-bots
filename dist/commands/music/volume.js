@@ -1,4 +1,4 @@
-import { successEmbed, errorEmbed, baseEmbed } from "@/utils/embeds";
+import { successEmbed, errorEmbed, baseEmbed } from "../../utils/embeds";
 const command = {
     name: "volume",
     description: "I-adjust ang volume ng music player (0-200)",

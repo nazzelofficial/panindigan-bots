@@ -1,5 +1,5 @@
 import { PermissionFlagsBits } from "discord.js";
-import { baseEmbed, errorEmbed } from "@/utils/embeds";
+import { baseEmbed, errorEmbed } from "../../utils/embeds";
 const DANGEROUS_PERMS = [
     "Administrator",
     "ManageGuild",

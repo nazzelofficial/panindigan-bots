@@ -1,6 +1,6 @@
 import { AttachmentBuilder, PermissionFlagsBits } from "discord.js";
-import { ModCaseModel } from "@/database/models/Moderation";
-import { errorEmbed, baseEmbed } from "@/utils/embeds";
+import { ModCaseModel } from "../../database/models/Moderation";
+import { errorEmbed, baseEmbed } from "../../utils/embeds";
 const command = {
     name: "logsexport",
     description: "Export moderation logs as a downloadable JSON or CSV file",

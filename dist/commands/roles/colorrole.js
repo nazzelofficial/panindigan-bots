@@ -1,6 +1,6 @@
 import { PermissionFlagsBits, ActionRowBuilder, StringSelectMenuBuilder, StringSelectMenuOptionBuilder } from "discord.js";
-import { ColorRoleModel } from "@/database/models/Community";
-import { baseEmbed, successEmbed, errorEmbed, infoEmbed } from "@/utils/embeds";
+import { ColorRoleModel } from "../../database/models/Community";
+import { baseEmbed, successEmbed, errorEmbed, infoEmbed } from "../../utils/embeds";
 const command = {
     name: "colorrole",
     description: "Set up a color role picker so members can choose their name color",

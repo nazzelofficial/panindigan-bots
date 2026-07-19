@@ -1,7 +1,7 @@
 import { PermissionFlagsBits, EmbedBuilder } from "discord.js";
-import { GuildModel } from "@/database/models/Guild";
-import { successEmbed, baseEmbed } from "@/utils/embeds";
-import { sendLogEvent } from "@/features/logging/logEngine";
+import { GuildModel } from "../../database/models/Guild";
+import { successEmbed, baseEmbed } from "../../utils/embeds";
+import { sendLogEvent } from "../../features/logging/logEngine";
 const command = {
     name: "raidmode",
     description: "Enable or disable raid mode — when on, new joins are restricted and alerted",

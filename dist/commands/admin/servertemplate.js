@@ -1,6 +1,6 @@
 import { PermissionFlagsBits } from "discord.js";
-import { ServerTemplateModel } from "@/database/models/Community";
-import { baseEmbed, successEmbed, errorEmbed, infoEmbed } from "@/utils/embeds";
+import { ServerTemplateModel } from "../../database/models/Community";
+import { baseEmbed, successEmbed, errorEmbed, infoEmbed } from "../../utils/embeds";
 const command = {
     name: "servertemplate",
     description: "Save and apply server configuration templates",

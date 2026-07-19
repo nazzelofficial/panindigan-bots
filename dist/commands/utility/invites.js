@@ -1,5 +1,5 @@
 import { PermissionFlagsBits } from "discord.js";
-import { baseEmbed, errorEmbed, successEmbed } from "@/utils/embeds";
+import { baseEmbed, errorEmbed, successEmbed } from "../../utils/embeds";
 const command = {
     name: "invites",
     description: "View server invite codes or create a new invite",

@@ -1,7 +1,7 @@
-import { GuildModel } from "@/database/models/Guild";
-import { GlobalBanModel, BlacklistModel } from "@/database/models/Moderation";
-import { baseEmbed } from "@/utils/embeds";
-import { scopedLogger } from "@/utils/logger";
+import { GuildModel } from "../database/models/Guild";
+import { GlobalBanModel, BlacklistModel } from "../database/models/Moderation";
+import { baseEmbed } from "../utils/embeds";
+import { scopedLogger } from "../utils/logger";
 const log = scopedLogger("member-add");
 function fillTemplate(template, member) {
     return template

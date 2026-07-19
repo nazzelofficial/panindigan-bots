@@ -1,5 +1,5 @@
-import { ModCaseModel } from "@/database/models/Moderation";
-import { baseEmbed, infoEmbed } from "@/utils/embeds";
+import { ModCaseModel } from "../../database/models/Moderation";
+import { baseEmbed, infoEmbed } from "../../utils/embeds";
 const command = {
     name: "kicklist",
     description: "List the most recently kicked members in this server",

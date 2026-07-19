@@ -1,5 +1,5 @@
-import { ModCaseModel } from '@/database/models/Moderation';
-import { successEmbed } from '@/utils/embeds';
+import { ModCaseModel } from '../../database/models/Moderation';
+import { successEmbed } from '../../utils/embeds';
 const command = {
     name: 'clearwarns',
     description: 'Clear all warnings for a user',

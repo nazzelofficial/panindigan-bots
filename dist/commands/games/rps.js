@@ -1,4 +1,4 @@
-import { baseEmbed } from "@/utils/embeds";
+import { baseEmbed } from "../../utils/embeds";
 const CHOICES = ["rock", "paper", "scissors"];
 const EMOJI = { rock: "🪨", paper: "📄", scissors: "✂️" };
 const BEATS = { rock: "scissors", paper: "rock", scissors: "paper" };

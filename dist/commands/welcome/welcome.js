@@ -1,6 +1,6 @@
 import { PermissionFlagsBits, AttachmentBuilder } from "discord.js";
-import { GuildModel } from "@/database/models/Guild";
-import { baseEmbed, successEmbed, errorEmbed } from "@/utils/embeds";
+import { GuildModel } from "../../database/models/Guild";
+import { baseEmbed, successEmbed, errorEmbed } from "../../utils/embeds";
 function fillTemplate(template, replacements) {
     return template.replace(/\{(\w+)\}/g, (_, key) => replacements[key] ?? `{${key}}`);
 }

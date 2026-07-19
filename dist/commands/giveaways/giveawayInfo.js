@@ -1,5 +1,5 @@
-import { GiveawayModel } from "@/database/models/Community";
-import { baseEmbed, errorEmbed } from "@/utils/embeds";
+import { GiveawayModel } from "../../database/models/Community";
+import { baseEmbed, errorEmbed } from "../../utils/embeds";
 const command = {
     name: "giveawayinfo",
     description: "Show detailed information about a specific giveaway",

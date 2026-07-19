@@ -1,5 +1,5 @@
-import { ModCaseModel } from '@/database/models/Moderation';
-import { baseEmbed } from '@/utils/embeds';
+import { ModCaseModel } from '../../database/models/Moderation';
+import { baseEmbed } from '../../utils/embeds';
 const command = {
     name: 'modstats',
     description: 'View moderation statistics',

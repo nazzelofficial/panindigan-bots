@@ -1,6 +1,6 @@
 import { PermissionFlagsBits } from "discord.js";
-import { GuildModel } from "@/database/models/Guild";
-import { successEmbed, warnEmbed } from "@/utils/embeds";
+import { GuildModel } from "../../database/models/Guild";
+import { successEmbed, warnEmbed } from "../../utils/embeds";
 const command = {
     name: "reset",
     description: "Reset all server settings to their defaults (WARNING: this cannot be undone)",

@@ -1,5 +1,5 @@
 import { PermissionFlagsBits, StickerFormatType } from "discord.js";
-import { successEmbed, errorEmbed, baseEmbed } from "@/utils/embeds";
+import { successEmbed, errorEmbed, baseEmbed } from "../../utils/embeds";
 const command = {
     name: "sticker",
     description: "Manage server stickers — add, delete, rename, list, or view sticker info",

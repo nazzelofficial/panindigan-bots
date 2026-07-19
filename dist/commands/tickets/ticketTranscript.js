@@ -1,6 +1,6 @@
 import { AttachmentBuilder, PermissionFlagsBits } from "discord.js";
-import { baseEmbed, errorEmbed } from "@/utils/embeds";
-import { TicketModel } from "@/database/models/Tickets";
+import { baseEmbed, errorEmbed } from "../../utils/embeds";
+import { TicketModel } from "../../database/models/Tickets";
 async function buildTranscript(channel) {
     const messages = [];
     let before;

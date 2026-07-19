@@ -1,4 +1,4 @@
-import { warnEmbed } from "@/utils/embeds";
+import { warnEmbed } from "../../utils/embeds";
 const command = {
     name: "backup_restore",
     description: "Restore server from a backup",

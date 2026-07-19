@@ -1,9 +1,9 @@
-import { isAiConfigured, getOpenAiClient } from "@/features/ai/openaiClient";
-import { baseEmbed, errorEmbed, infoEmbed } from "@/utils/embeds";
-import { UserModel } from "@/database/models/User";
-import { GuildModel } from "@/database/models/Guild";
-import { getConfig } from "@/config/config";
-import { apiLog } from "@/utils/logger";
+import { isAiConfigured, getOpenAiClient } from "../../features/ai/openaiClient";
+import { baseEmbed, errorEmbed, infoEmbed } from "../../utils/embeds";
+import { UserModel } from "../../database/models/User";
+import { GuildModel } from "../../database/models/Guild";
+import { getConfig } from "../../config/config";
+import { apiLog } from "../../utils/logger";
 // Per-user conversation history: userId → messages[]
 const chatHistory = new Map();
 /** Classify OpenAI errors into user-friendly messages. */

@@ -1,4 +1,4 @@
-import { baseEmbed, errorEmbed, infoEmbed } from "@/utils/embeds";
+import { baseEmbed, errorEmbed, infoEmbed } from "../../utils/embeds";
 // 50 common 5-letter words for the daily Wordle — seeded by day
 const WORDS = ["crane", "slice", "brave", "ghost", "plant", "flame", "stove", "grind", "think", "blaze", "clock", "dream", "fresh", "heart", "light", "magic", "night", "ocean", "peace", "quiet", "river", "smile", "storm", "style", "tiger", "unity", "value", "water", "young", "zebra", "apple", "bread", "cloud", "dance", "earth", "fence", "grace", "happy", "index", "judge", "knife", "lemon", "mouse", "nails", "olive", "pixel", "queen", "saint", "table", "ultra"];
 function getDailyWord() {

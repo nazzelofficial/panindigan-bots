@@ -1,5 +1,5 @@
-import { successEmbed } from "@/utils/embeds";
-import { scopedLogger } from "@/utils/logger";
+import { successEmbed } from "../../utils/embeds";
+import { scopedLogger } from "../../utils/logger";
 const log = scopedLogger("owner:restart");
 const command = {
     name: "restart",

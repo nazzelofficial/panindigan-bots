@@ -1,7 +1,7 @@
 import { PermissionFlagsBits } from 'discord.js';
-import { createModCase } from '@/features/moderation/caseEngine';
-import { sendLogEvent } from '@/features/logging/logEngine';
-import { baseEmbed, errorEmbed, successEmbed } from '@/utils/embeds';
+import { createModCase } from '../../features/moderation/caseEngine';
+import { sendLogEvent } from '../../features/logging/logEngine';
+import { baseEmbed, errorEmbed, successEmbed } from '../../utils/embeds';
 const command = {
     name: 'hackban',
     description: 'Ban a user by ID even if they are not in the server',

@@ -1,5 +1,5 @@
-import { UserModel } from "@/database/models/User";
-import { baseEmbed } from "@/utils/embeds";
+import { UserModel } from "../../database/models/User";
+import { baseEmbed } from "../../utils/embeds";
 const command = {
     name: "economyleaderboard",
     description: "View the top richest members by coin balance",

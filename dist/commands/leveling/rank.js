@@ -1,7 +1,7 @@
 import { AttachmentBuilder } from "discord.js";
-import { UserModel } from "@/database/models/User";
-import { baseEmbed, errorEmbed } from "@/utils/embeds";
-import { xpForLevel } from "@/features/leveling/xpEngine";
+import { UserModel } from "../../database/models/User";
+import { baseEmbed, errorEmbed } from "../../utils/embeds";
+import { xpForLevel } from "../../features/leveling/xpEngine";
 const command = {
     name: "rank",
     description: "View your or another member's rank card",

@@ -1,5 +1,5 @@
-import { ModCaseModel } from "@/database/models/Moderation";
-import { baseEmbed, infoEmbed } from "@/utils/embeds";
+import { ModCaseModel } from "../../database/models/Moderation";
+import { baseEmbed, infoEmbed } from "../../utils/embeds";
 const TYPE_EMOJI = {
     warn: "⚠️", mute: "🔇", unmute: "🔊", timeout: "⏱️", untimeout: "✅",
     kick: "👢", ban: "🔨", tempban: "⏳", softban: "🧹", unban: "✅", note: "📝",

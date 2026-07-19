@@ -1,6 +1,6 @@
 import { EmbedBuilder } from 'discord.js';
-import { UserModel } from '@/database/models/User';
-import { errorEmbed } from '@/utils/embeds';
+import { UserModel } from '../../database/models/User';
+import { errorEmbed } from '../../utils/embeds';
 const SYMBOLS = ['🍒', '🍋', '🍊', '🍉', '⭐', '7️⃣'];
 const PAYOUTS = {
     '🍒': 5,

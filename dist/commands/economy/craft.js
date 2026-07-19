@@ -1,4 +1,4 @@
-import { successEmbed } from "@/utils/embeds";
+import { successEmbed } from "../../utils/embeds";
 const command = {
     name: "craft",
     description: "Craft items from resources",

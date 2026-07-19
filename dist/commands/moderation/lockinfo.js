@@ -1,4 +1,4 @@
-import { baseEmbed, errorEmbed } from '@/utils/embeds';
+import { baseEmbed, errorEmbed } from '../../utils/embeds';
 const command = {
     name: 'lockinfo',
     description: 'Check lock status of a channel',

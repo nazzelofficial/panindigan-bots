@@ -1,6 +1,6 @@
-import { UserModel } from "@/database/models/User";
-import { baseEmbed, errorEmbed } from "@/utils/embeds";
-import { config } from "@/config/config";
+import { UserModel } from "../../database/models/User";
+import { baseEmbed, errorEmbed } from "../../utils/embeds";
+import { config } from "../../config/config";
 const command = {
     name: "prestige",
     description: "Reset your XP at max level to gain a prestige rank",
