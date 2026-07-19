@@ -1,11 +1,12 @@
 # ---------- Builder ----------
 FROM node:24-alpine AS builder
 
-RUN corepack enable && corepack prepare pnpm@11.15.0 --activate
+RUN corepack enable && \
+    corepack prepare pnpm@11.15.0 --activate
 
 WORKDIR /app
 
-COPY package.json pnpm-lock.yaml ./
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 
 RUN pnpm install --frozen-lockfile
 
@@ -26,12 +27,14 @@ COPY --from=builder /app/node_modules ./node_modules
 
 COPY --from=builder /app/dist ./dist
 
+# Dynamic loaders
 COPY --from=builder /app/src/commands ./commands
 COPY --from=builder /app/src/events ./events
 
 COPY --from=builder /app/config.json ./config.json
 
 
+# Create runtime user + writable folders
 RUN addgroup -S nodejs && \
     adduser -S nodejs -G nodejs && \
     mkdir -p /app/logs && \
