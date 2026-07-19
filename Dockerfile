@@ -13,8 +13,9 @@ COPY . .
 
 RUN pnpm build
 
-# Remove devDependencies after build
+# Remove development dependencies
 RUN pnpm prune --prod
+
 
 # ---------- Production ----------
 FROM node:24-alpine
@@ -23,13 +24,16 @@ WORKDIR /app
 
 ENV NODE_ENV=production
 
-COPY --from=builder /app/package.json ./
+COPY --from=builder /app/package.json ./package.json
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/config.json ./config.json
 
-RUN addgroup -S nodejs && \
-    adduser -S nodejs -G nodejs
+# Create application user and writable directories
+RUN mkdir -p /app/logs && \
+    addgroup -S nodejs && \
+    adduser -S nodejs -G nodejs && \
+    chown -R nodejs:nodejs /app
 
 USER nodejs
 
