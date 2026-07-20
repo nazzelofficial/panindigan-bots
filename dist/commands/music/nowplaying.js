@@ -1,5 +1,6 @@
-import { baseEmbed, errorEmbed, infoEmbed } from "../../utils/embeds.js";
+import { errorEmbed } from "../../utils/embeds.js";
 import { validateMusicOperation } from "../../utils/music.js";
+import { createNowPlayingEmbed, createMusicButtonRow } from "../../features/music/embeds/musicEmbeds.js";
 const command = {
     name: "nowplaying",
     description: "Show the currently playing track",
@@ -19,28 +20,14 @@ const command = {
             return;
         const player = ctx.client.lavalink.players?.get(guild.id);
         if (!player?.queue?.current) {
-            await ctx.reply({ embeds: [infoEmbed("Nothing is currently playing.")] });
+            await ctx.reply({ embeds: [errorEmbed("Nothing is currently playing.")] });
             return;
         }
         const track = player.queue.current;
         const position = player.position ?? 0;
-        const duration = track.duration ?? 0;
-        function formatMs(ms) {
-            const totalSec = Math.floor(ms / 1000);
-            const h = Math.floor(totalSec / 3600);
-            const m = Math.floor((totalSec % 3600) / 60);
-            const s = totalSec % 60;
-            return h > 0 ? `${h}:${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}` : `${m}:${s.toString().padStart(2, "0")}`;
-        }
-        const pct = duration > 0 ? Math.min(100, Math.round((position / duration) * 100)) : 0;
-        const bar = "█".repeat(Math.round(pct / 5)) + "░".repeat(20 - Math.round(pct / 5));
-        const embed = baseEmbed("primary")
-            .setTitle("🎵 Now Playing")
-            .setDescription(`**[${track.title}](${track.uri ?? ""})**\nby ${track.author ?? "Unknown Artist"}`)
-            .addFields({ name: "Progress", value: `${formatMs(position)} [${bar}] ${formatMs(duration)}`, inline: false }, { name: "Requester", value: track.requester ? `<@${track.requester}>` : "Unknown", inline: true }, { name: "Status", value: player.paused ? "⏸️ Paused" : "▶️ Playing", inline: true }, { name: "Volume", value: `🔊 ${player.volume ?? 100}%`, inline: true }, { name: "Source", value: track.sourceName ?? "Unknown", inline: true }, { name: "Queue", value: `${player.queue?.tracks?.length ?? 0} track(s) next`, inline: true });
-        if (track.thumbnail)
-            embed.setThumbnail(track.thumbnail);
-        await ctx.reply({ embeds: [embed] });
+        const embed = createNowPlayingEmbed(player.queue, track, position);
+        const buttons = createMusicButtonRow(player.paused, "off", false);
+        await ctx.reply({ embeds: [embed], components: [buttons] });
     },
 };
 export default command;

@@ -4,6 +4,7 @@ import { setClientInstance } from "./structures/clientRegistry.js";
 import { connectDatabase } from "./database/connection.js";
 import { loadCommands } from "./handlers/commandHandler.js";
 import { loadEvents } from "./handlers/eventHandler.js";
+import { registerMusicComponentHandlers } from "./handlers/musicComponentHandler.js";
 import { validateEnv, requireEnv } from "./config/config.js";
 import { scopedLogger, printBanner } from "./utils/logger.js";
 import { initLavalink } from "./features/music/musicManager.js";
@@ -14,7 +15,7 @@ import { startPremiumExpiryAudit } from "./features/scheduler/premiumAudit.js";
 import { startTempbanScheduler } from "./features/scheduler/tempbanScheduler.js";
 import { startBirthdayScheduler } from "./features/scheduler/birthdayScheduler.js";
 import { Monitor } from "./structures/Monitor.js";
-const VERSION = "0.2.0";
+const VERSION = "0.2.1";
 const log = scopedLogger("bootstrap");
 /** Run a named startup phase, record its duration, and surface errors cleanly. */
 async function phase(name, fn) {
@@ -63,6 +64,8 @@ async function main() {
         phase("Load commands", () => loadCommands(client)),
         phase("Load events", () => loadEvents(client)),
     ]);
+    // Register music component handlers
+    registerMusicComponentHandlers(client);
     // ── 5. Optional services ──────────────────────────────────────────────────
     await phase("Init Lavalink", async () => initLavalink(client));
     await phase("Start REST API", async () => startApiServer(client));

@@ -1,4 +1,4 @@
-import { successEmbed, errorEmbed } from "../../utils/embeds.js";
+import { errorEmbed } from "../../utils/embeds.js";
 import { validateMusicOperation } from "../../utils/music.js";
 const command = {
     name: "8d",
@@ -27,12 +27,12 @@ const command = {
         if (!enabled) {
             await player.setFilters?.({ rotation: { rotationHz: 0.2 } });
             player.set?.("filter_8d", true);
-            await ctx.reply({ embeds: [successEmbed("🎧 8D audio filter **enabled**.")] });
+            await ctx.reply({ embeds: [errorEmbed("🎧 8D audio filter **enabled**.")] });
         }
         else {
             await player.setFilters?.({});
             player.set?.("filter_8d", false);
-            await ctx.reply({ embeds: [successEmbed("🎧 8D audio filter **disabled**.")] });
+            await ctx.reply({ embeds: [errorEmbed("🎧 8D audio filter **disabled**.")] });
         }
     },
 };

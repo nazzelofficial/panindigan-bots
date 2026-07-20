@@ -1,7 +1,8 @@
 import { SlashCommandBuilder } from "discord.js";
 import type { CommandDefinition } from "../../structures/types.js";
-import { successEmbed, errorEmbed } from "../../utils/embeds.js";
+import { errorEmbed } from "../../utils/embeds.js";
 import { validateMusicOperation } from "../../utils/music.js";
+import { MusicControllerManager } from "../../features/music/controller/musicController.js";
 
 const command: CommandDefinition = {
   name: "queueshuffle",
@@ -32,7 +33,11 @@ const command: CommandDefinition = {
         [tracks[i], tracks[j]] = [tracks[j], tracks[i]];
       }
     }
-    await ctx.reply({ embeds: [successEmbed(`🔀 Queue shuffled! **${size}** tracks reordered.`)] });
+    
+    // Update controller state
+    MusicControllerManager.updateState(guild.id, ctx.interaction?.channelId ?? ctx.message?.channelId ?? "", { isShuffle: true });
+    
+    await ctx.reply({ embeds: [errorEmbed(`🔀 Queue shuffled! **${size}** tracks reordered.`)] });
   },
 };
 export default command;

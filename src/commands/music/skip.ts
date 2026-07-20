@@ -1,7 +1,8 @@
 import { SlashCommandBuilder } from "discord.js";
 import type { CommandDefinition } from "../../structures/types.js";
-import { successEmbed, errorEmbed, infoEmbed } from "../../utils/embeds.js";
+import { errorEmbed } from "../../utils/embeds.js";
 import { validateMusicOperation } from "../../utils/music.js";
+import { MusicControllerManager } from "../../features/music/controller/musicController.js";
 
 const command: CommandDefinition = {
   name: "skip",
@@ -25,7 +26,7 @@ const command: CommandDefinition = {
 
     const player = (ctx.client.lavalink as any).players?.get(guild.id);
     if (!player?.queue?.current) {
-      await ctx.reply({ embeds: [infoEmbed("Nothing is currently playing.")] });
+      await ctx.reply({ embeds: [errorEmbed("Nothing is currently playing.")] });
       return;
     }
 
@@ -36,7 +37,8 @@ const command: CommandDefinition = {
       await player.skip?.();
     }
 
-    await ctx.reply({ embeds: [successEmbed(`⏭️ Skipped **${count}** track${count !== 1 ? "s" : ""}. Was playing: **${current.title}**`)] });
+    // Update controller state (controller will be updated by trackStart event)
+    await ctx.reply({ embeds: [errorEmbed(`⏭️ Skipped **${count}** track${count !== 1 ? "s" : ""}. Was playing: **${current.info.title}**`)] });
   },
 };
 

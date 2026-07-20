@@ -1,4 +1,4 @@
-import { successEmbed, errorEmbed } from "../../utils/embeds.js";
+import { errorEmbed } from "../../utils/embeds.js";
 import { validateMusicOperation } from "../../utils/music.js";
 const command = {
     name: "nightcore",
@@ -27,12 +27,12 @@ const command = {
         if (!enabled) {
             await player.setFilters?.({ timescale: { speed: 1.25, pitch: 1.3, rate: 1.0 } });
             player.set?.("filter_nightcore", true);
-            await ctx.reply({ embeds: [successEmbed("🌙 Nightcore filter **enabled**.")] });
+            await ctx.reply({ embeds: [errorEmbed("🌙 Nightcore filter **enabled**.")] });
         }
         else {
             await player.setFilters?.({});
             player.set?.("filter_nightcore", false);
-            await ctx.reply({ embeds: [successEmbed("🌙 Nightcore filter **disabled**.")] });
+            await ctx.reply({ embeds: [errorEmbed("🌙 Nightcore filter **disabled**.")] });
         }
     },
 };

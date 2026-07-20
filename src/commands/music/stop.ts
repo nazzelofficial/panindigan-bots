@@ -1,7 +1,8 @@
 import { SlashCommandBuilder } from "discord.js";
 import type { CommandDefinition } from "../../structures/types.js";
-import { successEmbed, errorEmbed } from "../../utils/embeds.js";
+import { errorEmbed } from "../../utils/embeds.js";
 import { validateMusicOperation } from "../../utils/music.js";
+import { MusicControllerManager } from "../../features/music/controller/musicController.js";
 
 const command: CommandDefinition = {
   name: "stop",
@@ -12,6 +13,11 @@ const command: CommandDefinition = {
   cooldown: 3,
   slashData: (b) => b as SlashCommandBuilder,
   async execute(ctx) {
+    const validationError = validateMusicOperation(ctx.client);
+    if (validationError) {
+      await ctx.reply({ embeds: [errorEmbed(validationError)] });
+      return;
+    }
     const guild = ctx.interaction?.guild ?? ctx.message?.guild;
     if (!guild) return;
 
@@ -26,7 +32,10 @@ const command: CommandDefinition = {
     if (typeof player.stop === "function") await player.stop();
     else if (typeof player.destroy === "function") await player.destroy();
 
-    await ctx.reply({ embeds: [successEmbed("⏹️ Naitigil ang music at na-clear ang queue.")] });
+    // Remove controller
+    MusicControllerManager.removeController(guild.id);
+
+    await ctx.reply({ embeds: [errorEmbed("⏹️ Naitigil ang music at na-clear ang queue.")] });
   },
 };
 

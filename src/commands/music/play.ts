@@ -1,7 +1,14 @@
 import { SlashCommandBuilder } from "discord.js";
 import type { CommandDefinition } from "../../structures/types.js";
-import { baseEmbed, errorEmbed } from "../../utils/embeds.js";
+import { errorEmbed } from "../../utils/embeds.js";
 import { validateMusicOperation } from "../../utils/music.js";
+import {
+  createSearchingEmbed,
+  createPlaylistLoadingEmbed,
+  createPlaylistLoadedEmbed,
+  formatDuration as formatDurationEmbed,
+} from "../../features/music/embeds/musicEmbeds.js";
+import { MusicControllerManager } from "../../features/music/controller/musicController.js";
 
 function getMusicUnavailableEmbed() {
   return errorEmbed("❌ Music service is currently unavailable.\nThe Lavalink server is offline or unreachable.\nPlease try again later.");
@@ -68,6 +75,10 @@ const command: CommandDefinition = {
     if (!query) { await ctx.reply({ embeds: [errorEmbed("Provide a song name or URL.")] }); return; }
 
     const textChannelId = ctx.interaction?.channelId ?? ctx.message?.channelId;
+    const textChannel = ctx.client.channels.cache.get(textChannelId!) as any;
+
+    // Send searching embed
+    await ctx.reply({ embeds: [createSearchingEmbed(query)] });
 
     let player = ctx.client.lavalink!.getPlayer(guild.id);
     if (!player) {
@@ -88,56 +99,80 @@ const command: CommandDefinition = {
     try {
       result = await player.search({ query, source: "ytsearch" }, ctx.client.user!);
     } catch {
-      await ctx.reply({ embeds: [errorEmbed("❌ Music service unavailable — could not search for that track. Try again shortly.")] });
+      if (ctx.isSlash) {
+        await ctx.interaction!.editReply({ embeds: [errorEmbed("❌ Music service unavailable — could not search for that track. Try again shortly.")] });
+      } else {
+        await ctx.message!.edit({ embeds: [errorEmbed("❌ Music service unavailable — could not search for that track. Try again shortly.")] });
+      }
       return;
     }
 
     if (!result || result.loadType === "empty" || result.loadType === "error") {
-      await ctx.reply({ embeds: [errorEmbed("No results found for your query.")] });
+      if (ctx.isSlash) {
+        await ctx.interaction!.editReply({ embeds: [errorEmbed("No results found for your query.")] });
+      } else {
+        await ctx.message!.edit({ embeds: [errorEmbed("No results found for your query.")] });
+      }
       return;
     }
 
     if (result.loadType === "playlist") {
-      for (const track of result.tracks) player.queue.add(track);
-      await ctx.reply({
-        embeds: [
-          baseEmbed("primary")
-            .setTitle("📋 Playlist Added")
-            .setDescription(`Added **${result.tracks.length}** tracks from **${result.playlist?.name ?? "playlist"}** to the queue.`),
-        ],
-      });
-    } else {
-      const track = result.tracks[0];
-      player.queue.add(track);
-      if (!player.playing) {
-        await ctx.reply({
-          embeds: [
-            baseEmbed("primary")
-              .setTitle("▶️ Now Playing")
-              .setDescription(`[${track.info.title}](${track.info.uri})`)
-              .addFields(
-                { name: "Author",       value: track.info.author ?? "Unknown",                                                inline: true },
-                { name: "Duration",     value: track.info.isStream ? "🔴 Live" : formatDuration(track.info.duration ?? 0), inline: true },
-                { name: "Requested by", value: `<@${ctx.userId}>`,                                                            inline: true },
-              )
-              .setThumbnail(track.info.artworkUrl ?? null),
-          ],
+      // Send loading embed
+      if (ctx.isSlash) {
+        await ctx.interaction!.editReply({ embeds: [createPlaylistLoadingEmbed(result.playlist?.name ?? "Playlist", result.playlist?.artworkUrl ?? "", 0, result.tracks.length)] });
+      } else {
+        await ctx.message!.edit({ embeds: [createPlaylistLoadingEmbed(result.playlist?.name ?? "Playlist", result.playlist?.artworkUrl ?? "", 0, result.tracks.length)] });
+      }
+      
+      for (const track of result.tracks) {
+        track.requester = ctx.userId;
+        player.queue.add(track);
+      }
+      
+      const totalDuration = result.tracks.reduce((acc: number, t: any) => acc + (t.info.duration || 0), 0);
+      if (ctx.isSlash) {
+        await ctx.interaction!.editReply({
+          embeds: [createPlaylistLoadedEmbed(result.playlist?.name ?? "Playlist", result.playlist?.artworkUrl ?? "", result.tracks.length, totalDuration)],
         });
       } else {
-        const pos = player.queue.tracks.length;
-        await ctx.reply({
-          embeds: [
-            baseEmbed("primary")
-              .setTitle("➕ Added to Queue")
-              .setDescription(`[${track.info.title}](${track.info.uri})`)
-              .addFields({ name: "Position", value: `#${pos}`, inline: true })
-              .setThumbnail(track.info.artworkUrl ?? null),
-          ],
+        await ctx.message!.edit({
+          embeds: [createPlaylistLoadedEmbed(result.playlist?.name ?? "Playlist", result.playlist?.artworkUrl ?? "", result.tracks.length, totalDuration)],
         });
       }
-    }
 
-    if (!player.playing) await player.play().catch(() => {});
+      if (!player.playing) await player.play().catch(() => {});
+    } else {
+      const track = result.tracks[0];
+      track.requester = ctx.userId;
+      player.queue.add(track);
+      
+      if (!player.playing) {
+        await player.play().catch(() => {});
+        // Controller will be updated by trackStart event
+        if (ctx.isSlash) {
+          await ctx.interaction!.editReply({ embeds: [errorEmbed(`▶️ Now Playing\n**${track.info.title}**\nRequested by <@${ctx.userId}>`).setThumbnail(track.info.artworkUrl ?? null)] });
+        } else {
+          await ctx.message!.edit({ embeds: [errorEmbed(`▶️ Now Playing\n**${track.info.title}**\nRequested by <@${ctx.userId}>`).setThumbnail(track.info.artworkUrl ?? null)] });
+        }
+      } else {
+        const pos = player.queue.tracks.length;
+        if (ctx.isSlash) {
+          await ctx.interaction!.editReply({
+            embeds: [
+              errorEmbed(`➕ Added to queue at position #${pos}\n**${track.info.title}**\nRequested by <@${ctx.userId}>`)
+                .setThumbnail(track.info.artworkUrl ?? null),
+            ],
+          });
+        } else {
+          await ctx.message!.edit({
+            embeds: [
+              errorEmbed(`➕ Added to queue at position #${pos}\n**${track.info.title}**\nRequested by <@${ctx.userId}>`)
+                .setThumbnail(track.info.artworkUrl ?? null),
+            ],
+          });
+        }
+      }
+    }
   },
 };
 

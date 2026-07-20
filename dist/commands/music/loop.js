@@ -1,4 +1,6 @@
-import { successEmbed, errorEmbed } from "../../utils/embeds.js";
+import { errorEmbed } from "../../utils/embeds.js";
+import { validateMusicOperation } from "../../utils/music.js";
+import { MusicControllerManager } from "../../features/music/controller/musicController.js";
 const LOOP_MODES = ["off", "track", "queue"];
 const command = {
     name: "loop",
@@ -11,6 +13,11 @@ const command = {
     slashData: (b) => b.addStringOption((o) => o.setName("mode").setDescription("Loop mode").setRequired(false)
         .addChoices({ name: "Off", value: "off" }, { name: "Track (repeat current song)", value: "track" }, { name: "Queue (repeat whole queue)", value: "queue" })),
     async execute(ctx) {
+        const validationError = validateMusicOperation(ctx.client);
+        if (validationError) {
+            await ctx.reply({ embeds: [errorEmbed(validationError)] });
+            return;
+        }
         const guild = ctx.interaction?.guild ?? ctx.message?.guild;
         if (!guild)
             return;
@@ -41,12 +48,14 @@ const command = {
         else if (player.repeatMode !== undefined) {
             player.repeatMode = next;
         }
+        // Update controller state
+        MusicControllerManager.updateState(guild.id, ctx.interaction?.channelId ?? ctx.message?.channelId ?? "", { loopMode: next });
         const labels = {
             off: "🔁 Loop **OFF**",
             track: "🔂 Loop **TRACK** — paulit-ulit ang current track",
             queue: "🔁 Loop **QUEUE** — paulit-ulit ang full queue",
         };
-        await ctx.reply({ embeds: [successEmbed(labels[next])] });
+        await ctx.reply({ embeds: [errorEmbed(labels[next])] });
     },
 };
 export default command;

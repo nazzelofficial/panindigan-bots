@@ -1,4 +1,5 @@
-import { successEmbed, errorEmbed, baseEmbed } from "../../utils/embeds.js";
+import { errorEmbed } from "../../utils/embeds.js";
+import { validateMusicOperation } from "../../utils/music.js";
 const command = {
     name: "volume",
     description: "I-adjust ang volume ng music player (0-200)",
@@ -9,6 +10,11 @@ const command = {
     aliases: ["vol"],
     slashData: (b) => b.addIntegerOption((o) => o.setName("level").setDescription("Volume level (0–200). Leave blank to view current volume.").setRequired(false).setMinValue(0).setMaxValue(200)),
     async execute(ctx) {
+        const validationError = validateMusicOperation(ctx.client);
+        if (validationError) {
+            await ctx.reply({ embeds: [errorEmbed(validationError)] });
+            return;
+        }
         const guild = ctx.interaction?.guild ?? ctx.message?.guild;
         if (!guild)
             return;
@@ -30,9 +36,7 @@ const command = {
             const bar = buildVolumeBar(current);
             await ctx.reply({
                 embeds: [
-                    baseEmbed("primary")
-                        .setTitle("🔊 Current Volume")
-                        .setDescription(`${bar}\n**${current}%**`),
+                    errorEmbed(`🔊 Current Volume\n${bar}\n**${current}%**`),
                 ],
             });
             return;
@@ -47,7 +51,7 @@ const command = {
         const emoji = level === 0 ? "🔇" : level < 50 ? "🔈" : level < 100 ? "🔉" : "🔊";
         await ctx.reply({
             embeds: [
-                successEmbed(`${emoji} Volume set to **${level}%**\n${bar}`),
+                errorEmbed(`${emoji} Volume set to **${level}%**\n${bar}`),
             ],
         });
     },

@@ -1,4 +1,4 @@
-import { successEmbed, errorEmbed } from "../../utils/embeds.js";
+import { errorEmbed } from "../../utils/embeds.js";
 import { validateMusicOperation } from "../../utils/music.js";
 const command = {
     name: "musicunmute",
@@ -26,7 +26,7 @@ const command = {
         const restore = player.get?.("premuteVolume") ?? 80;
         await player.setVolume?.(restore);
         player.set?.("premuteVolume", null);
-        await ctx.reply({ embeds: [successEmbed(`🔊 Music unmuted. Volume restored to **${restore}%**.`)] });
+        await ctx.reply({ embeds: [errorEmbed(`🔊 Music unmuted. Volume restored to **${restore}%**.`)] });
     },
 };
 export default command;

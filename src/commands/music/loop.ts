@@ -1,7 +1,8 @@
 import { SlashCommandBuilder } from "discord.js";
 import type { CommandDefinition } from "../../structures/types.js";
-import { successEmbed, errorEmbed } from "../../utils/embeds.js";
+import { errorEmbed } from "../../utils/embeds.js";
 import { validateMusicOperation } from "../../utils/music.js";
+import { MusicControllerManager } from "../../features/music/controller/musicController.js";
 
 const LOOP_MODES = ["off", "track", "queue"] as const;
 type LoopMode = typeof LOOP_MODES[number];
@@ -24,6 +25,11 @@ const command: CommandDefinition = {
         ),
     ),
   async execute(ctx) {
+    const validationError = validateMusicOperation(ctx.client);
+    if (validationError) {
+      await ctx.reply({ embeds: [errorEmbed(validationError)] });
+      return;
+    }
     const guild = ctx.interaction?.guild ?? ctx.message?.guild;
     if (!guild) return;
 
@@ -52,13 +58,16 @@ const command: CommandDefinition = {
       player.repeatMode = next;
     }
 
+    // Update controller state
+    MusicControllerManager.updateState(guild.id, ctx.interaction?.channelId ?? ctx.message?.channelId ?? "", { loopMode: next });
+
     const labels: Record<LoopMode, string> = {
       off: "🔁 Loop **OFF**",
       track: "🔂 Loop **TRACK** — paulit-ulit ang current track",
       queue: "🔁 Loop **QUEUE** — paulit-ulit ang full queue",
     };
 
-    await ctx.reply({ embeds: [successEmbed(labels[next])] });
+    await ctx.reply({ embeds: [errorEmbed(labels[next])] });
   },
 };
 

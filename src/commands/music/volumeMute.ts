@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from "discord.js";
 import type { CommandDefinition } from "../../structures/types.js";
-import { successEmbed, errorEmbed } from "../../utils/embeds.js";
+import { errorEmbed } from "../../utils/embeds.js";
 import { validateMusicOperation } from "../../utils/music.js";
 
 const command: CommandDefinition = {
@@ -25,7 +25,7 @@ const command: CommandDefinition = {
     const prev = player.volume ?? 80;
     player.set?.("premuteVolume", prev);
     await player.setVolume?.(0);
-    await ctx.reply({ embeds: [successEmbed("🔇 Music muted. Use `/unmute` to restore volume.")] });
+    await ctx.reply({ embeds: [errorEmbed("🔇 Music muted. Use `/unmute` to restore volume.")] });
   },
 };
 export default command;

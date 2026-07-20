@@ -10,6 +10,7 @@ import {
   isNodeHealthy,
 } from "../../utils/music.js";
 import { startHealthMonitor, stopHealthMonitor } from "./healthMonitor.js";
+import { MusicControllerManager } from "./controller/musicController.js";
 
 const log = scopedLogger("music");
 
@@ -379,6 +380,12 @@ export async function initLavalink(client: PanindiganClient): Promise<void> {
         log.info(`Bot left voice channel in guild ${guildId}`);
         if (player) {
           try {
+            if (player.voiceChannelId) {
+              const textChannel = client.channels.cache.get(player.voiceChannelId) as any;
+              if (textChannel) {
+                await MusicControllerManager.sendDisconnected(guildId, textChannel);
+              }
+            }
             await player.destroy();
             log.info(`Destroyed player for guild ${guildId} after bot left voice`);
           } catch (error) {
@@ -394,6 +401,12 @@ export async function initLavalink(client: PanindiganClient): Promise<void> {
         if (!botInChannel) {
           log.info(`Bot was kicked from voice channel in guild ${guildId}`);
           try {
+            if (player.voiceChannelId) {
+              const textChannel = client.channels.cache.get(player.voiceChannelId) as any;
+              if (textChannel) {
+                await MusicControllerManager.sendDisconnected(guildId, textChannel);
+              }
+            }
             await player.destroy();
             log.info(`Destroyed player for guild ${guildId} after bot was kicked`);
           } catch (error) {
@@ -409,12 +422,56 @@ export async function initLavalink(client: PanindiganClient): Promise<void> {
       if (player) {
         log.info(`Bot removed from guild ${guild.id}, cleaning up player`);
         try {
+          MusicControllerManager.removeController(guild.id);
           await player.destroy();
           log.info(`Destroyed player for guild ${guild.id} after guild delete`);
         } catch (error) {
           log.error(`Failed to destroy player for guild ${guild.id}`, { error: String(error) });
         }
       }
+    });
+
+    // Player event handlers for controller integration
+    lavalink.on("playerCreate", (player) => {
+      log.info(`Player created for guild ${player.guildId}`);
+    });
+
+    lavalink.on("playerDestroy", (player) => {
+      log.info(`Player destroyed for guild ${player.guildId}`);
+      MusicControllerManager.removeController(player.guildId);
+    });
+
+    lavalink.on("trackStart", async (player, track) => {
+      if (!track) return;
+      log.info(`Track started in guild ${player.guildId}: ${track.info.title}`);
+      const guild = client.guilds.cache.get(player.guildId);
+      const textChannel = guild?.channels.cache.find(c => c.isTextBased() && c.type === 0) as any;
+      await MusicControllerManager.sendTrackStarted(player.queue, track, textChannel);
+      await MusicControllerManager.updateController(player.queue, track, 0, "playing", player, textChannel);
+    });
+
+    lavalink.on("trackEnd", async (player, track) => {
+      if (!track) return;
+      log.info(`Track ended in guild ${player.guildId}: ${track.info.title}`);
+      const guild = client.guilds.cache.get(player.guildId);
+      const textChannel = guild?.channels.cache.find(c => c.isTextBased() && c.type === 0) as any;
+      await MusicControllerManager.sendTrackFinished(player.queue, track, textChannel);
+    });
+
+    lavalink.on("queueEnd", async (player) => {
+      log.info(`Queue ended in guild ${player.guildId}`);
+      const guild = client.guilds.cache.get(player.guildId);
+      const textChannel = guild?.channels.cache.find(c => c.isTextBased() && c.type === 0) as any;
+      await MusicControllerManager.sendQueueFinished(player.guildId, textChannel);
+    });
+
+    lavalink.on("playerMove", async (player, oldChannel, newChannel) => {
+      log.info(`Player moved in guild ${player.guildId}: ${oldChannel} → ${newChannel}`);
+      MusicControllerManager.removeController(player.guildId);
+    });
+
+    lavalink.on("playerUpdate", (player) => {
+      // Progress updates are handled by the controller's timer
     });
 
     // Guild isolation: Each player is automatically scoped to its guild by lavalink-client
@@ -440,6 +497,9 @@ export async function initLavalink(client: PanindiganClient): Promise<void> {
 
     // Store Lavalink instance on client
     client.lavalink = lavalink;
+
+    // Initialize music controller manager
+    MusicControllerManager.initialize(client);
 
     // Start health monitoring service
     startHealthMonitor(client);

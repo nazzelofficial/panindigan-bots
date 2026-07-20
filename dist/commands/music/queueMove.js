@@ -1,4 +1,4 @@
-import { successEmbed, errorEmbed } from "../../utils/embeds.js";
+import { errorEmbed } from "../../utils/embeds.js";
 import { validateMusicOperation } from "../../utils/music.js";
 const command = {
     name: "queuemove",
@@ -35,7 +35,7 @@ const command = {
         const [moved] = tracks.splice(from - 1, 1);
         tracks.splice(to - 1, 0, moved);
         const title = moved?.info?.title ?? moved?.title ?? `Track #${from}`;
-        await ctx.reply({ embeds: [successEmbed(`✅ Moved **${title}** from position **#${from}** to **#${to}**.`)] });
+        await ctx.reply({ embeds: [errorEmbed(`✅ Moved **${title}** from position **#${from}** to **#${to}**.`)] });
     },
 };
 export default command;

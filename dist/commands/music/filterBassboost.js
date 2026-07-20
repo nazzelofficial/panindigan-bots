@@ -1,4 +1,4 @@
-import { successEmbed, errorEmbed } from "../../utils/embeds.js";
+import { errorEmbed } from "../../utils/embeds.js";
 import { validateMusicOperation } from "../../utils/music.js";
 const command = {
     name: "bassboost",
@@ -32,12 +32,12 @@ const command = {
                 ],
             });
             player.set?.("filter_bassboost", true);
-            await ctx.reply({ embeds: [successEmbed("🔊 Bass boost filter **enabled**.")] });
+            await ctx.reply({ embeds: [errorEmbed("🔊 Bass boost filter **enabled**.")] });
         }
         else {
             await player.setFilters?.({});
             player.set?.("filter_bassboost", false);
-            await ctx.reply({ embeds: [successEmbed("🔊 Bass boost filter **disabled**.")] });
+            await ctx.reply({ embeds: [errorEmbed("🔊 Bass boost filter **disabled**.")] });
         }
     },
 };

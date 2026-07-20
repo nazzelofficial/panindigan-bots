@@ -1,4 +1,4 @@
-import { successEmbed, errorEmbed } from "../../utils/embeds.js";
+import { errorEmbed } from "../../utils/embeds.js";
 import { validateMusicOperation } from "../../utils/music.js";
 const command = {
     name: "volumeup",
@@ -26,7 +26,7 @@ const command = {
         const current = player.volume ?? 80;
         const next = Math.min(200, current + 10);
         await player.setVolume?.(next);
-        await ctx.reply({ embeds: [successEmbed(`🔊 Volume increased: **${current}%** → **${next}%**`)] });
+        await ctx.reply({ embeds: [errorEmbed(`🔊 Volume increased: **${current}%** → **${next}%**`)] });
     },
 };
 export default command;

@@ -1,4 +1,5 @@
-import { baseEmbed, errorEmbed, infoEmbed } from "../../utils/embeds.js";
+import { errorEmbed } from "../../utils/embeds.js";
+import { createLyricsEmbed, createLyricsNavigationButtons } from "../../features/music/embeds/musicEmbeds.js";
 const command = {
     name: "lyrics",
     description: "Find lyrics ng current track o ng ibang track",
@@ -22,7 +23,7 @@ const command = {
             null;
         const query = songQuery ?? currentTitle;
         if (!query) {
-            await ctx.reply({ embeds: [infoEmbed("No track is playing and no song name was provided. Use `/lyrics [song]`.")] });
+            await ctx.reply({ embeds: [errorEmbed("No track is playing and no song name was provided. Use `/lyrics [song]`.")] });
             return;
         }
         if (ctx.isSlash)
@@ -48,19 +49,16 @@ const command = {
             const lyricsData = (await lyricsRes.json());
             if (lyricsData.error || !lyricsData.lyrics) {
                 await ctx.reply({
-                    embeds: [infoEmbed(`Nahanap ang track **${match.title}** ng **${match.artist.name}** pero walang available na lyrics.\n\nMaaaring copyright-protected ang track.`)],
+                    embeds: [errorEmbed(`Nahanap ang track **${match.title}** ng **${match.artist.name}** pero walang available na lyrics.\n\nMaaaring copyright-protected ang track.`)],
                 });
                 return;
             }
             const lyrics = lyricsData.lyrics.trim();
             const MAX_LEN = 3900;
             const truncated = lyrics.length > MAX_LEN ? lyrics.slice(0, MAX_LEN) + "\n\n*... (truncated)*" : lyrics;
-            const embed = baseEmbed("primary")
-                .setTitle(`🎵 ${match.title}`)
-                .setDescription(truncated)
-                .setAuthor({ name: match.artist.name })
-                .setFooter({ text: "Source: lyrics.ovh" });
-            await ctx.reply({ embeds: [embed] });
+            const embed = createLyricsEmbed(match.title, match.artist.name, truncated, 1);
+            const buttons = createLyricsNavigationButtons(1, 1);
+            await ctx.reply({ embeds: [embed], components: buttons ? [buttons] : [] });
         }
         catch (err) {
             await ctx.reply({

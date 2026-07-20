@@ -1,4 +1,4 @@
-import { successEmbed, errorEmbed, infoEmbed } from "../../utils/embeds.js";
+import { errorEmbed } from "../../utils/embeds.js";
 import { validateMusicOperation } from "../../utils/music.js";
 const command = {
     name: "skip",
@@ -20,7 +20,7 @@ const command = {
             return;
         const player = ctx.client.lavalink.players?.get(guild.id);
         if (!player?.queue?.current) {
-            await ctx.reply({ embeds: [infoEmbed("Nothing is currently playing.")] });
+            await ctx.reply({ embeds: [errorEmbed("Nothing is currently playing.")] });
             return;
         }
         const count = ctx.isSlash ? (ctx.interaction.options.getInteger("count") ?? 1) : (parseInt(ctx.args[0] ?? "1") || 1);
@@ -28,7 +28,8 @@ const command = {
         for (let i = 0; i < count; i++) {
             await player.skip?.();
         }
-        await ctx.reply({ embeds: [successEmbed(`⏭️ Skipped **${count}** track${count !== 1 ? "s" : ""}. Was playing: **${current.title}**`)] });
+        // Update controller state (controller will be updated by trackStart event)
+        await ctx.reply({ embeds: [errorEmbed(`⏭️ Skipped **${count}** track${count !== 1 ? "s" : ""}. Was playing: **${current.info.title}**`)] });
     },
 };
 export default command;

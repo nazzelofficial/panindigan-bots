@@ -1,7 +1,8 @@
 import { SlashCommandBuilder } from "discord.js";
 import type { CommandDefinition } from "../../structures/types.js";
-import { successEmbed, errorEmbed } from "../../utils/embeds.js";
+import { errorEmbed } from "../../utils/embeds.js";
 import { validateMusicOperation } from "../../utils/music.js";
+import { MusicControllerManager } from "../../features/music/controller/musicController.js";
 
 const command: CommandDefinition = {
   name: "previous",
@@ -33,7 +34,7 @@ const command: CommandDefinition = {
       await player.seek?.(0);
     }
     const title = prev.info?.title ?? prev.title ?? "previous track";
-    await ctx.reply({ embeds: [successEmbed(`⏮️ Playing previous track: **${title}**`)] });
+    await ctx.reply({ embeds: [errorEmbed(`⏮️ Playing previous track: **${title}**`)] });
   },
 };
 export default command;

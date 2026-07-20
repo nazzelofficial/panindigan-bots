@@ -1,7 +1,8 @@
 import { SlashCommandBuilder } from "discord.js";
 import type { CommandDefinition } from "../../structures/types.js";
-import { successEmbed, errorEmbed, baseEmbed } from "../../utils/embeds.js";
+import { errorEmbed } from "../../utils/embeds.js";
 import { validateMusicOperation } from "../../utils/music.js";
+import { createFilterUIEmbed, createFilterSelectMenu } from "../../features/music/embeds/musicEmbeds.js";
 
 const FILTERS: Record<string, { label: string; desc: string; preset: object }> = {
   none: { label: "No Filter", desc: "Default — walang filter", preset: {} },
@@ -79,6 +80,11 @@ const command: CommandDefinition = {
       .addSubcommand((s) => s.setName("list").setDescription("View all available na filters"))
       .addSubcommand((s) => s.setName("clear").setDescription("Remove lahat ng aktibong filters")),
   async execute(ctx) {
+    const validationError = validateMusicOperation(ctx.client);
+    if (validationError) {
+      await ctx.reply({ embeds: [errorEmbed(validationError)] });
+      return;
+    }
     const guild = ctx.interaction?.guild ?? ctx.message?.guild;
     if (!guild) return;
 
@@ -88,14 +94,10 @@ const command: CommandDefinition = {
     const sub = ctx.isSlash ? ctx.interaction!.options.getSubcommand(true) : (ctx.args[0] ?? "list").toLowerCase();
 
     if (sub === "list") {
-      const embed = baseEmbed("primary")
-        .setTitle("🎛️ Audio Filters")
-        .setDescription(
-          Object.entries(FILTERS)
-            .map(([k, v]) => `**\`${k}\`** — ${v.label}\n*${v.desc}*`)
-            .join("\n\n"),
-        );
-      await ctx.reply({ embeds: [embed] });
+      const activeFilters: string[] = [];
+      const embed = createFilterUIEmbed(activeFilters);
+      const selectMenu = createFilterSelectMenu();
+      await ctx.reply({ embeds: [embed], components: selectMenu ? [selectMenu] : [] });
       return;
     }
 
@@ -104,7 +106,7 @@ const command: CommandDefinition = {
 
     if (sub === "clear") {
       if (typeof player.setFilters === "function") await player.setFilters({});
-      await ctx.reply({ embeds: [successEmbed("🎛️ All audio filters have been cleared.")] });
+      await ctx.reply({ embeds: [errorEmbed("🎛️ All audio filters have been cleared.")] });
       return;
     }
 
@@ -117,7 +119,7 @@ const command: CommandDefinition = {
     const { label, preset } = FILTERS[filterKey];
     if (typeof player.setFilters === "function") await player.setFilters(preset);
 
-    await ctx.reply({ embeds: [successEmbed(`🎛️ Filter applied: **${label}**`)] });
+    await ctx.reply({ embeds: [errorEmbed(`🎛️ Filter applied: **${label}**`)] });
   },
 };
 

@@ -1,4 +1,4 @@
-import { successEmbed, errorEmbed } from "../../utils/embeds.js";
+import { errorEmbed } from "../../utils/embeds.js";
 import { validateMusicOperation } from "../../utils/music.js";
 const command = {
     name: "autoplay",
@@ -26,7 +26,7 @@ const command = {
         const current = player.get?.("autoplay") ?? false;
         const next = !current;
         player.set?.("autoplay", next);
-        await ctx.reply({ embeds: [successEmbed(`🎵 Autoplay **${next ? "enabled" : "disabled"}**.`)] });
+        await ctx.reply({ embeds: [errorEmbed(`🎵 Autoplay **${next ? "enabled" : "disabled"}**.`)] });
     },
 };
 export default command;

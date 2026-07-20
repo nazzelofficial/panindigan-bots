@@ -4,6 +4,7 @@ import { setClientInstance } from "./structures/clientRegistry.js";
 import { connectDatabase } from "./database/connection.js";
 import { loadCommands } from "./handlers/commandHandler.js";
 import { loadEvents } from "./handlers/eventHandler.js";
+import { registerMusicComponentHandlers } from "./handlers/musicComponentHandler.js";
 import { validateEnv, requireEnv } from "./config/config.js";
 import { scopedLogger, printBanner } from "./utils/logger.js";
 import { initLavalink } from "./features/music/musicManager.js";
@@ -16,7 +17,7 @@ import { startBirthdayScheduler } from "./features/scheduler/birthdayScheduler.j
 import { Monitor } from "./structures/Monitor.js";
 import type { StartupPhaseResult } from "./structures/types.js";
 
-const VERSION = "0.2.0";
+const VERSION = "0.2.1";
 const log = scopedLogger("bootstrap");
 
 /** Run a named startup phase, record its duration, and surface errors cleanly. */
@@ -71,6 +72,9 @@ async function main(): Promise<void> {
     phase("Load commands", () => loadCommands(client)),
     phase("Load events",   () => loadEvents(client)),
   ]);
+
+  // Register music component handlers
+  registerMusicComponentHandlers(client);
 
   // ── 5. Optional services ──────────────────────────────────────────────────
   await phase("Init Lavalink",      async () => initLavalink(client));

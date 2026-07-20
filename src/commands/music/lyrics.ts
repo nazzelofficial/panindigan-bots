@@ -1,7 +1,8 @@
 import { SlashCommandBuilder } from "discord.js";
 import type { CommandDefinition } from "../../structures/types.js";
-import { baseEmbed, errorEmbed, infoEmbed } from "../../utils/embeds.js";
+import { errorEmbed } from "../../utils/embeds.js";
 import { validateMusicOperation } from "../../utils/music.js";
+import { createLyricsEmbed, createLyricsNavigationButtons } from "../../features/music/embeds/musicEmbeds.js";
 
 const command: CommandDefinition = {
   name: "lyrics",
@@ -33,7 +34,7 @@ const command: CommandDefinition = {
 
     const query = songQuery ?? currentTitle;
     if (!query) {
-      await ctx.reply({ embeds: [infoEmbed("No track is playing and no song name was provided. Use `/lyrics [song]`.")] });
+      await ctx.reply({ embeds: [errorEmbed("No track is playing and no song name was provided. Use `/lyrics [song]`.")] });
       return;
     }
 
@@ -67,7 +68,7 @@ const command: CommandDefinition = {
 
       if (lyricsData.error || !lyricsData.lyrics) {
         await ctx.reply({
-          embeds: [infoEmbed(`Nahanap ang track **${match.title}** ng **${match.artist.name}** pero walang available na lyrics.\n\nMaaaring copyright-protected ang track.`)],
+          embeds: [errorEmbed(`Nahanap ang track **${match.title}** ng **${match.artist.name}** pero walang available na lyrics.\n\nMaaaring copyright-protected ang track.`)],
         });
         return;
       }
@@ -76,13 +77,10 @@ const command: CommandDefinition = {
       const MAX_LEN = 3900;
       const truncated = lyrics.length > MAX_LEN ? lyrics.slice(0, MAX_LEN) + "\n\n*... (truncated)*" : lyrics;
 
-      const embed = baseEmbed("primary")
-        .setTitle(`🎵 ${match.title}`)
-        .setDescription(truncated)
-        .setAuthor({ name: match.artist.name })
-        .setFooter({ text: "Source: lyrics.ovh" });
+      const embed = createLyricsEmbed(match.title, match.artist.name, truncated, 1);
+      const buttons = createLyricsNavigationButtons(1, 1);
 
-      await ctx.reply({ embeds: [embed] });
+      await ctx.reply({ embeds: [embed], components: buttons ? [buttons] : [] });
     } catch (err) {
       await ctx.reply({
         embeds: [errorEmbed(`Hindi mahanap ang lyrics para sa: **${query}**\n\nSubukan ulit mamaya o magbigay ng mas tiyak na titulo.`)],

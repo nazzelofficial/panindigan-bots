@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from "discord.js";
 import type { CommandDefinition } from "../../structures/types.js";
-import { successEmbed, errorEmbed } from "../../utils/embeds.js";
+import { errorEmbed } from "../../utils/embeds.js";
 import { validateMusicOperation } from "../../utils/music.js";
 
 const command: CommandDefinition = {
@@ -25,7 +25,7 @@ const command: CommandDefinition = {
     const current = player.get?.("autoplay") ?? false;
     const next = !current;
     player.set?.("autoplay", next);
-    await ctx.reply({ embeds: [successEmbed(`🎵 Autoplay **${next ? "enabled" : "disabled"}**.`)] });
+    await ctx.reply({ embeds: [errorEmbed(`🎵 Autoplay **${next ? "enabled" : "disabled"}**.`)] });
   },
 };
 export default command;

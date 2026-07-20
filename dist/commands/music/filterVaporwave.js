@@ -1,4 +1,4 @@
-import { successEmbed, errorEmbed } from "../../utils/embeds.js";
+import { errorEmbed } from "../../utils/embeds.js";
 import { validateMusicOperation } from "../../utils/music.js";
 const command = {
     name: "vaporwave",
@@ -27,12 +27,12 @@ const command = {
         if (!enabled) {
             await player.setFilters?.({ timescale: { speed: 0.8, pitch: 0.85, rate: 1.0 } });
             player.set?.("filter_vaporwave", true);
-            await ctx.reply({ embeds: [successEmbed("🌊 Vaporwave filter **enabled**.")] });
+            await ctx.reply({ embeds: [errorEmbed("🌊 Vaporwave filter **enabled**.")] });
         }
         else {
             await player.setFilters?.({});
             player.set?.("filter_vaporwave", false);
-            await ctx.reply({ embeds: [successEmbed("🌊 Vaporwave filter **disabled**.")] });
+            await ctx.reply({ embeds: [errorEmbed("🌊 Vaporwave filter **disabled**.")] });
         }
     },
 };

@@ -1,4 +1,4 @@
-import { successEmbed, errorEmbed } from "../../utils/embeds.js";
+import { errorEmbed } from "../../utils/embeds.js";
 import { validateMusicOperation } from "../../utils/music.js";
 const command = {
     name: "previous",
@@ -38,7 +38,7 @@ const command = {
             await player.seek?.(0);
         }
         const title = prev.info?.title ?? prev.title ?? "previous track";
-        await ctx.reply({ embeds: [successEmbed(`⏮️ Playing previous track: **${title}**`)] });
+        await ctx.reply({ embeds: [errorEmbed(`⏮️ Playing previous track: **${title}**`)] });
     },
 };
 export default command;

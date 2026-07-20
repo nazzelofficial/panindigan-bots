@@ -1,4 +1,4 @@
-import { successEmbed, errorEmbed } from "../../utils/embeds.js";
+import { errorEmbed } from "../../utils/embeds.js";
 import { validateMusicOperation } from "../../utils/music.js";
 const command = {
     name: "clear",
@@ -32,7 +32,7 @@ const command = {
             player.queue.splice(0, queueSize);
         else if (typeof player.queue?.tracks?.splice === "function")
             player.queue.tracks.splice(0, queueSize);
-        await ctx.reply({ embeds: [successEmbed(`🗑️ Cleared **${queueSize}** track${queueSize !== 1 ? "s" : ""} from the queue.`)] });
+        await ctx.reply({ embeds: [errorEmbed(`🗑️ Cleared **${queueSize}** track${queueSize !== 1 ? "s" : ""} from the queue.`)] });
     },
 };
 export default command;

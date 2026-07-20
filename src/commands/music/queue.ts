@@ -1,7 +1,8 @@
 import { SlashCommandBuilder } from "discord.js";
 import type { CommandDefinition } from "../../structures/types.js";
-import { baseEmbed, errorEmbed, infoEmbed } from "../../utils/embeds.js";
+import { errorEmbed } from "../../utils/embeds.js";
 import { validateMusicOperation } from "../../utils/music.js";
+import { createQueueEmbed, createQueueNavigationButtons } from "../../features/music/embeds/musicEmbeds.js";
 
 const command: CommandDefinition = {
   name: "queue",
@@ -25,41 +26,18 @@ const command: CommandDefinition = {
 
     const player = (ctx.client.lavalink as any).players?.get(guild.id);
     if (!player) {
-      await ctx.reply({ embeds: [infoEmbed("No active music player.")] });
+      await ctx.reply({ embeds: [errorEmbed("No active music player.")] });
       return;
     }
 
     const current = player.queue?.current;
     const tracks: any[] = player.queue?.tracks ?? [];
     const page = Math.max(1, ctx.isSlash ? (ctx.interaction!.options.getInteger("page") ?? 1) : (parseInt(ctx.args[0] ?? "1") || 1));
-    const perPage = 10;
-    const skip = (page - 1) * perPage;
-    const totalPages = Math.max(1, Math.ceil(tracks.length / perPage));
 
-    function formatMs(ms: number): string {
-      const s = Math.floor(ms / 1000);
-      const m = Math.floor(s / 60);
-      return `${m}:${(s % 60).toString().padStart(2, "0")}`;
-    }
+    const embed = createQueueEmbed(player.queue, page);
+    const buttons = createQueueNavigationButtons(page, Math.max(1, Math.ceil(tracks.length / 10)));
 
-    const embed = baseEmbed("primary")
-      .setTitle(`🎵 Music Queue — Page ${page}/${totalPages}`)
-      .addFields({ name: "🎶 Now Playing", value: current ? `**${current.title}** (${formatMs(current.duration ?? 0)})` : "Nothing", inline: false });
-
-    if (tracks.length === 0) {
-      embed.addFields({ name: "Queue", value: "The queue is empty.", inline: false });
-    } else {
-      const pageItems = tracks.slice(skip, skip + perPage);
-      embed.addFields({
-        name: `Queue (${tracks.length} track${tracks.length !== 1 ? "s" : ""})`,
-        value: pageItems.map((t, i) => `**${skip + i + 1}.** ${t.title} (${formatMs(t.duration ?? 0)})`).join("\n"),
-        inline: false,
-      });
-    }
-
-    const totalDuration = tracks.reduce((a, t) => a + (t.duration ?? 0), 0);
-    embed.setFooter({ text: `Total queue duration: ${formatMs(totalDuration)} · ${tracks.length} tracks` });
-    await ctx.reply({ embeds: [embed] });
+    await ctx.reply({ embeds: [embed], components: buttons ? [buttons] : [] });
   },
 };
 

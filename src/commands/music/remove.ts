@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from "discord.js";
 import type { CommandDefinition } from "../../structures/types.js";
-import { successEmbed, errorEmbed } from "../../utils/embeds.js";
+import { errorEmbed } from "../../utils/embeds.js";
 import { validateMusicOperation } from "../../utils/music.js";
 
 const command: CommandDefinition = {
@@ -33,7 +33,7 @@ const command: CommandDefinition = {
     }
     const removed = tracks.splice(pos - 1, 1)[0];
     const title = removed?.info?.title ?? removed?.title ?? `Track #${pos}`;
-    await ctx.reply({ embeds: [successEmbed(`🗑️ Removed **${title}** from position #${pos}.`)] });
+    await ctx.reply({ embeds: [errorEmbed(`🗑️ Removed **${title}** from position #${pos}.`)] });
   },
 };
 export default command;
