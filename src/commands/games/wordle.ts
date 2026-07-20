@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from "discord.js";
-import type { CommandDefinition } from "@/structures/types";
-import { baseEmbed, errorEmbed, infoEmbed } from "@/utils/embeds";
+import type { CommandDefinition } from "../../structures/types.js";
+import { baseEmbed, errorEmbed, infoEmbed } from "../../utils/embeds.js";
 
 // 50 common 5-letter words for the daily Wordle — seeded by day
 const WORDS = ["crane","slice","brave","ghost","plant","flame","stove","grind","think","blaze","clock","dream","fresh","heart","light","magic","night","ocean","peace","quiet","river","smile","storm","style","tiger","unity","value","water","young","zebra","apple","bread","cloud","dance","earth","fence","grace","happy","index","judge","knife","lemon","mouse","nails","olive","pixel","queen","saint","table","ultra"];

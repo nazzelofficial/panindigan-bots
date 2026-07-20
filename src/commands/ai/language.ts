@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from "discord.js";
-import type { CommandDefinition } from "@/structures/types";
-import { successEmbed, errorEmbed, baseEmbed } from "@/utils/embeds";
-import { GuildModel } from "@/database/models/Guild";
+import type { CommandDefinition } from "../../structures/types.js";
+import { successEmbed, errorEmbed, baseEmbed } from "../../utils/embeds.js";
+import { GuildModel } from "../../database/models/Guild.js";
 
 const SUPPORTED_LANGUAGES: Record<string, string> = {
   en: "English", fil: "Filipino/Tagalog", es: "Spanish", fr: "French",

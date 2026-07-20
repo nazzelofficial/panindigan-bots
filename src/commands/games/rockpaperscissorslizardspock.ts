@@ -1,5 +1,5 @@
 import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
-import type { CommandDefinition } from '@/structures/types';
+import type { CommandDefinition } from '../../structures/types.js';
 
 type Choice = 'rock' | 'paper' | 'scissors' | 'lizard' | 'spock';
 

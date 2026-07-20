@@ -1,8 +1,8 @@
 import { SlashCommandBuilder, PermissionFlagsBits } from "discord.js";
-import type { CommandDefinition } from "@/structures/types";
-import { BirthdayModel } from "@/database/models/Community";
-import { GuildModel } from "@/database/models/Guild";
-import { baseEmbed, successEmbed, errorEmbed, infoEmbed } from "@/utils/embeds";
+import type { CommandDefinition } from "../../structures/types.js";
+import { BirthdayModel } from "../../database/models/Community.js";
+import { GuildModel } from "../../database/models/Guild.js";
+import { baseEmbed, successEmbed, errorEmbed, infoEmbed } from "../../utils/embeds.js";
 
 const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 

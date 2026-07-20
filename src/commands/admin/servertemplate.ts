@@ -1,7 +1,7 @@
 import { PermissionFlagsBits, SlashCommandBuilder } from "discord.js";
-import type { CommandDefinition } from "@/structures/types";
-import { ServerTemplateModel } from "@/database/models/Community";
-import { baseEmbed, successEmbed, errorEmbed, infoEmbed } from "@/utils/embeds";
+import type { CommandDefinition } from "../../structures/types.js";
+import { ServerTemplateModel } from "../../database/models/Community.js";
+import { baseEmbed, successEmbed, errorEmbed, infoEmbed } from "../../utils/embeds.js";
 
 const command: CommandDefinition = {
   name: "servertemplate",

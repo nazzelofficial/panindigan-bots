@@ -1,6 +1,6 @@
 import { SlashCommandBuilder, EmbedBuilder } from "discord.js";
-import type { CommandDefinition } from "@/structures/types";
-import { GuildModel } from "@/database/models/Guild";
+import type { CommandDefinition } from "../../structures/types.js";
+import { GuildModel } from "../../database/models/Guild.js";
 
 export default {
   name: "aisettings",

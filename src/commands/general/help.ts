@@ -8,9 +8,9 @@ import {
   ComponentType,
   type MessageComponentInteraction,
 } from "discord.js";
-import type { CommandDefinition } from "@/structures/types";
-import { EmbedFactory } from "@/structures/EmbedFactory";
-import { topCommands } from "@/handlers/commandHandler";
+import type { CommandDefinition } from "../../structures/types.js";
+import { EmbedFactory } from "../../structures/EmbedFactory.js";
+import { topCommands } from "../../handlers/commandHandler.js";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Help System — v0.1.7

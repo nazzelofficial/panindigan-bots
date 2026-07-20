@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from "discord.js";
-import type { CommandDefinition } from "@/structures/types";
-import { BirthdayModel } from "@/database/models/Community";
-import { successEmbed, errorEmbed } from "@/utils/embeds";
+import type { CommandDefinition } from "../../structures/types.js";
+import { BirthdayModel } from "../../database/models/Community.js";
+import { successEmbed, errorEmbed } from "../../utils/embeds.js";
 
 const MONTHS = ["January","February","March","April","May","June","July","August","September","October","November","December"];
 

@@ -1,5 +1,5 @@
-import type { CommandDefinition } from "@/structures/types";
-import { baseEmbed, errorEmbed } from "@/utils/embeds";
+import type { CommandDefinition } from "../../structures/types.js";
+import { baseEmbed, errorEmbed } from "../../utils/embeds.js";
 import { exec } from "node:child_process";
 import { promisify } from "node:util";
 

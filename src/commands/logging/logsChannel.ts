@@ -1,7 +1,7 @@
 import { PermissionFlagsBits, SlashCommandBuilder } from "discord.js";
-import type { CommandDefinition } from "@/structures/types";
-import { GuildModel } from "@/database/models/Guild";
-import { successEmbed, errorEmbed } from "@/utils/embeds";
+import type { CommandDefinition } from "../../structures/types.js";
+import { GuildModel } from "../../database/models/Guild.js";
+import { successEmbed, errorEmbed } from "../../utils/embeds.js";
 
 const LOG_EVENTS = [
   "messageDelete", "messageUpdate", "memberJoin", "memberLeave", "memberUpdate",

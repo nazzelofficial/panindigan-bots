@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from "discord.js";
-import type { CommandDefinition } from "@/structures/types";
-import { baseEmbed, errorEmbed } from "@/utils/embeds";
+import type { CommandDefinition } from "../../structures/types.js";
+import { baseEmbed, errorEmbed } from "../../utils/embeds.js";
 
 function getCompatibility(id1: string, id2: string): number {
   // Deterministic from both IDs so it's consistent per pair

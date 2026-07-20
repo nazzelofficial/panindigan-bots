@@ -1,8 +1,8 @@
 import { SlashCommandBuilder } from "discord.js";
-import type { CommandDefinition } from "@/structures/types";
-import { UserModel } from "@/database/models/User";
-import { successEmbed, errorEmbed, baseEmbed, infoEmbed } from "@/utils/embeds";
-import { nanoid } from "@/utils/nanoid";
+import type { CommandDefinition } from "../../structures/types.js";
+import { UserModel } from "../../database/models/User.js";
+import { successEmbed, errorEmbed, baseEmbed, infoEmbed } from "../../utils/embeds.js";
+import { nanoid } from "../../utils/nanoid.js";
 
 function parseDuration(str: string): number | null {
   const match = str?.match(/^(\d+)(s|m|h|d|w)$/i);

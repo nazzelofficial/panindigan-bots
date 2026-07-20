@@ -1,6 +1,6 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction, EmbedBuilder } from 'discord.js';
-import { SupportStaffModel } from '../../database/models/System';
-import { clientRegistry } from '../../structures/clientRegistry';
+import { SupportStaffModel } from '../../database/models/System.js';
+import { clientRegistry } from '../../structures/clientRegistry.js';
 
 export default {
   data: new SlashCommandBuilder()

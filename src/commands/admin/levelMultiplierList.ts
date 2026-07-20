@@ -1,7 +1,7 @@
 import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
-import type { CommandDefinition } from '@/structures/types';
-import { GuildModel } from '@/database/models/Guild';
-import { baseEmbed } from '@/utils/embeds';
+import type { CommandDefinition } from '../../structures/types.js';
+import { GuildModel } from '../../database/models/Guild.js';
+import { baseEmbed } from '../../utils/embeds.js';
 
 const command: CommandDefinition = {
   name: 'level_multiplier_list',

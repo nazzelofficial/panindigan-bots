@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from "discord.js";
-import type { CommandDefinition } from "@/structures/types";
-import { TradeModel } from "@/database/models/Economy";
-import { successEmbed, errorEmbed } from "@/utils/embeds";
+import type { CommandDefinition } from "../../structures/types.js";
+import { TradeModel } from "../../database/models/Economy.js";
+import { successEmbed, errorEmbed } from "../../utils/embeds.js";
 
 const command: CommandDefinition = {
   name: "trade_decline",

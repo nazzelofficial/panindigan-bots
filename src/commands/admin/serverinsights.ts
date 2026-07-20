@@ -1,9 +1,9 @@
 import { PermissionFlagsBits } from "discord.js";
-import type { CommandDefinition } from "@/structures/types";
-import { ModCaseModel } from "@/database/models/Moderation";
-import { UserModel } from "@/database/models/User";
-import { GiveawayModel } from "@/database/models/Community";
-import { baseEmbed } from "@/utils/embeds";
+import type { CommandDefinition } from "../../structures/types.js";
+import { ModCaseModel } from "../../database/models/Moderation.js";
+import { UserModel } from "../../database/models/User.js";
+import { GiveawayModel } from "../../database/models/Community.js";
+import { baseEmbed } from "../../utils/embeds.js";
 
 const command: CommandDefinition = {
   name: "serverinsights",

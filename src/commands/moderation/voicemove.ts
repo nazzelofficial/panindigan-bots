@@ -1,7 +1,7 @@
 import { PermissionFlagsBits, SlashCommandBuilder, ChatInputCommandInteraction, ChannelType } from 'discord.js';
-import { CommandDefinition } from '../../structures/CommandDefinition';
-import { sendLogEvent } from '../../features/logging/logEngine';
-import { baseEmbed } from '../../utils/embeds';
+import { CommandDefinition } from '../../structures/CommandDefinition.js';
+import { sendLogEvent } from '../../features/logging/logEngine.js';
+import { baseEmbed } from '../../utils/embeds.js';
 
 export default {
   data: new SlashCommandBuilder()

@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from "discord.js";
-import type { CommandDefinition } from "@/structures/types";
-import { UserModel } from "@/database/models/User";
-import { successEmbed, errorEmbed, baseEmbed } from "@/utils/embeds";
+import type { CommandDefinition } from "../../structures/types.js";
+import { UserModel } from "../../database/models/User.js";
+import { successEmbed, errorEmbed, baseEmbed } from "../../utils/embeds.js";
 
 const COOLDOWN_MS = 30 * 24 * 60 * 60 * 1000; // 30 days
 const REWARD = 10_000;

@@ -1,8 +1,8 @@
 import type { Message } from "discord.js";
-import type { PanindiganClient } from "@/structures/Client";
-import { UserModel } from "@/database/models/User";
-import { GuildModel } from "@/database/models/Guild";
-import { baseEmbed } from "@/utils/embeds";
+import type { PanindiganClient } from "../../structures/Client.js";
+import { UserModel } from "../../database/models/User.js";
+import { GuildModel } from "../../database/models/Guild.js";
+import { baseEmbed } from "../../utils/embeds.js";
 
 export function xpForLevel(level: number): number {
   return 5 * level ** 2 + 50 * level + 100;

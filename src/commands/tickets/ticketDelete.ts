@@ -1,8 +1,8 @@
 import { PermissionFlagsBits, type TextChannel, EmbedBuilder } from "discord.js";
-import type { CommandDefinition } from "@/structures/types";
-import { successEmbed, errorEmbed, warnEmbed } from "@/utils/embeds";
-import { TicketModel } from "@/database/models/Tickets";
-import { sendLogEvent } from "@/features/logging/logEngine";
+import type { CommandDefinition } from "../../structures/types.js";
+import { successEmbed, errorEmbed, warnEmbed } from "../../utils/embeds.js";
+import { TicketModel } from "../../database/models/Tickets.js";
+import { sendLogEvent } from "../../features/logging/logEngine.js";
 
 const command: CommandDefinition = {
   name: "ticketdelete",

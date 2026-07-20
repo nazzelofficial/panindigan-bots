@@ -1,7 +1,7 @@
 import { PermissionFlagsBits, SlashCommandBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } from "discord.js";
-import type { CommandDefinition } from "@/structures/types";
-import { GiveawayModel } from "@/database/models/Community";
-import { baseEmbed, successEmbed, errorEmbed, infoEmbed } from "@/utils/embeds";
+import type { CommandDefinition } from "../../structures/types.js";
+import { GiveawayModel } from "../../database/models/Community.js";
+import { baseEmbed, successEmbed, errorEmbed, infoEmbed } from "../../utils/embeds.js";
 
 function parseDuration(str: string): number | null {
   const match = str?.match(/^(\d+)(s|m|h|d)$/i);

@@ -1,7 +1,7 @@
 import { PermissionFlagsBits, SlashCommandBuilder } from "discord.js";
-import type { CommandDefinition } from "@/structures/types";
-import { GiveawayModel } from "@/database/models/Community";
-import { successEmbed, errorEmbed } from "@/utils/embeds";
+import type { CommandDefinition } from "../../structures/types.js";
+import { GiveawayModel } from "../../database/models/Community.js";
+import { successEmbed, errorEmbed } from "../../utils/embeds.js";
 
 const command: CommandDefinition = {
   name: "giveawayresume",

@@ -1,9 +1,9 @@
 import express from "express";
-import type { PanindiganClient } from "@/structures/Client";
-import { ApiKeyModel } from "@/database/models/System";
-import { GuildModel } from "@/database/models/Guild";
-import { getGuildTier } from "@/utils/premium";
-import { scopedLogger } from "@/utils/logger";
+import type { PanindiganClient } from "../structures/Client.js";
+import { ApiKeyModel } from "../database/models/System.js";
+import { GuildModel } from "../database/models/Guild.js";
+import { getGuildTier } from "../utils/premium.js";
+import { scopedLogger } from "../utils/logger.js";
 
 const log = scopedLogger("api");
 

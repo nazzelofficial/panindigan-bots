@@ -1,0 +1,28 @@
+import { PermissionFlagsBits } from "discord.js";
+import { GuildModel } from "../../database/models/Guild.js";
+import { successEmbed, errorEmbed } from "../../utils/embeds.js";
+const command = {
+    name: "welcomechannel",
+    description: "Set the channel where welcome messages are sent when members join",
+    category: "Welcome",
+    access: "admin",
+    memberPermissions: [PermissionFlagsBits.ManageGuild],
+    guildOnly: true,
+    cooldown: 5,
+    slashData: (b) => b
+        .addChannelOption((o) => o.setName("channel").setDescription("Welcome channel").setRequired(true)),
+    async execute(ctx) {
+        const guild = ctx.interaction?.guild ?? ctx.message?.guild;
+        if (!guild)
+            return;
+        const channelId = ctx.isSlash ? ctx.interaction.options.getChannel("channel", true).id : ctx.args[0]?.replace(/\D/g, "");
+        if (!channelId) {
+            await ctx.reply({ embeds: [errorEmbed("Please specify a channel.")] });
+            return;
+        }
+        await GuildModel.findOneAndUpdate({ guildId: guild.id }, { $set: { "welcome.channelId": channelId, "welcome.enabled": true } }, { upsert: true });
+        await ctx.reply({ embeds: [successEmbed(`Welcome messages will be sent to <#${channelId}>.`)] });
+    },
+};
+export default command;
+//# sourceMappingURL=welcomeChannel.js.map

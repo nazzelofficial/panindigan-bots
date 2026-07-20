@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from "discord.js";
-import type { CommandDefinition } from "@/structures/types";
-import { successEmbed, errorEmbed, baseEmbed } from "@/utils/embeds";
+import type { CommandDefinition } from "../../structures/types.js";
+import { successEmbed, errorEmbed, baseEmbed } from "../../utils/embeds.js";
 
 const FILTERS: Record<string, { label: string; desc: string; preset: object }> = {
   none: { label: "No Filter", desc: "Default — walang filter", preset: {} },

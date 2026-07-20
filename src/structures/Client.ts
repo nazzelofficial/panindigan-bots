@@ -1,7 +1,7 @@
 import { Client, Collection, GatewayIntentBits, Partials } from "discord.js";
-import type { CommandDefinition, EventDefinition } from "./types";
-import { config } from "@/config/config";
-import { scopedLogger } from "@/utils/logger";
+import type { CommandDefinition, EventDefinition } from "./types.js";
+import { config } from "../config/config.js";
+import { scopedLogger } from "../utils/logger.js";
 import type { LavalinkManager } from "lavalink-client";
 
 const log = scopedLogger("client");

@@ -1,6 +1,6 @@
 import { SlashCommandBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } from "discord.js";
-import type { CommandDefinition } from "@/structures/types";
-import { baseEmbed } from "@/utils/embeds";
+import type { CommandDefinition } from "../../structures/types.js";
+import { baseEmbed } from "../../utils/embeds.js";
 
 const PROMPTS = [
   ["Always be too hot", "Always be too cold"],

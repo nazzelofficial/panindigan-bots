@@ -1,7 +1,7 @@
 import { SlashCommandBuilder, EmbedBuilder } from "discord.js";
-import type { CommandDefinition } from "@/structures/types";
-import { MarketListingModel } from "@/database/models/Economy";
-import { successEmbed, errorEmbed, baseEmbed } from "@/utils/embeds";
+import type { CommandDefinition } from "../../structures/types.js";
+import { MarketListingModel } from "../../database/models/Economy.js";
+import { successEmbed, errorEmbed, baseEmbed } from "../../utils/embeds.js";
 
 const command: CommandDefinition = {
   name: "market_sell",

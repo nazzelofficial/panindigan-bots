@@ -1,5 +1,5 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction, EmbedBuilder } from 'discord.js';
-import { ApiKeyModel } from '../../database/models/System';
+import { ApiKeyModel } from '../../database/models/System.js';
 import crypto from 'node:crypto';
 
 function generateApiKey(): string {

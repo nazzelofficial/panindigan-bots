@@ -1,7 +1,7 @@
 import { PermissionFlagsBits, SlashCommandBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } from "discord.js";
-import type { CommandDefinition } from "@/structures/types";
-import { ButtonRolePanelModel as ButtonRoleModel } from "@/database/models/Community";
-import { baseEmbed, successEmbed, errorEmbed, infoEmbed } from "@/utils/embeds";
+import type { CommandDefinition } from "../../structures/types.js";
+import { ButtonRolePanelModel as ButtonRoleModel } from "../../database/models/Community.js";
+import { baseEmbed, successEmbed, errorEmbed, infoEmbed } from "../../utils/embeds.js";
 
 const command: CommandDefinition = {
   name: "buttonrole",

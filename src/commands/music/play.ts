@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from "discord.js";
-import type { CommandDefinition } from "@/structures/types";
-import { baseEmbed, errorEmbed } from "@/utils/embeds";
+import type { CommandDefinition } from "../../structures/types.js";
+import { baseEmbed, errorEmbed } from "../../utils/embeds.js";
 
 function getMusicNotConfiguredEmbed() {
   return errorEmbed("Music isn't configured on this bot yet — set `LAVALINK_HOST`, `LAVALINK_PORT`, and `LAVALINK_PASSWORD` in your environment.");

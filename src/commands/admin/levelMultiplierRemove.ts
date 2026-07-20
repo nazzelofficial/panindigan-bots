@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from 'discord.js';
-import type { CommandDefinition } from '@/structures/types';
-import { GuildModel } from '@/database/models/Guild';
-import { errorEmbed, successEmbed } from '@/utils/embeds';
+import type { CommandDefinition } from '../../structures/types.js';
+import { GuildModel } from '../../database/models/Guild.js';
+import { errorEmbed, successEmbed } from '../../utils/embeds.js';
 
 const command: CommandDefinition = {
   name: 'level_multiplier_remove',

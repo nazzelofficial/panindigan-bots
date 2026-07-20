@@ -12,12 +12,12 @@ import {
   type TextChannel,
   type CategoryChannel,
 } from "discord.js";
-import type { CommandDefinition } from "@/structures/types";
-import { baseEmbed, successEmbed, errorEmbed, infoEmbed } from "@/utils/embeds";
-import { TicketModel, TicketPanelModel } from "@/database/models/Tickets";
-import { GuildModel } from "@/database/models/Guild";
-import { sendLogEvent } from "@/features/logging/logEngine";
-import { getGuildTier, getTierLimits } from "@/utils/premium";
+import type { CommandDefinition } from "../../structures/types.js";
+import { baseEmbed, successEmbed, errorEmbed, infoEmbed } from "../../utils/embeds.js";
+import { TicketModel, TicketPanelModel } from "../../database/models/Tickets.js";
+import { GuildModel } from "../../database/models/Guild.js";
+import { sendLogEvent } from "../../features/logging/logEngine.js";
+import { getGuildTier, getTierLimits } from "../../utils/premium.js";
 
 // ─── helpers ──────────────────────────────────────────────────────────────────
 

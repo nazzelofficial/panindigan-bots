@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from "discord.js";
-import type { CommandDefinition } from "@/structures/types";
-import { successEmbed, errorEmbed } from "@/utils/embeds";
-import { GuildModel } from "@/database/models/Guild";
+import type { CommandDefinition } from "../../structures/types.js";
+import { successEmbed, errorEmbed } from "../../utils/embeds.js";
+import { GuildModel } from "../../database/models/Guild.js";
 
 const command: CommandDefinition = {
   name: "soundboardadd",

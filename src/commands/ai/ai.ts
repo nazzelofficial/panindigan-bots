@@ -1,11 +1,11 @@
 import { SlashCommandBuilder } from "discord.js";
-import type { CommandDefinition } from "@/structures/types";
-import { isAiConfigured, getOpenAiClient } from "@/features/ai/openaiClient";
-import { baseEmbed, errorEmbed, infoEmbed } from "@/utils/embeds";
-import { UserModel } from "@/database/models/User";
-import { GuildModel } from "@/database/models/Guild";
-import { getConfig } from "@/config/config";
-import { apiLog } from "@/utils/logger";
+import type { CommandDefinition } from "../../structures/types.js";
+import { isAiConfigured, getOpenAiClient } from "../../features/ai/openaiClient.js";
+import { baseEmbed, errorEmbed, infoEmbed } from "../../utils/embeds.js";
+import { UserModel } from "../../database/models/User.js";
+import { GuildModel } from "../../database/models/Guild.js";
+import { getConfig } from "../../config/config.js";
+import { apiLog } from "../../utils/logger.js";
 
 // Per-user conversation history: userId → messages[]
 const chatHistory = new Map<string, Array<{ role: string; content: string }>>();

@@ -1,5 +1,5 @@
-import { PremiumModel } from "@/database/models/Premium";
-import { config } from "@/config/config";
+import { PremiumModel } from "../database/models/Premium.js";
+import { config } from "../config/config.js";
 
 export type PremiumTier = "free" | "basic" | "standard" | "gold" | "enterprise";
 

@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from "discord.js";
-import type { CommandDefinition } from "@/structures/types";
-import { baseEmbed, errorEmbed } from "@/utils/embeds";
-import { TicketModel } from "@/database/models/Tickets";
+import type { CommandDefinition } from "../../structures/types.js";
+import { baseEmbed, errorEmbed } from "../../utils/embeds.js";
+import { TicketModel } from "../../database/models/Tickets.js";
 
 const command: CommandDefinition = {
   name: "ticketnote",

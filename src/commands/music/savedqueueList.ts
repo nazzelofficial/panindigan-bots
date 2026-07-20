@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from "discord.js";
-import type { CommandDefinition } from "@/structures/types";
-import { baseEmbed, errorEmbed } from "@/utils/embeds";
-import { SavedQueueModel } from "@/database/models/Community";
+import type { CommandDefinition } from "../../structures/types.js";
+import { baseEmbed, errorEmbed } from "../../utils/embeds.js";
+import { SavedQueueModel } from "../../database/models/Community.js";
 
 const command: CommandDefinition = {
   name: "savedqueuelist",

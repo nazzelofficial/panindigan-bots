@@ -1,7 +1,7 @@
 import { PermissionFlagsBits, SlashCommandBuilder, ChannelType } from 'discord.js';
-import type { CommandDefinition } from '@/structures/types';
-import { sendLogEvent } from '@/features/logging/logEngine';
-import { baseEmbed, errorEmbed, infoEmbed } from '@/utils/embeds';
+import type { CommandDefinition } from '../../structures/types.js';
+import { sendLogEvent } from '../../features/logging/logEngine.js';
+import { baseEmbed, errorEmbed, infoEmbed } from '../../utils/embeds.js';
 
 const command: CommandDefinition = {
   name: 'nuke',

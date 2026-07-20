@@ -1,8 +1,8 @@
 import { PermissionFlagsBits, SlashCommandBuilder } from "discord.js";
-import type { CommandDefinition } from "@/structures/types";
-import { successEmbed, errorEmbed, baseEmbed } from "@/utils/embeds";
-import { createModCase } from "@/features/moderation/caseEngine";
-import { sendLogEvent } from "@/features/logging/logEngine";
+import type { CommandDefinition } from "../../structures/types.js";
+import { successEmbed, errorEmbed, baseEmbed } from "../../utils/embeds.js";
+import { createModCase } from "../../features/moderation/caseEngine.js";
+import { sendLogEvent } from "../../features/logging/logEngine.js";
 
 function parseDuration(str: string): number | null {
   const match = str?.match(/^(\d+)(s|m|h|d)$/i);

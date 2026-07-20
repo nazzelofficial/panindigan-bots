@@ -1,12 +1,12 @@
 import type { ChatInputCommandInteraction } from "discord.js";
-import type { PanindiganClient } from "@/structures/Client";
-import type { EventDefinition, RunContext, ComponentInteractionContext } from "@/structures/types";
-import { dispatchCommand } from "@/handlers/commandHandler";
-import { EmbedFactory } from "@/structures/EmbedFactory";
-import { globalRateLimit } from "@/structures/RateLimitStore";
-import { scopedLogger } from "@/utils/logger";
-import { isBotOwner } from "@/utils/permissions";
-import { isGuildPremium } from "@/utils/premium";
+import type { PanindiganClient } from "../structures/Client.js";
+import type { EventDefinition, RunContext, ComponentInteractionContext } from "../structures/types.js";
+import { dispatchCommand } from "../handlers/commandHandler.js";
+import { EmbedFactory } from "../structures/EmbedFactory.js";
+import { globalRateLimit } from "../structures/RateLimitStore.js";
+import { scopedLogger } from "../utils/logger.js";
+import { isBotOwner } from "../utils/permissions.js";
+import { isGuildPremium } from "../utils/premium.js";
 
 const log = scopedLogger("interaction");
 

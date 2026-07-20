@@ -1,7 +1,7 @@
 import { PermissionFlagsBits, SlashCommandBuilder } from "discord.js";
-import type { CommandDefinition } from "@/structures/types";
-import { GuildModel } from "@/database/models/Guild";
-import { successEmbed, errorEmbed, baseEmbed, infoEmbed } from "@/utils/embeds";
+import type { CommandDefinition } from "../../structures/types.js";
+import { GuildModel } from "../../database/models/Guild.js";
+import { successEmbed, errorEmbed, baseEmbed, infoEmbed } from "../../utils/embeds.js";
 
 // Valid action keys that map to antinuke.thresholds.* in the schema
 const THRESHOLD_ACTIONS = ["channelDelete", "channelCreate", "ban", "kick", "roleDelete", "webhookCreate"] as const;

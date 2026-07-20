@@ -1,8 +1,8 @@
 import { SlashCommandBuilder } from "discord.js";
-import type { CommandDefinition } from "@/structures/types";
-import { UserModel } from "@/database/models/User";
-import { baseEmbed, successEmbed, errorEmbed, infoEmbed } from "@/utils/embeds";
-import { JOBS } from "@/features/economy/jobs";
+import type { CommandDefinition } from "../../structures/types.js";
+import { UserModel } from "../../database/models/User.js";
+import { baseEmbed, successEmbed, errorEmbed, infoEmbed } from "../../utils/embeds.js";
+import { JOBS } from "../../features/economy/jobs.js";
 
 const command: CommandDefinition = {
   name: "jobs",

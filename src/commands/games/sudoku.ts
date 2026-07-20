@@ -1,5 +1,5 @@
 import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
-import type { CommandDefinition } from '@/structures/types';
+import type { CommandDefinition } from '../../structures/types.js';
 
 // Pre-generated Sudoku puzzles (0 = empty cell)
 const PUZZLES: { difficulty: string; grid: number[][]; solution: number[][] }[] = [

@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from "discord.js";
-import type { CommandDefinition } from "@/structures/types";
-import { PremiumModel } from "@/database/models/Premium";
-import { baseEmbed, infoEmbed } from "@/utils/embeds";
+import type { CommandDefinition } from "../../structures/types.js";
+import { PremiumModel } from "../../database/models/Premium.js";
+import { baseEmbed, infoEmbed } from "../../utils/embeds.js";
 
 const TIER_LABELS: Record<string, string> = {
   none: "Free",

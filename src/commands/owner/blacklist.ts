@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from "discord.js";
-import type { CommandDefinition } from "@/structures/types";
-import { BlacklistModel } from "@/database/models/Moderation";
-import { successEmbed, errorEmbed, baseEmbed, infoEmbed } from "@/utils/embeds";
+import type { CommandDefinition } from "../../structures/types.js";
+import { BlacklistModel } from "../../database/models/Moderation.js";
+import { successEmbed, errorEmbed, baseEmbed, infoEmbed } from "../../utils/embeds.js";
 
 const command: CommandDefinition = {
   name: "blacklist",

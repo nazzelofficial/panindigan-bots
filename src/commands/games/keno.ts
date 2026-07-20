@@ -1,7 +1,7 @@
 import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
-import type { CommandDefinition } from '@/structures/types';
-import { UserModel } from '@/database/models/User';
-import { errorEmbed, baseEmbed } from '@/utils/embeds';
+import type { CommandDefinition } from '../../structures/types.js';
+import { UserModel } from '../../database/models/User.js';
+import { errorEmbed, baseEmbed } from '../../utils/embeds.js';
 
 // Payout multipliers: index = number of picks, value = [multiplier per match count]
 // payouts[picks][matches] = multiplier

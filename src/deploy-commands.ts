@@ -4,9 +4,9 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { createRequire } from "node:module";
-import { requireEnv } from "@/config/config";
-import { scopedLogger } from "@/utils/logger";
-import type { CommandDefinition } from "@/structures/types";
+import { requireEnv } from "./config/config.js";
+import { scopedLogger } from "./utils/logger.js";
+import type { CommandDefinition } from "./structures/types.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname  = path.dirname(__filename);

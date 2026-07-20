@@ -1,7 +1,7 @@
 import { PermissionFlagsBits, type TextChannel } from "discord.js";
-import type { CommandDefinition } from "@/structures/types";
-import { successEmbed, errorEmbed } from "@/utils/embeds";
-import { TicketModel } from "@/database/models/Tickets";
+import type { CommandDefinition } from "../../structures/types.js";
+import { successEmbed, errorEmbed } from "../../utils/embeds.js";
+import { TicketModel } from "../../database/models/Tickets.js";
 
 const command: CommandDefinition = {
   name: "tickethold",

@@ -1,6 +1,6 @@
 import { SlashCommandBuilder, PermissionFlagsBits } from "discord.js";
-import type { CommandDefinition } from "@/structures/types";
-import { baseEmbed } from "@/utils/embeds";
+import type { CommandDefinition } from "../../structures/types.js";
+import { baseEmbed } from "../../utils/embeds.js";
 
 const command: CommandDefinition = {
   name: "permissions",

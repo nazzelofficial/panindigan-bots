@@ -1,7 +1,7 @@
 import cron from "node-cron";
-import { ModCaseModel } from "@/database/models/Moderation";
-import { scopedLogger } from "@/utils/logger";
-import type { PanindiganClient } from "@/structures/Client";
+import { ModCaseModel } from "../../database/models/Moderation.js";
+import { scopedLogger } from "../../utils/logger.js";
+import type { PanindiganClient } from "../../structures/Client.js";
 
 const log = scopedLogger("tempban-scheduler");
 

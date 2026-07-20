@@ -1,5 +1,5 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction, EmbedBuilder } from 'discord.js';
-import { clientRegistry } from '../../structures/clientRegistry';
+import { clientRegistry } from '../../structures/clientRegistry.js';
 
 const VALID_TYPES = ['messages', 'roles', 'channels'] as const;
 type WipeType = typeof VALID_TYPES[number];

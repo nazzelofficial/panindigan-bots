@@ -1,8 +1,8 @@
 import { SlashCommandBuilder, AttachmentBuilder } from "discord.js";
-import type { CommandDefinition } from "@/structures/types";
-import { UserModel } from "@/database/models/User";
-import { baseEmbed, errorEmbed } from "@/utils/embeds";
-import { xpForLevel } from "@/features/leveling/xpEngine";
+import type { CommandDefinition } from "../../structures/types.js";
+import { UserModel } from "../../database/models/User.js";
+import { baseEmbed, errorEmbed } from "../../utils/embeds.js";
+import { xpForLevel } from "../../features/leveling/xpEngine.js";
 
 const command: CommandDefinition = {
   name: "rank",

@@ -1,10 +1,10 @@
 import { PermissionFlagsBits, SlashCommandBuilder } from "discord.js";
-import type { CommandDefinition } from "@/structures/types";
-import { ModCaseModel } from "@/database/models/Moderation";
-import { successEmbed, errorEmbed, baseEmbed, warnEmbed } from "@/utils/embeds";
-import { createModCase } from "@/features/moderation/caseEngine";
-import { sendLogEvent } from "@/features/logging/logEngine";
-import { config } from "@/config/config";
+import type { CommandDefinition } from "../../structures/types.js";
+import { ModCaseModel } from "../../database/models/Moderation.js";
+import { successEmbed, errorEmbed, baseEmbed, warnEmbed } from "../../utils/embeds.js";
+import { createModCase } from "../../features/moderation/caseEngine.js";
+import { sendLogEvent } from "../../features/logging/logEngine.js";
+import { config } from "../../config/config.js";
 
 const command: CommandDefinition = {
   name: "warn",

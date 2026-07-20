@@ -6,9 +6,9 @@ import {
   ButtonStyle,
   ComponentType,
 } from 'discord.js';
-import type { CommandDefinition } from '@/structures/types';
-import { UserModel } from '@/database/models/User';
-import { errorEmbed, baseEmbed } from '@/utils/embeds';
+import type { CommandDefinition } from '../../structures/types.js';
+import { UserModel } from '../../database/models/User.js';
+import { errorEmbed, baseEmbed } from '../../utils/embeds.js';
 
 type Suit = '♠️' | '♥️' | '♦️' | '♣️';
 type Rank = 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14;

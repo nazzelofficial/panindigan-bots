@@ -6,9 +6,9 @@
  * that log warnings when thresholds are breached.
  */
 
-import { scopedLogger } from "@/utils/logger";
-import { isDatabaseConnected } from "@/database/connection";
-import type { PanindiganClient } from "./Client";
+import { scopedLogger } from "../utils/logger.js";
+import { isDatabaseConnected } from "../database/connection.js";
+import type { PanindiganClient } from "./Client.js";
 
 const log = scopedLogger("monitor");
 

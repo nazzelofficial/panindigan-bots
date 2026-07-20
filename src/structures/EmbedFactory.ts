@@ -5,7 +5,7 @@
  */
 
 import { EmbedBuilder, type ColorResolvable } from "discord.js";
-import { config } from "@/config/config";
+import { config } from "../config/config.js";
 
 type ColorKey = keyof typeof config.colors;
 

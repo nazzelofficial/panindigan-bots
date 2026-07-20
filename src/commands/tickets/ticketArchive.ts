@@ -1,7 +1,7 @@
 import { PermissionFlagsBits, SlashCommandBuilder, ChannelType } from "discord.js";
-import type { CommandDefinition } from "@/structures/types";
-import { TicketModel } from "@/database/models/Tickets";
-import { successEmbed, errorEmbed, baseEmbed } from "@/utils/embeds";
+import type { CommandDefinition } from "../../structures/types.js";
+import { TicketModel } from "../../database/models/Tickets.js";
+import { successEmbed, errorEmbed, baseEmbed } from "../../utils/embeds.js";
 
 const command: CommandDefinition = {
   name: "ticketarchive",

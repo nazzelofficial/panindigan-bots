@@ -1,6 +1,6 @@
 import { SlashCommandBuilder, ButtonStyle, ActionRowBuilder, ButtonBuilder } from "discord.js";
-import type { CommandDefinition } from "@/structures/types";
-import { baseEmbed, errorEmbed, infoEmbed } from "@/utils/embeds";
+import type { CommandDefinition } from "../../structures/types.js";
+import { baseEmbed, errorEmbed, infoEmbed } from "../../utils/embeds.js";
 
 const command: CommandDefinition = {
   name: "controls",

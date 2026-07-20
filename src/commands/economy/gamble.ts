@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from "discord.js";
-import type { CommandDefinition } from "@/structures/types";
-import { UserModel } from "@/database/models/User";
-import { successEmbed, errorEmbed, warnEmbed, baseEmbed } from "@/utils/embeds";
+import type { CommandDefinition } from "../../structures/types.js";
+import { UserModel } from "../../database/models/User.js";
+import { successEmbed, errorEmbed, warnEmbed, baseEmbed } from "../../utils/embeds.js";
 
 const SLOT_SYMBOLS = ["🍒", "🍋", "🍊", "🍇", "💎", "7️⃣", "⭐"];
 const SLOT_MULTIPLIERS: Record<string, number> = { "💎": 10, "7️⃣": 7, "⭐": 5, "🍇": 3, "🍊": 2, "🍋": 1.5, "🍒": 1.2 };

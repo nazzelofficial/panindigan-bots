@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 30
+    },
+    "auditLog": "C:\\Users\\Nazzel\\Documents\\GitHub\\panindigan-bots\\logs\\.799fc3c1818c9b0b7d3a0002a2819bf8822582c1-audit.json",
+    "files": [
+        {
+            "date": 1784488459445,
+            "name": "C:\\Users\\Nazzel\\Documents\\GitHub\\panindigan-bots\\logs\\panindigan-error-2026-07-20.log",
+            "hash": "95f12dec43a16e9045a2502b05fa18ca01ecf0f8032495b91f7ffbfb848307fc"
+        }
+    ],
+    "hashType": "sha256"
+}

@@ -1,7 +1,7 @@
 import { ActivityType } from "discord.js";
-import type { PanindiganClient } from "@/structures/Client";
-import type { EventDefinition } from "@/structures/types";
-import { scopedLogger } from "@/utils/logger";
+import type { PanindiganClient } from "../structures/Client.js";
+import type { EventDefinition } from "../structures/types.js";
+import { scopedLogger } from "../utils/logger.js";
 
 const log = scopedLogger("ready");
 

@@ -1,5 +1,5 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction, EmbedBuilder, version as djsVersion } from 'discord.js';
-import { clientRegistry } from '../../structures/clientRegistry';
+import { clientRegistry } from '../../structures/clientRegistry.js';
 import os from 'node:os';
 
 function formatUptime(seconds: number): string {

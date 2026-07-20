@@ -1,8 +1,8 @@
 import { PermissionFlagsBits, SlashCommandBuilder, EmbedBuilder } from "discord.js";
-import type { CommandDefinition } from "@/structures/types";
-import { GuildModel } from "@/database/models/Guild";
-import { successEmbed, baseEmbed } from "@/utils/embeds";
-import { sendLogEvent } from "@/features/logging/logEngine";
+import type { CommandDefinition } from "../../structures/types.js";
+import { GuildModel } from "../../database/models/Guild.js";
+import { successEmbed, baseEmbed } from "../../utils/embeds.js";
+import { sendLogEvent } from "../../features/logging/logEngine.js";
 
 const command: CommandDefinition = {
   name: "raidmode",

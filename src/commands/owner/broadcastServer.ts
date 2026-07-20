@@ -1,6 +1,6 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction } from 'discord.js';
-import { CommandDefinition } from '../../structures/CommandDefinition';
-import { clientRegistry } from '../../structures/clientRegistry';
+import { CommandDefinition } from '../../structures/CommandDefinition.js';
+import { clientRegistry } from '../../structures/clientRegistry.js';
 
 export default {
   data: new SlashCommandBuilder()

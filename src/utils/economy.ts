@@ -3,7 +3,7 @@
  * The UserModel stores balance inside guilds[].balance (nested).
  * These helpers use the positional operator to update correctly.
  */
-import { UserModel } from "@/database/models/User";
+import { UserModel } from "../database/models/User.js";
 
 export async function getGuildBalance(userId: string, guildId: string): Promise<number> {
   const doc = await UserModel.findOne({ userId }).lean() as any;

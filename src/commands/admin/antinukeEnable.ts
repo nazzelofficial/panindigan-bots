@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from "discord.js";
-import type { CommandDefinition } from "@/structures/types";
-import { GuildModel } from "@/database/models/Guild";
+import type { CommandDefinition } from "../../structures/types.js";
+import { GuildModel } from "../../database/models/Guild.js";
 
 const command: CommandDefinition = {
   name: "antinuke_enable",

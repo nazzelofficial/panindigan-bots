@@ -1,7 +1,7 @@
 import { Events, GuildBan } from "discord.js";
-import type { EventDefinition } from "@/structures/types";
-import { sendLogEvent } from "@/features/logging/logEngine";
-import { baseEmbed } from "@/utils/embeds";
+import type { EventDefinition } from "../structures/types.js";
+import { sendLogEvent } from "../features/logging/logEngine.js";
+import { baseEmbed } from "../utils/embeds.js";
 
 const event: EventDefinition = {
   name: Events.GuildBanAdd,

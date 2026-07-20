@@ -1,7 +1,7 @@
 import { SlashCommandBuilder, version as djsVersion } from "discord.js";
-import type { CommandDefinition } from "@/structures/types";
-import { baseEmbed } from "@/utils/embeds";
-import { isDatabaseConnected } from "@/database/connection";
+import type { CommandDefinition } from "../../structures/types.js";
+import { baseEmbed } from "../../utils/embeds.js";
+import { isDatabaseConnected } from "../../database/connection.js";
 
 function formatUptime(ms: number): string {
   const d = Math.floor(ms / 86_400_000);

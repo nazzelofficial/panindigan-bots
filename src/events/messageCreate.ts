@@ -1,15 +1,15 @@
 import type { Message } from "discord.js";
-import type { PanindiganClient } from "@/structures/Client";
-import type { EventDefinition, RunContext, ReplyPayload } from "@/structures/types";
-import { dispatchCommand } from "@/handlers/commandHandler";
-import { GuildModel } from "@/database/models/Guild";
-import { UserModel } from "@/database/models/User";
-import { grantMessageXp } from "@/features/leveling/xpEngine";
-import { runAutomodChecks } from "@/features/automod/automodEngine";
-import { isBotOwner } from "@/utils/permissions";
-import { isGuildPremium } from "@/utils/premium";
-import { scopedLogger } from "@/utils/logger";
-import { botCache, CACHE_TTL } from "@/utils/cache";
+import type { PanindiganClient } from "../structures/Client.js";
+import type { EventDefinition, RunContext, ReplyPayload } from "../structures/types.js";
+import { dispatchCommand } from "../handlers/commandHandler.js";
+import { GuildModel } from "../database/models/Guild.js";
+import { UserModel } from "../database/models/User.js";
+import { grantMessageXp } from "../features/leveling/xpEngine.js";
+import { runAutomodChecks } from "../features/automod/automodEngine.js";
+import { isBotOwner } from "../utils/permissions.js";
+import { isGuildPremium } from "../utils/premium.js";
+import { scopedLogger } from "../utils/logger.js";
+import { botCache, CACHE_TTL } from "../utils/cache.js";
 
 const log = scopedLogger("message");
 

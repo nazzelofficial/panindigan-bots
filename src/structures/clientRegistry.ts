@@ -1,4 +1,4 @@
-import type { PanindiganClient } from "./Client";
+import type { PanindiganClient } from "./Client.js";
 
 /**
  * Small escape hatch so feature modules that don't receive `client` directly

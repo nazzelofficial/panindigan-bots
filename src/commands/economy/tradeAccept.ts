@@ -1,8 +1,8 @@
 import { SlashCommandBuilder, EmbedBuilder } from "discord.js";
-import type { CommandDefinition } from "@/structures/types";
-import { TradeModel } from "@/database/models/Economy";
-import { UserModel } from "@/database/models/User";
-import { baseEmbed, errorEmbed } from "@/utils/embeds";
+import type { CommandDefinition } from "../../structures/types.js";
+import { TradeModel } from "../../database/models/Economy.js";
+import { UserModel } from "../../database/models/User.js";
+import { baseEmbed, errorEmbed } from "../../utils/embeds.js";
 
 const command: CommandDefinition = {
   name: "trade_accept",

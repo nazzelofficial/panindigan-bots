@@ -6,8 +6,8 @@ import {
   ButtonStyle,
   ComponentType,
 } from 'discord.js';
-import type { CommandDefinition } from '@/structures/types';
-import { baseEmbed } from '@/utils/embeds';
+import type { CommandDefinition } from '../../structures/types.js';
+import { baseEmbed } from '../../utils/embeds.js';
 
 interface Clue { clue: string; answer: string; hint: string }
 

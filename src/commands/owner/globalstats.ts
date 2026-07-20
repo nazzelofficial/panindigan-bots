@@ -1,6 +1,6 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction, EmbedBuilder, version as djsVersion } from 'discord.js';
-import { PremiumModel, ServerPackModel } from '../../database/models/Premium';
-import { clientRegistry } from '../../structures/clientRegistry';
+import { PremiumModel, ServerPackModel } from '../../database/models/Premium.js';
+import { clientRegistry } from '../../structures/clientRegistry.js';
 
 // Standard tier prices as defined in docs (used for revenue estimation per grant event)
 const TIER_PRICES: Record<string, number> = { basic: 50, standard: 150, gold: 350, enterprise: 600 };

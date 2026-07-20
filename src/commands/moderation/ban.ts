@@ -1,9 +1,9 @@
 import { PermissionFlagsBits, SlashCommandBuilder } from "discord.js";
-import type { CommandDefinition } from "@/structures/types";
-import { successEmbed, errorEmbed, warnEmbed } from "@/utils/embeds";
-import { createModCase } from "@/features/moderation/caseEngine";
-import { sendLogEvent } from "@/features/logging/logEngine";
-import { baseEmbed } from "@/utils/embeds";
+import type { CommandDefinition } from "../../structures/types.js";
+import { successEmbed, errorEmbed, warnEmbed } from "../../utils/embeds.js";
+import { createModCase } from "../../features/moderation/caseEngine.js";
+import { sendLogEvent } from "../../features/logging/logEngine.js";
+import { baseEmbed } from "../../utils/embeds.js";
 
 const command: CommandDefinition = {
   name: "ban",

@@ -1,7 +1,7 @@
 import { PermissionFlagsBits, SlashCommandBuilder } from "discord.js";
-import type { CommandDefinition } from "@/structures/types";
-import { GuildModel } from "@/database/models/Guild";
-import { successEmbed, errorEmbed, baseEmbed } from "@/utils/embeds";
+import type { CommandDefinition } from "../../structures/types.js";
+import { GuildModel } from "../../database/models/Guild.js";
+import { successEmbed, errorEmbed, baseEmbed } from "../../utils/embeds.js";
 
 // Schema field names (camelCase) → display label
 // Only features that exist in the AutoModSchema are listed here.

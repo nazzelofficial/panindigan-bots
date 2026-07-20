@@ -1,8 +1,8 @@
 import cron from "node-cron";
-import type { PanindiganClient } from "@/structures/Client";
-import { UserModel } from "@/database/models/User";
-import { baseEmbed } from "@/utils/embeds";
-import { scopedLogger } from "@/utils/logger";
+import type { PanindiganClient } from "../../structures/Client.js";
+import { UserModel } from "../../database/models/User.js";
+import { baseEmbed } from "../../utils/embeds.js";
+import { scopedLogger } from "../../utils/logger.js";
 
 const log = scopedLogger("scheduler:reminders");
 

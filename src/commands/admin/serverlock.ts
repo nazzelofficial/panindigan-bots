@@ -1,7 +1,7 @@
 import { PermissionFlagsBits, SlashCommandBuilder, ChannelType } from "discord.js";
-import type { CommandDefinition } from "@/structures/types";
-import { GuildModel } from "@/database/models/Guild";
-import { successEmbed, errorEmbed, warnEmbed } from "@/utils/embeds";
+import type { CommandDefinition } from "../../structures/types.js";
+import { GuildModel } from "../../database/models/Guild.js";
+import { successEmbed, errorEmbed, warnEmbed } from "../../utils/embeds.js";
 
 const command: CommandDefinition = {
   name: "serverlock",

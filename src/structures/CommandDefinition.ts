@@ -6,4 +6,4 @@
  * pipeline automatically. This re-export just satisfies the import
  * so those files can load without error.
  */
-export type { CommandDefinition } from "./types";
+export type { CommandDefinition } from "./types.js";

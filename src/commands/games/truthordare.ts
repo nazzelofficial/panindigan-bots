@@ -1,6 +1,6 @@
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, ComponentType, SlashCommandBuilder } from "discord.js";
-import type { CommandDefinition } from "@/structures/types";
-import { baseEmbed } from "@/utils/embeds";
+import type { CommandDefinition } from "../../structures/types.js";
+import { baseEmbed } from "../../utils/embeds.js";
 
 const TRUTHS = [
   "Ano ang pinakamalaking lihim mo na ayaw mong malaman ng pamilya mo?",

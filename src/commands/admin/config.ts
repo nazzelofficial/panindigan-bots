@@ -1,8 +1,8 @@
 import { SlashCommandBuilder } from "discord.js";
-import type { CommandDefinition } from "@/structures/types";
-import { GuildModel } from "@/database/models/Guild";
-import { PremiumModel } from "@/database/models/Premium";
-import { baseEmbed } from "@/utils/embeds";
+import type { CommandDefinition } from "../../structures/types.js";
+import { GuildModel } from "../../database/models/Guild.js";
+import { PremiumModel } from "../../database/models/Premium.js";
+import { baseEmbed } from "../../utils/embeds.js";
 
 const command: CommandDefinition = {
   name: "config",

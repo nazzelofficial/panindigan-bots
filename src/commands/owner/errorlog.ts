@@ -1,5 +1,5 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction, EmbedBuilder } from 'discord.js';
-import { ErrorLogModel } from '../../database/models/System';
+import { ErrorLogModel } from '../../database/models/System.js';
 
 export default {
   data: new SlashCommandBuilder()

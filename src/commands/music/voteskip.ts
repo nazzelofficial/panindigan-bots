@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from "discord.js";
-import type { CommandDefinition } from "@/structures/types";
-import { successEmbed, errorEmbed, baseEmbed } from "@/utils/embeds";
+import type { CommandDefinition } from "../../structures/types.js";
+import { successEmbed, errorEmbed, baseEmbed } from "../../utils/embeds.js";
 
 // Track active vote-skips per guild: Map<guildId, Set<userId>>
 const voteSkipSessions = new Map<string, Set<string>>();

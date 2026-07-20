@@ -1,5 +1,5 @@
-import { ModCaseModel } from "@/database/models/Moderation";
-import { GuildModel } from "@/database/models/Guild";
+import { ModCaseModel } from "../../database/models/Moderation.js";
+import { GuildModel } from "../../database/models/Guild.js";
 
 export interface CreateCaseInput {
   guildId: string;

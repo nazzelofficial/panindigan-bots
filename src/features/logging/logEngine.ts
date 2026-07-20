@@ -1,6 +1,6 @@
 import type { EmbedBuilder } from "discord.js";
-import { GuildModel } from "@/database/models/Guild";
-import { getClientInstance } from "@/structures/clientRegistry";
+import { GuildModel } from "../../database/models/Guild.js";
+import { getClientInstance } from "../../structures/clientRegistry.js";
 
 /**
  * Sends a log embed to whichever channel the guild has configured for the

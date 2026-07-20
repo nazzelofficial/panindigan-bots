@@ -2,11 +2,11 @@ import { SlashCommandBuilder, ActivityType } from "discord.js";
 import { execSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
-import type { CommandDefinition } from "@/structures/types";
-import { baseEmbed, errorEmbed, successEmbed, infoEmbed, warnEmbed } from "@/utils/embeds";
-import { MaintenanceStateModel, FeatureFlagModel, ErrorLogModel } from "@/database/models/System";
-import { GuildModel } from "@/database/models/Guild";
-import { validateEnv } from "@/config/config";
+import type { CommandDefinition } from "../../structures/types.js";
+import { baseEmbed, errorEmbed, successEmbed, infoEmbed, warnEmbed } from "../../utils/embeds.js";
+import { MaintenanceStateModel, FeatureFlagModel, ErrorLogModel } from "../../database/models/System.js";
+import { GuildModel } from "../../database/models/Guild.js";
+import { validateEnv } from "../../config/config.js";
 import os from "node:os";
 
 const LOG_DIR = path.resolve(process.cwd(), "logs");

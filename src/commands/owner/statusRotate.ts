@@ -1,5 +1,5 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction, ActivityType } from 'discord.js';
-import { clientRegistry } from '../../structures/clientRegistry';
+import { clientRegistry } from '../../structures/clientRegistry.js';
 
 // Module-level rotation state (lives as long as the process does)
 let rotationInterval: NodeJS.Timeout | null = null;

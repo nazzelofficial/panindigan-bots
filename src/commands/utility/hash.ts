@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from "discord.js";
-import type { CommandDefinition } from "@/structures/types";
-import { baseEmbed, errorEmbed } from "@/utils/embeds";
+import type { CommandDefinition } from "../../structures/types.js";
+import { baseEmbed, errorEmbed } from "../../utils/embeds.js";
 import * as crypto from "node:crypto";
 
 const ALGORITHMS = ["md5", "sha1", "sha256", "sha512", "sha3-256", "sha3-512"] as const;

@@ -1,9 +1,9 @@
 import type { GuildMember } from "discord.js";
-import type { EventDefinition } from "@/structures/types";
-import { GuildModel } from "@/database/models/Guild";
-import { GlobalBanModel, BlacklistModel } from "@/database/models/Moderation";
-import { baseEmbed } from "@/utils/embeds";
-import { scopedLogger } from "@/utils/logger";
+import type { EventDefinition } from "../structures/types.js";
+import { GuildModel } from "../database/models/Guild.js";
+import { GlobalBanModel, BlacklistModel } from "../database/models/Moderation.js";
+import { baseEmbed } from "../utils/embeds.js";
+import { scopedLogger } from "../utils/logger.js";
 
 const log = scopedLogger("member-add");
 

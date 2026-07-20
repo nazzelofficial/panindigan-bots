@@ -1,5 +1,5 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction, EmbedBuilder } from 'discord.js';
-import { CommandDefinition } from '../../structures/CommandDefinition';
+import { CommandDefinition } from '../../structures/CommandDefinition.js';
 
 // Curated list of public radio stream URLs
 const RADIO_STATIONS: Record<string, { name: string; url: string; genre: string }> = {

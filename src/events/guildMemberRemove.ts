@@ -1,8 +1,8 @@
 import { Events, GuildMember, PartialGuildMember } from "discord.js";
-import type { EventDefinition } from "@/structures/types";
-import { sendLogEvent } from "@/features/logging/logEngine";
-import { baseEmbed } from "@/utils/embeds";
-import { GuildModel } from "@/database/models/Guild";
+import type { EventDefinition } from "../structures/types.js";
+import { sendLogEvent } from "../features/logging/logEngine.js";
+import { baseEmbed } from "../utils/embeds.js";
+import { GuildModel } from "../database/models/Guild.js";
 
 const event: EventDefinition = {
   name: Events.GuildMemberRemove,

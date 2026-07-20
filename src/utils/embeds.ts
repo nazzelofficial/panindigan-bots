@@ -4,8 +4,8 @@
  */
 
 import { EmbedBuilder, type ColorResolvable } from "discord.js";
-import { config } from "@/config/config";
-import { EmbedFactory } from "@/structures/EmbedFactory";
+import { config } from "../config/config.js";
+import { EmbedFactory } from "../structures/EmbedFactory.js";
 
 export { EmbedFactory };
 

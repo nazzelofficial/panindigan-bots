@@ -5,9 +5,9 @@ import {
   ButtonStyle,
   type TextChannel,
 } from "discord.js";
-import type { CommandDefinition } from "@/structures/types";
-import { PollModel } from "@/database/models/Community";
-import { baseEmbed, successEmbed, errorEmbed } from "@/utils/embeds";
+import type { CommandDefinition } from "../../structures/types.js";
+import { PollModel } from "../../database/models/Community.js";
+import { baseEmbed, successEmbed, errorEmbed } from "../../utils/embeds.js";
 
 function normalizeVotes(votes: unknown): Map<string, string> {
   if (votes instanceof Map) return votes;

@@ -1,6 +1,6 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction, EmbedBuilder } from 'discord.js';
-import { BetaFlagModel } from '../../database/models/Premium';
-import { clientRegistry } from '../../structures/clientRegistry';
+import { BetaFlagModel } from '../../database/models/Premium.js';
+import { clientRegistry } from '../../structures/clientRegistry.js';
 
 export default {
   data: new SlashCommandBuilder()

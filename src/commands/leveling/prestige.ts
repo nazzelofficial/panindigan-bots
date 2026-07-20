@@ -1,8 +1,8 @@
 import { SlashCommandBuilder } from "discord.js";
-import type { CommandDefinition } from "@/structures/types";
-import { UserModel } from "@/database/models/User";
-import { baseEmbed, successEmbed, errorEmbed } from "@/utils/embeds";
-import { config } from "@/config/config";
+import type { CommandDefinition } from "../../structures/types.js";
+import { UserModel } from "../../database/models/User.js";
+import { baseEmbed, successEmbed, errorEmbed } from "../../utils/embeds.js";
+import { config } from "../../config/config.js";
 
 const command: CommandDefinition = {
   name: "prestige",

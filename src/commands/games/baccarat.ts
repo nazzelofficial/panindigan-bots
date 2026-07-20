@@ -1,7 +1,7 @@
 import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
-import type { CommandDefinition } from '@/structures/types';
-import { UserModel } from '@/database/models/User';
-import { successEmbed, errorEmbed, baseEmbed } from '@/utils/embeds';
+import type { CommandDefinition } from '../../structures/types.js';
+import { UserModel } from '../../database/models/User.js';
+import { successEmbed, errorEmbed, baseEmbed } from '../../utils/embeds.js';
 
 // Baccarat card value: 10/J/Q/K = 0, A = 1, others = face
 function baccaratValue(rank: string): number {

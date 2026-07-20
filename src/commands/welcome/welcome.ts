@@ -1,7 +1,7 @@
 import { PermissionFlagsBits, SlashCommandBuilder, AttachmentBuilder } from "discord.js";
-import type { CommandDefinition } from "@/structures/types";
-import { GuildModel } from "@/database/models/Guild";
-import { baseEmbed, successEmbed, errorEmbed } from "@/utils/embeds";
+import type { CommandDefinition } from "../../structures/types.js";
+import { GuildModel } from "../../database/models/Guild.js";
+import { baseEmbed, successEmbed, errorEmbed } from "../../utils/embeds.js";
 
 function fillTemplate(template: string, replacements: Record<string, string>): string {
   return template.replace(/\{(\w+)\}/g, (_, key) => replacements[key] ?? `{${key}}`);

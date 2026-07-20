@@ -9,9 +9,9 @@ import {
   TextInputStyle,
   type GuildMember,
 } from "discord.js";
-import type { CommandDefinition } from "@/structures/types";
-import { GuildModel } from "@/database/models/Guild";
-import { baseEmbed, successEmbed, errorEmbed, infoEmbed } from "@/utils/embeds";
+import type { CommandDefinition } from "../../structures/types.js";
+import { GuildModel } from "../../database/models/Guild.js";
+import { baseEmbed, successEmbed, errorEmbed, infoEmbed } from "../../utils/embeds.js";
 
 function randomCode(len = 6): string {
   return Math.random().toString(36).substring(2, 2 + len).toUpperCase();

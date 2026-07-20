@@ -1,7 +1,7 @@
 import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
-import type { CommandDefinition } from '@/structures/types';
-import { UserModel } from '@/database/models/User';
-import { errorEmbed, baseEmbed } from '@/utils/embeds';
+import type { CommandDefinition } from '../../structures/types.js';
+import { UserModel } from '../../database/models/User.js';
+import { errorEmbed, baseEmbed } from '../../utils/embeds.js';
 
 /**
  * Limbo — pick a target multiplier. The game generates a random result.

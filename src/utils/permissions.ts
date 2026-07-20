@@ -1,8 +1,8 @@
 import type { GuildMember } from "discord.js";
-import { getOwnerIds } from "@/config/config";
-import { GuildModel } from "@/database/models/Guild";
-import { CoOwnerModel } from "@/database/models/System";
-import type { AccessTier } from "@/structures/types";
+import { getOwnerIds } from "../config/config.js";
+import { GuildModel } from "../database/models/Guild.js";
+import { CoOwnerModel } from "../database/models/System.js";
+import type { AccessTier } from "../structures/types.js";
 
 const TIER_RANK: Record<AccessTier, number> = {
   general: 0,

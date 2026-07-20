@@ -27,10 +27,6 @@ COPY --from=builder /app/node_modules ./node_modules
 
 COPY --from=builder /app/dist ./dist
 
-# Dynamic loaders
-COPY --from=builder /app/src/commands ./commands
-COPY --from=builder /app/src/events ./events
-
 COPY --from=builder /app/config.json ./config.json
 
 

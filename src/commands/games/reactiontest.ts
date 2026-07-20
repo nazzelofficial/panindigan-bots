@@ -6,7 +6,7 @@ import {
   ButtonStyle,
   ComponentType,
 } from 'discord.js';
-import type { CommandDefinition } from '@/structures/types';
+import type { CommandDefinition } from '../../structures/types.js';
 
 function rateReaction(ms: number): { grade: string; color: number; msg: string } {
   if (ms < 150) return { grade: 'S+', color: 0xFFD700, msg: 'Superhuman reflexes! 🏆' };

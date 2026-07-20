@@ -1,7 +1,7 @@
 import { PermissionFlagsBits, SlashCommandBuilder } from "discord.js";
-import type { CommandDefinition } from "@/structures/types";
-import { GiveawayModel } from "@/database/models/Community";
-import { successEmbed, errorEmbed, baseEmbed } from "@/utils/embeds";
+import type { CommandDefinition } from "../../structures/types.js";
+import { GiveawayModel } from "../../database/models/Community.js";
+import { successEmbed, errorEmbed, baseEmbed } from "../../utils/embeds.js";
 import { randomUUID } from "node:crypto";
 
 const command: CommandDefinition = {

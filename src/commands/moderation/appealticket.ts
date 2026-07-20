@@ -1,11 +1,11 @@
 import { PermissionFlagsBits, SlashCommandBuilder } from "discord.js";
-import type { CommandDefinition } from "@/structures/types";
-import { AppealTicketModel } from "@/database/models/Moderation";
-import { ModCaseModel } from "@/database/models/Moderation";
-import { GuildModel } from "@/database/models/Guild";
-import { baseEmbed, successEmbed, errorEmbed, infoEmbed } from "@/utils/embeds";
-import { createModCase } from "@/features/moderation/caseEngine";
-import { sendLogEvent } from "@/features/logging/logEngine";
+import type { CommandDefinition } from "../../structures/types.js";
+import { AppealTicketModel } from "../../database/models/Moderation.js";
+import { ModCaseModel } from "../../database/models/Moderation.js";
+import { GuildModel } from "../../database/models/Guild.js";
+import { baseEmbed, successEmbed, errorEmbed, infoEmbed } from "../../utils/embeds.js";
+import { createModCase } from "../../features/moderation/caseEngine.js";
+import { sendLogEvent } from "../../features/logging/logEngine.js";
 
 const command: CommandDefinition = {
   name: "appealticket",

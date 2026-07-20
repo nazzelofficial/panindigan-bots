@@ -1,8 +1,8 @@
 import { SlashCommandBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, PermissionFlagsBits } from "discord.js";
-import type { CommandDefinition } from "@/structures/types";
-import { SuggestionModel } from "@/database/models/Community";
-import { GuildModel } from "@/database/models/Guild";
-import { baseEmbed, successEmbed, errorEmbed, infoEmbed, warnEmbed } from "@/utils/embeds";
+import type { CommandDefinition } from "../../structures/types.js";
+import { SuggestionModel } from "../../database/models/Community.js";
+import { GuildModel } from "../../database/models/Guild.js";
+import { baseEmbed, successEmbed, errorEmbed, infoEmbed, warnEmbed } from "../../utils/embeds.js";
 
 const command: CommandDefinition = {
   name: "suggest",

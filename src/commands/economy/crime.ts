@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from "discord.js";
-import type { CommandDefinition } from "@/structures/types";
-import { UserModel } from "@/database/models/User";
-import { successEmbed, errorEmbed, warnEmbed, baseEmbed } from "@/utils/embeds";
+import type { CommandDefinition } from "../../structures/types.js";
+import { UserModel } from "../../database/models/User.js";
+import { successEmbed, errorEmbed, warnEmbed, baseEmbed } from "../../utils/embeds.js";
 
 const CRIME_COOLDOWN_MS = 2 * 60 * 60 * 1000; // 2 hours
 const SUCCESS_CHANCE = 0.55;

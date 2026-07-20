@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from "discord.js";
-import type { CommandDefinition } from "@/structures/types";
-import { UserModel } from "@/database/models/User";
-import { successEmbed, errorEmbed, baseEmbed } from "@/utils/embeds";
+import type { CommandDefinition } from "../../structures/types.js";
+import { UserModel } from "../../database/models/User.js";
+import { successEmbed, errorEmbed, baseEmbed } from "../../utils/embeds.js";
 
 async function getOrCreateProfile(userId: string, guildId: string) {
   let user = await UserModel.findOneAndUpdate(

@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from "discord.js";
-import type { CommandDefinition } from "@/structures/types";
-import { baseEmbed, infoEmbed } from "@/utils/embeds";
+import type { CommandDefinition } from "../../structures/types.js";
+import { baseEmbed, infoEmbed } from "../../utils/embeds.js";
 
 // In-memory snipe cache: channelId -> { content, author, timestamp }[]
 export const snipeCache = new Map<string, Array<{ content: string; authorTag: string; authorId: string; timestamp: number }>>();

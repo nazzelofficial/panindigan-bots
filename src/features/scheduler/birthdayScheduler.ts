@@ -1,9 +1,9 @@
 import cron from "node-cron";
-import { BirthdayModel } from "@/database/models/Community";
-import { GuildModel } from "@/database/models/Guild";
-import { scopedLogger } from "@/utils/logger";
-import { baseEmbed } from "@/utils/embeds";
-import type { PanindiganClient } from "@/structures/Client";
+import { BirthdayModel } from "../../database/models/Community.js";
+import { GuildModel } from "../../database/models/Guild.js";
+import { scopedLogger } from "../../utils/logger.js";
+import { baseEmbed } from "../../utils/embeds.js";
+import type { PanindiganClient } from "../../structures/Client.js";
 
 const log = scopedLogger("birthday-scheduler");
 

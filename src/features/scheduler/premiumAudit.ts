@@ -1,5 +1,5 @@
 import cron from "node-cron";
-import { scopedLogger } from "@/utils/logger";
+import { scopedLogger } from "../../utils/logger.js";
 
 const log = scopedLogger("scheduler:premium-audit");
 

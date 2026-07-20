@@ -1,0 +1,20 @@
+import { warnEmbed } from "../../utils/embeds.js";
+import { scopedLogger } from "../../utils/logger.js";
+const log = scopedLogger("owner:shutdown");
+const command = {
+    name: "shutdown",
+    description: "Shut down the bot process",
+    category: "Owner",
+    access: "owner",
+    guildOnly: false,
+    cooldown: 30,
+    slashData: (b) => b,
+    async execute(ctx) {
+        await ctx.reply({ embeds: [warnEmbed("⚠️ Shutting down bot...")] });
+        const user = ctx.isSlash ? ctx.interaction.user.tag : ctx.message.author.tag;
+        log.info(`Bot shutdown triggered by ${user}`);
+        setTimeout(() => process.exit(0), 1000);
+    },
+};
+export default command;
+//# sourceMappingURL=shutdown.js.map

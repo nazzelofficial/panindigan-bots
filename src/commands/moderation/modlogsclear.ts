@@ -1,8 +1,8 @@
 import { PermissionFlagsBits, SlashCommandBuilder } from "discord.js";
-import type { CommandDefinition } from "@/structures/types";
-import { ModCaseModel } from "@/database/models/Moderation";
-import { successEmbed, errorEmbed, baseEmbed } from "@/utils/embeds";
-import { sendLogEvent } from "@/features/logging/logEngine";
+import type { CommandDefinition } from "../../structures/types.js";
+import { ModCaseModel } from "../../database/models/Moderation.js";
+import { successEmbed, errorEmbed, baseEmbed } from "../../utils/embeds.js";
+import { sendLogEvent } from "../../features/logging/logEngine.js";
 
 const command: CommandDefinition = {
   name: "modlogsclear",

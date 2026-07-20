@@ -1,6 +1,6 @@
 import { SlashCommandBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } from "discord.js";
-import type { CommandDefinition } from "@/structures/types";
-import { baseEmbed, errorEmbed, successEmbed } from "@/utils/embeds";
+import type { CommandDefinition } from "../../structures/types.js";
+import { baseEmbed, errorEmbed, successEmbed } from "../../utils/embeds.js";
 
 interface TriviaQuestion { question: string; correct_answer: string; incorrect_answers: string[]; category: string; difficulty: string; }
 

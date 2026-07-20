@@ -1,7 +1,7 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction } from 'discord.js';
-import { CommandDefinition } from '../../structures/CommandDefinition';
-import { PremiumModel } from '../../database/models/Premium';
-import { nanoid } from '../../utils/nanoid';
+import { CommandDefinition } from '../../structures/CommandDefinition.js';
+import { PremiumModel } from '../../database/models/Premium.js';
+import { nanoid } from '../../utils/nanoid.js';
 
 export default {
   data: new SlashCommandBuilder()

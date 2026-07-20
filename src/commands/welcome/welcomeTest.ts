@@ -1,6 +1,6 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction, EmbedBuilder, TextChannel } from 'discord.js';
-import { CommandDefinition } from '../../structures/CommandDefinition';
-import { GuildModel } from '../../database/models/Guild';
+import { CommandDefinition } from '../../structures/CommandDefinition.js';
+import { GuildModel } from '../../database/models/Guild.js';
 
 export default {
   data: new SlashCommandBuilder()

@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from "discord.js";
-import type { CommandDefinition } from "@/structures/types";
-import { ModCaseModel } from "@/database/models/Moderation";
-import { baseEmbed, errorEmbed } from "@/utils/embeds";
+import type { CommandDefinition } from "../../structures/types.js";
+import { ModCaseModel } from "../../database/models/Moderation.js";
+import { baseEmbed, errorEmbed } from "../../utils/embeds.js";
 
 const command: CommandDefinition = {
   name: "spamcheck",

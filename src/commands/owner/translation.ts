@@ -1,5 +1,5 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction, EmbedBuilder, AttachmentBuilder } from 'discord.js';
-import { TranslationModel } from '../../database/models/System';
+import { TranslationModel } from '../../database/models/System.js';
 
 export default {
   data: new SlashCommandBuilder()

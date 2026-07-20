@@ -6,7 +6,7 @@ import type {
   SlashCommandSubcommandsOnlyBuilder,
   SlashCommandOptionsOnlyBuilder,
 } from "discord.js";
-import type { PanindiganClient } from "./Client";
+import type { PanindiganClient } from "./Client.js";
 
 export type AccessTier = "owner" | "coowner" | "admin" | "moderator" | "general";
 

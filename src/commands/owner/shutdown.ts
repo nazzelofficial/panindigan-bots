@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from "discord.js";
-import type { CommandDefinition } from "@/structures/types";
-import { warnEmbed } from "@/utils/embeds";
-import { scopedLogger } from "@/utils/logger";
+import type { CommandDefinition } from "../../structures/types.js";
+import { warnEmbed } from "../../utils/embeds.js";
+import { scopedLogger } from "../../utils/logger.js";
 
 const log = scopedLogger("owner:shutdown");
 

@@ -1,5 +1,5 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction, EmbedBuilder, AttachmentBuilder } from 'discord.js';
-import { CommandDefinition } from '../../structures/CommandDefinition';
+import { CommandDefinition } from '../../structures/CommandDefinition.js';
 
 interface LyricsOvhSuggestResult {
   data: Array<{ artist: { name: string }; title: string }>;

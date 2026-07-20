@@ -1,6 +1,6 @@
 import { LavalinkManager } from "lavalink-client";
-import type { PanindiganClient } from "@/structures/Client";
-import { scopedLogger } from "@/utils/logger";
+import type { PanindiganClient } from "../../structures/Client.js";
+import { scopedLogger } from "../../utils/logger.js";
 
 const log = scopedLogger("music");
 

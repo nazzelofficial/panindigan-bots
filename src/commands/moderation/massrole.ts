@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from 'discord.js';
-import type { CommandDefinition } from '@/structures/types';
-import { infoEmbed, successEmbed } from '@/utils/embeds';
+import type { CommandDefinition } from '../../structures/types.js';
+import { infoEmbed, successEmbed } from '../../utils/embeds.js';
 
 const command: CommandDefinition = {
   name: 'massrole',

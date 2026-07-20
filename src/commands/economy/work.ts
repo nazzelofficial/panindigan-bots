@@ -1,9 +1,9 @@
 import { SlashCommandBuilder } from "discord.js";
-import type { CommandDefinition } from "@/structures/types";
-import { UserModel } from "@/database/models/User";
-import { successEmbed, errorEmbed, baseEmbed } from "@/utils/embeds";
-import { JOBS, getPayForJob } from "@/features/economy/jobs";
-import { config } from "@/config/config";
+import type { CommandDefinition } from "../../structures/types.js";
+import { UserModel } from "../../database/models/User.js";
+import { successEmbed, errorEmbed, baseEmbed } from "../../utils/embeds.js";
+import { JOBS, getPayForJob } from "../../features/economy/jobs.js";
+import { config } from "../../config/config.js";
 
 const WORK_COOLDOWN_MS = 60 * 60 * 1000; // 1 hour
 

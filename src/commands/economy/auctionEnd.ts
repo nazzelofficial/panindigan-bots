@@ -1,8 +1,8 @@
 import { SlashCommandBuilder, EmbedBuilder, TextChannel } from "discord.js";
-import type { CommandDefinition } from "@/structures/types";
-import { AuctionModel } from "@/database/models/Economy";
-import { UserModel } from "@/database/models/User";
-import { successEmbed, errorEmbed, baseEmbed } from "@/utils/embeds";
+import type { CommandDefinition } from "../../structures/types.js";
+import { AuctionModel } from "../../database/models/Economy.js";
+import { UserModel } from "../../database/models/User.js";
+import { successEmbed, errorEmbed, baseEmbed } from "../../utils/embeds.js";
 
 const command: CommandDefinition = {
   name: "auction_end",

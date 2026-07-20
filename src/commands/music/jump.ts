@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from "discord.js";
-import type { CommandDefinition } from "@/structures/types";
-import { successEmbed, errorEmbed } from "@/utils/embeds";
+import type { CommandDefinition } from "../../structures/types.js";
+import { successEmbed, errorEmbed } from "../../utils/embeds.js";
 
 function fmtTime(s: number) {
   const m = Math.floor(s / 60), sec = s % 60;

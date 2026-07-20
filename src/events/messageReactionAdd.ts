@@ -1,7 +1,7 @@
 import { Events, MessageReaction, PartialMessageReaction, User, PartialUser } from "discord.js";
-import type { EventDefinition } from "@/structures/types";
-import { ReactionRoleModel } from "@/database/models/Community";
-import { scopedLogger } from "@/utils/logger";
+import type { EventDefinition } from "../structures/types.js";
+import { ReactionRoleModel } from "../database/models/Community.js";
+import { scopedLogger } from "../utils/logger.js";
 
 const log = scopedLogger("reaction-add");
 

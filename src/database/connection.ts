@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
-import { requireEnv } from "@/config/config";
-import { scopedLogger } from "@/utils/logger";
+import { requireEnv } from "../config/config.js";
+import { scopedLogger } from "../utils/logger.js";
 
 const log = scopedLogger("database");
 

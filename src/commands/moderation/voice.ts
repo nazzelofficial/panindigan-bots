@@ -1,7 +1,7 @@
 import { PermissionFlagsBits, SlashCommandBuilder } from "discord.js";
-import type { CommandDefinition } from "@/structures/types";
-import { successEmbed, errorEmbed } from "@/utils/embeds";
-import { createModCase } from "@/features/moderation/caseEngine";
+import type { CommandDefinition } from "../../structures/types.js";
+import { successEmbed, errorEmbed } from "../../utils/embeds.js";
+import { createModCase } from "../../features/moderation/caseEngine.js";
 
 const command: CommandDefinition = {
   name: "voice",

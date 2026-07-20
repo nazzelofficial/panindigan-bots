@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from "discord.js";
-import type { CommandDefinition } from "@/structures/types";
-import { successEmbed, errorEmbed } from "@/utils/embeds";
+import type { CommandDefinition } from "../../structures/types.js";
+import { successEmbed, errorEmbed } from "../../utils/embeds.js";
 
 const EQ_PRESETS: Record<string, { label: string; bands: Array<{ band: number; gain: number }> }> = {
   flat: { label: "Flat", bands: Array.from({ length: 15 }, (_, i) => ({ band: i, gain: 0 })) },

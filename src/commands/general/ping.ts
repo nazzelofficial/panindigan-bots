@@ -1,6 +1,6 @@
-import type { CommandDefinition } from "@/structures/types";
-import { baseEmbed } from "@/utils/embeds";
-import { isDatabaseConnected } from "@/database/connection";
+import type { CommandDefinition } from "../../structures/types.js";
+import { baseEmbed } from "../../utils/embeds.js";
+import { isDatabaseConnected } from "../../database/connection.js";
 
 const command: CommandDefinition = {
   name: "ping",

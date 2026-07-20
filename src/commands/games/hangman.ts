@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from "discord.js";
-import type { CommandDefinition } from "@/structures/types";
-import { baseEmbed, errorEmbed, infoEmbed } from "@/utils/embeds";
+import type { CommandDefinition } from "../../structures/types.js";
+import { baseEmbed, errorEmbed, infoEmbed } from "../../utils/embeds.js";
 
 const CATEGORIES: Record<string, string[]> = {
   animals: ["elephant","kangaroo","crocodile","butterfly","rhinoceros","flamingo","dolphin","octopus","penguin","giraffe"],

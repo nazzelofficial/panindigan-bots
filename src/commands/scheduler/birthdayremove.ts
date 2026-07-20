@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from "discord.js";
-import type { CommandDefinition } from "@/structures/types";
-import { BirthdayModel } from "@/database/models/Community";
-import { successEmbed } from "@/utils/embeds";
+import type { CommandDefinition } from "../../structures/types.js";
+import { BirthdayModel } from "../../database/models/Community.js";
+import { successEmbed } from "../../utils/embeds.js";
 
 const command: CommandDefinition = {
   name: "birthdayremove",

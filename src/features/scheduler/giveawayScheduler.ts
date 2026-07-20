@@ -1,8 +1,8 @@
 import cron from "node-cron";
-import type { PanindiganClient } from "@/structures/Client";
-import { GiveawayModel } from "@/database/models/Community";
-import { baseEmbed } from "@/utils/embeds";
-import { scopedLogger } from "@/utils/logger";
+import type { PanindiganClient } from "../../structures/Client.js";
+import { GiveawayModel } from "../../database/models/Community.js";
+import { baseEmbed } from "../../utils/embeds.js";
+import { scopedLogger } from "../../utils/logger.js";
 
 const log = scopedLogger("scheduler:giveaways");
 

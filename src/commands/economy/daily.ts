@@ -1,8 +1,8 @@
 import { SlashCommandBuilder } from "discord.js";
-import type { CommandDefinition } from "@/structures/types";
-import { UserModel } from "@/database/models/User";
-import { successEmbed, errorEmbed, baseEmbed } from "@/utils/embeds";
-import { config } from "@/config/config";
+import type { CommandDefinition } from "../../structures/types.js";
+import { UserModel } from "../../database/models/User.js";
+import { successEmbed, errorEmbed, baseEmbed } from "../../utils/embeds.js";
+import { config } from "../../config/config.js";
 
 const DAILY_COOLDOWN_MS = 22 * 60 * 60 * 1000; // 22 hours
 

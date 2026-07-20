@@ -1,8 +1,8 @@
 import type { Message } from "discord.js";
-import type { PanindiganClient } from "@/structures/Client";
-import { GuildModel } from "@/database/models/Guild";
-import { warnEmbed } from "@/utils/embeds";
-import { createModCase } from "@/features/moderation/caseEngine";
+import type { PanindiganClient } from "../../structures/Client.js";
+import { GuildModel } from "../../database/models/Guild.js";
+import { warnEmbed } from "../../utils/embeds.js";
+import { createModCase } from "../moderation/caseEngine.js";
 
 const INVITE_REGEX = /(discord\.gg|discord(app)?\.com\/invite)\/[a-zA-Z0-9-]+/i;
 const LINK_REGEX = /(https?:\/\/)[^\s]+/gi;

@@ -1,11 +1,11 @@
 import { PermissionFlagsBits, SlashCommandBuilder } from "discord.js";
 import { readFileSync } from "node:fs";
 import path from "node:path";
-import type { CommandDefinition } from "@/structures/types";
-import { GuildModel } from "@/database/models/Guild";
-import { PremiumModel, PremiumCodeModel } from "@/database/models/Premium";
-import { baseEmbed, successEmbed, errorEmbed, infoEmbed } from "@/utils/embeds";
-import { config } from "@/config/config";
+import type { CommandDefinition } from "../../structures/types.js";
+import { GuildModel } from "../../database/models/Guild.js";
+import { PremiumModel, PremiumCodeModel } from "../../database/models/Premium.js";
+import { baseEmbed, successEmbed, errorEmbed, infoEmbed } from "../../utils/embeds.js";
+import { config } from "../../config/config.js";
 
 function getLatestChangelogExcerpt(): string {
   try {

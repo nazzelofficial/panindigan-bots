@@ -1,8 +1,8 @@
 import { PermissionFlagsBits, SlashCommandBuilder } from 'discord.js';
-import type { CommandDefinition } from '@/structures/types';
-import { createModCase } from '@/features/moderation/caseEngine';
-import { sendLogEvent } from '@/features/logging/logEngine';
-import { baseEmbed, errorEmbed, successEmbed } from '@/utils/embeds';
+import type { CommandDefinition } from '../../structures/types.js';
+import { createModCase } from '../../features/moderation/caseEngine.js';
+import { sendLogEvent } from '../../features/logging/logEngine.js';
+import { baseEmbed, errorEmbed, successEmbed } from '../../utils/embeds.js';
 
 const command: CommandDefinition = {
   name: 'hackban',

@@ -1,5 +1,5 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction, EmbedBuilder } from 'discord.js';
-import { LicenseModel } from '../../database/models/Premium';
+import { LicenseModel } from '../../database/models/Premium.js';
 import crypto from 'node:crypto';
 
 function generateLicenseKey(): string {

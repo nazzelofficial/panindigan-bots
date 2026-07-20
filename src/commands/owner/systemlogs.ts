@@ -1,5 +1,5 @@
 import { SlashCommandBuilder, ChatInputCommandInteraction } from 'discord.js';
-import { CommandDefinition } from '../../structures/CommandDefinition';
+import { CommandDefinition } from '../../structures/CommandDefinition.js';
 import fs from 'fs/promises';
 import path from 'path';
 

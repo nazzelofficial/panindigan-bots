@@ -1,5 +1,5 @@
 import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
-import type { CommandDefinition } from '@/structures/types';
+import type { CommandDefinition } from '../../structures/types.js';
 
 const SENTENCES = [
   'The quick brown fox jumps over the lazy dog',
