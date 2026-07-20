@@ -3,6 +3,10 @@ import type { EventDefinition } from "../structures/types.js";
 import { sendLogEvent } from "../features/logging/logEngine.js";
 import { baseEmbed } from "../utils/embeds.js";
 import { GuildModel } from "../database/models/Guild.js";
+import { createGoodbyeEmbed } from "../utils/goodbyeEmbed.js";
+import { scopedLogger } from "../utils/logger.js";
+
+const log = scopedLogger("member-remove");
 
 const event: EventDefinition = {
   name: Events.GuildMemberRemove,
@@ -13,12 +17,33 @@ const event: EventDefinition = {
     if (goodbye?.enabled && goodbye.channelId) {
       const ch = member.guild.channels.cache.get(goodbye.channelId);
       if (ch?.isTextBased()) {
-        const msg = (goodbye.message ?? "Goodbye {user}! We hope to see you again.")
-          .replace("{user}", member.user?.username ?? "someone")
-          .replace("{mention}", `<@${member.id}>`)
-          .replace("{server}", member.guild.name)
-          .replace("{memberCount}", String(member.guild.memberCount));
-        await (ch as any).send({ content: msg }).catch(() => {});
+        try {
+          const { embed, attachment } = await createGoodbyeEmbed({
+            user: member.user!,
+            guild: member.guild,
+            channel: ch as any,
+            config: goodbye,
+          });
+
+          if (goodbye.dmEnabled) {
+            await member.user?.send({ embeds: [embed], files: attachment ? [attachment] : [] }).catch(() => {});
+          }
+
+          if (goodbye.embed) {
+            await ch.send({ embeds: [embed], files: attachment ? [attachment] : [] }).catch(() => {});
+          } else {
+            const msg = (goodbye.message ?? "Goodbye {user}! We hope to see you again.")
+              .replace("{user}", member.user?.username ?? "someone")
+              .replace("{mention}", `<@${member.id}>`)
+              .replace("{server}", member.guild.name)
+              .replace("{memberCount}", String(member.guild.memberCount));
+            await ch.send({ content: msg }).catch(() => {});
+          }
+
+          log.info(`Goodbye message sent for ${member.user?.tag} in ${member.guild.name}`);
+        } catch (error) {
+          log.error("Failed to send goodbye message", { error: String(error) });
+        }
       }
     }
 

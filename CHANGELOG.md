@@ -10,6 +10,77 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ---
 
+## [0.2.3] — 2026-07-20
+
+### Summary
+
+Complete Welcome and Goodbye system redesign. Separated Welcome and Goodbye into independent modules with their own commands, database schemas, canvas generators, and embed builders. Added comprehensive configuration options including custom embeds, themes, canvas cards, DM support, autorole, and professional logging.
+
+---
+
+### Added
+
+#### Welcome System — Complete Redesign
+- Independent Welcome module in `src/commands/welcome/` with 15+ commands
+- Welcome database schema with 20+ configuration fields (title, description, color, footer, thumbnail, image, banner, background, autorole, dm, language, theme, buttons, embed, cardTemplate, cardBackgroundUrl, randomMessages)
+- Welcome Canvas generator with 4 themes (default, glow, gradient, dark) supporting custom backgrounds, rounded avatars, blur, and high resolution
+- Welcome embed builder with 10 placeholder variables ({user}, {mention}, {username}, {displayname}, {server}, {membercount}, {position}, {joindate}, {createdate}, {avatar}, {icon})
+- Welcome commands: setup, disable, message, card, set (title/description/color/footer/thumbnail/image/banner/background/autorole/dm/language/theme/buttons/embed), variables, preview, test, info, status, reset
+- DM welcome support with channel fallback
+- Autorole assignment on join
+- Professional event logging for welcome operations
+
+#### Goodbye System — Complete Redesign
+- Independent Goodbye module in `src/commands/goodbye/` with separate category
+- Goodbye database schema with 19+ configuration fields (title, description, color, footer, thumbnail, image, banner, background, dm, language, theme, buttons, embed, cardTemplate, cardBackgroundUrl, randomMessages)
+- Goodbye Canvas generator with 4 themes (default, farewell, dark, red-accent) supporting custom backgrounds, rounded avatars, blur, and high resolution
+- Goodbye embed builder with 9 placeholder variables ({user}, {mention}, {username}, {displayname}, {server}, {membercount}, {leavetime}, {joindate}, {avatar}, {icon})
+- Goodbye commands: setup, disable, message, card, set (title/description/color/footer/thumbnail/image/banner/background/dm/language/theme/buttons/embed), variables, preview, test, info, status, reset
+- DM goodbye support with channel fallback
+- Professional event logging for goodbye operations
+
+#### Canvas Generators
+- `src/utils/welcomeCanvas.ts` - Welcome canvas with theme support, custom backgrounds, rounded corners, blur effects
+- `src/utils/goodbyeCanvas.ts` - Goodbye canvas with theme support, custom backgrounds, rounded corners, blur effects
+- High resolution output with proper caching support
+- Error handling with fallback to text-only messages
+
+#### Embed Builders
+- `src/utils/welcomeEmbed.ts` - Welcome embed builder with placeholder replacement and canvas integration
+- `src/utils/goodbyeEmbed.ts` - Goodbye embed builder with placeholder replacement and canvas integration
+- Support for custom colors, thumbnails, images, banners, footers
+- Automatic canvas generation when card enabled
+
+#### Events Integration
+- Updated `guildMemberAdd` event to use new welcome system with embed builder, canvas generator, DM support, and autorole
+- Updated `guildMemberRemove` event to use new goodbye system with embed builder, canvas generator, and DM support
+- Professional logging for all welcome/goodbye operations
+
+---
+
+### Changed
+
+#### Command Organization
+- Moved all goodbye commands from `src/commands/welcome/` to `src/commands/goodbye/`
+- Changed goodbye command category from "Welcome" to "Goodbye"
+- Welcome and Goodbye are now completely independent systems with no shared configuration
+
+#### Database Schema
+- Expanded Welcome schema from 5 fields to 20+ fields
+- Expanded Goodbye schema from 3 fields to 19+ fields
+- Both schemas now support full embed customization, canvas generation, DM support, and theme options
+
+---
+
+### Fixed
+
+#### Command Structure
+- Fixed goodbye commands being mixed with welcome commands
+- Fixed category confusion between welcome and goodbye systems
+- Fixed missing configuration options for both systems
+
+---
+
 ## [0.2.2] — 2026-07-20
 
 ### Summary
