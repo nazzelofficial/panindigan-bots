@@ -380,11 +380,10 @@ export async function initLavalink(client: PanindiganClient): Promise<void> {
         log.info(`Bot left voice channel in guild ${guildId}`);
         if (player) {
           try {
-            if (player.voiceChannelId) {
-              const textChannel = client.channels.cache.get(player.voiceChannelId) as any;
-              if (textChannel) {
-                await MusicControllerManager.sendDisconnected(guildId, textChannel);
-              }
+            // Use the stored textChannelId instead of voiceChannelId
+            const textChannel = player.textChannelId ? client.channels.cache.get(player.textChannelId) as any : null;
+            if (textChannel) {
+              await MusicControllerManager.sendDisconnected(guildId, textChannel);
             }
             await player.destroy();
             log.info(`Destroyed player for guild ${guildId} after bot left voice`);
@@ -401,11 +400,10 @@ export async function initLavalink(client: PanindiganClient): Promise<void> {
         if (!botInChannel) {
           log.info(`Bot was kicked from voice channel in guild ${guildId}`);
           try {
-            if (player.voiceChannelId) {
-              const textChannel = client.channels.cache.get(player.voiceChannelId) as any;
-              if (textChannel) {
-                await MusicControllerManager.sendDisconnected(guildId, textChannel);
-              }
+            // Use the stored textChannelId instead of voiceChannelId
+            const textChannel = player.textChannelId ? client.channels.cache.get(player.textChannelId) as any : null;
+            if (textChannel) {
+              await MusicControllerManager.sendDisconnected(guildId, textChannel);
             }
             await player.destroy();
             log.info(`Destroyed player for guild ${guildId} after bot was kicked`);
@@ -444,8 +442,8 @@ export async function initLavalink(client: PanindiganClient): Promise<void> {
     lavalink.on("trackStart", async (player, track) => {
       if (!track) return;
       log.info(`Track started in guild ${player.guildId}: ${track.info.title}`);
-      const guild = client.guilds.cache.get(player.guildId);
-      const textChannel = guild?.channels.cache.find(c => c.isTextBased() && c.type === 0) as any;
+      // Use the stored textChannelId from the player instead of finding a random channel
+      const textChannel = player.textChannelId ? client.channels.cache.get(player.textChannelId) as any : null;
       await MusicControllerManager.sendTrackStarted(player.queue, track, textChannel);
       await MusicControllerManager.updateController(player.queue, track, 0, "playing", player, textChannel);
     });
@@ -453,15 +451,15 @@ export async function initLavalink(client: PanindiganClient): Promise<void> {
     lavalink.on("trackEnd", async (player, track) => {
       if (!track) return;
       log.info(`Track ended in guild ${player.guildId}: ${track.info.title}`);
-      const guild = client.guilds.cache.get(player.guildId);
-      const textChannel = guild?.channels.cache.find(c => c.isTextBased() && c.type === 0) as any;
+      // Use the stored textChannelId from the player instead of finding a random channel
+      const textChannel = player.textChannelId ? client.channels.cache.get(player.textChannelId) as any : null;
       await MusicControllerManager.sendTrackFinished(player.queue, track, textChannel);
     });
 
     lavalink.on("queueEnd", async (player) => {
       log.info(`Queue ended in guild ${player.guildId}`);
-      const guild = client.guilds.cache.get(player.guildId);
-      const textChannel = guild?.channels.cache.find(c => c.isTextBased() && c.type === 0) as any;
+      // Use the stored textChannelId from the player instead of finding a random channel
+      const textChannel = player.textChannelId ? client.channels.cache.get(player.textChannelId) as any : null;
       await MusicControllerManager.sendQueueFinished(player.guildId, textChannel);
     });
 

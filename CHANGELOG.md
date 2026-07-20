@@ -10,6 +10,36 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ---
 
+## [0.2.2] — 2026-07-20
+
+### Summary
+
+Critical bug fixes for music system message handling and channel routing. Fixed "Cannot edit a message authored by another user" error for prefix commands by implementing proper bot message storage and editing flow. Fixed music embeds being sent to wrong text channels by using stored textChannelId from player instead of random channel selection.
+
+---
+
+### Fixed
+
+#### Music System — Message Editing Flow
+- Fixed "Cannot edit a message authored by another user" error for prefix commands (P!play)
+- Implemented proper bot message storage for prefix commands using message.reply()
+- Added defensive checks before editing messages (author.id === client.user.id)
+- Separated reply/edit logic cleanly for prefix vs slash commands
+- Added graceful fallback to send new message if editing is impossible
+- Fixed TypeScript errors related to ctx.client.user null checks
+
+#### Music System — Channel Routing
+- Fixed music embeds being sent to wrong text channels (e.g., #welcome instead of #music)
+- Removed random channel selection logic (guild.channels.cache.find(), guild.systemChannel)
+- Updated all music event handlers to use stored player.textChannelId
+- Fixed trackStart event to use player.textChannelId instead of random channel
+- Fixed trackEnd event to use player.textChannelId instead of random channel
+- Fixed queueEnd event to use player.textChannelId instead of random channel
+- Fixed voice disconnect events to use player.textChannelId instead of voiceChannelId
+- Ensured textChannelId is preserved during queue updates, skip, stop, pause, resume, shuffle, loop, autoplay
+
+---
+
 ## [0.2.1] — 2026-07-20
 
 ### Summary

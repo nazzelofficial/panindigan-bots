@@ -77,8 +77,21 @@ const command: CommandDefinition = {
     const textChannelId = ctx.interaction?.channelId ?? ctx.message?.channelId;
     const textChannel = ctx.client.channels.cache.get(textChannelId!) as any;
 
-    // Send searching embed
-    await ctx.reply({ embeds: [createSearchingEmbed(query)] });
+    // Store the bot's message for editing (for prefix commands)
+    let botMessage: any = null;
+    const botUserId = ctx.client.user?.id;
+    if (!botUserId) {
+      await ctx.reply({ embeds: [errorEmbed("Bot user not available.")] });
+      return;
+    }
+
+    // Send searching embed - different logic for slash vs prefix
+    if (ctx.isSlash) {
+      await ctx.interaction!.deferReply();
+    } else {
+      // For prefix commands, reply with searching embed and store the message
+      botMessage = await ctx.message!.reply({ embeds: [createSearchingEmbed(query)] });
+    }
 
     let player = ctx.client.lavalink!.getPlayer(guild.id);
     if (!player) {
@@ -97,31 +110,40 @@ const command: CommandDefinition = {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let result: any = null;
     try {
-      result = await player.search({ query, source: "ytsearch" }, ctx.client.user!);
-    } catch {
+      result = await player.search({ query, source: "ytsearch" }, { id: botUserId, username: "bot" });
+    } catch (error) {
+      const errorEmbedMsg = errorEmbed("❌ Music service unavailable — could not search for that track. Try again shortly.");
       if (ctx.isSlash) {
-        await ctx.interaction!.editReply({ embeds: [errorEmbed("❌ Music service unavailable — could not search for that track. Try again shortly.")] });
+        await ctx.interaction!.editReply({ embeds: [errorEmbedMsg] });
+      } else if (botMessage && botMessage.author.id === botUserId) {
+        await botMessage.edit({ embeds: [errorEmbedMsg] });
       } else {
-        await ctx.message!.edit({ embeds: [errorEmbed("❌ Music service unavailable — could not search for that track. Try again shortly.")] });
+        await ctx.message!.reply({ embeds: [errorEmbedMsg] });
       }
       return;
     }
 
     if (!result || result.loadType === "empty" || result.loadType === "error") {
+      const errorEmbedMsg = errorEmbed("No results found for your query.");
       if (ctx.isSlash) {
-        await ctx.interaction!.editReply({ embeds: [errorEmbed("No results found for your query.")] });
+        await ctx.interaction!.editReply({ embeds: [errorEmbedMsg] });
+      } else if (botMessage && botMessage.author.id === botUserId) {
+        await botMessage.edit({ embeds: [errorEmbedMsg] });
       } else {
-        await ctx.message!.edit({ embeds: [errorEmbed("No results found for your query.")] });
+        await ctx.message!.reply({ embeds: [errorEmbedMsg] });
       }
       return;
     }
 
     if (result.loadType === "playlist") {
       // Send loading embed
+      const loadingEmbed = createPlaylistLoadingEmbed(result.playlist?.name ?? "Playlist", result.playlist?.artworkUrl ?? "", 0, result.tracks.length);
       if (ctx.isSlash) {
-        await ctx.interaction!.editReply({ embeds: [createPlaylistLoadingEmbed(result.playlist?.name ?? "Playlist", result.playlist?.artworkUrl ?? "", 0, result.tracks.length)] });
+        await ctx.interaction!.editReply({ embeds: [loadingEmbed] });
+      } else if (botMessage && botMessage.author.id === botUserId) {
+        await botMessage.edit({ embeds: [loadingEmbed] });
       } else {
-        await ctx.message!.edit({ embeds: [createPlaylistLoadingEmbed(result.playlist?.name ?? "Playlist", result.playlist?.artworkUrl ?? "", 0, result.tracks.length)] });
+        await ctx.message!.reply({ embeds: [loadingEmbed] });
       }
       
       for (const track of result.tracks) {
@@ -130,14 +152,13 @@ const command: CommandDefinition = {
       }
       
       const totalDuration = result.tracks.reduce((acc: number, t: any) => acc + (t.info.duration || 0), 0);
+      const loadedEmbed = createPlaylistLoadedEmbed(result.playlist?.name ?? "Playlist", result.playlist?.artworkUrl ?? "", result.tracks.length, totalDuration);
       if (ctx.isSlash) {
-        await ctx.interaction!.editReply({
-          embeds: [createPlaylistLoadedEmbed(result.playlist?.name ?? "Playlist", result.playlist?.artworkUrl ?? "", result.tracks.length, totalDuration)],
-        });
+        await ctx.interaction!.editReply({ embeds: [loadedEmbed] });
+      } else if (botMessage && botMessage.author.id === botUserId) {
+        await botMessage.edit({ embeds: [loadedEmbed] });
       } else {
-        await ctx.message!.edit({
-          embeds: [createPlaylistLoadedEmbed(result.playlist?.name ?? "Playlist", result.playlist?.artworkUrl ?? "", result.tracks.length, totalDuration)],
-        });
+        await ctx.message!.reply({ embeds: [loadedEmbed] });
       }
 
       if (!player.playing) await player.play().catch(() => {});
@@ -149,27 +170,23 @@ const command: CommandDefinition = {
       if (!player.playing) {
         await player.play().catch(() => {});
         // Controller will be updated by trackStart event
+        const nowPlayingEmbed = errorEmbed(`▶️ Now Playing\n**${track.info.title}**\nRequested by <@${ctx.userId}>`).setThumbnail(track.info.artworkUrl ?? null);
         if (ctx.isSlash) {
-          await ctx.interaction!.editReply({ embeds: [errorEmbed(`▶️ Now Playing\n**${track.info.title}**\nRequested by <@${ctx.userId}>`).setThumbnail(track.info.artworkUrl ?? null)] });
+          await ctx.interaction!.editReply({ embeds: [nowPlayingEmbed] });
+        } else if (botMessage && botMessage.author.id === botUserId) {
+          await botMessage.edit({ embeds: [nowPlayingEmbed] });
         } else {
-          await ctx.message!.edit({ embeds: [errorEmbed(`▶️ Now Playing\n**${track.info.title}**\nRequested by <@${ctx.userId}>`).setThumbnail(track.info.artworkUrl ?? null)] });
+          await ctx.message!.reply({ embeds: [nowPlayingEmbed] });
         }
       } else {
         const pos = player.queue.tracks.length;
+        const queueEmbed = errorEmbed(`➕ Added to queue at position #${pos}\n**${track.info.title}**\nRequested by <@${ctx.userId}>`).setThumbnail(track.info.artworkUrl ?? null);
         if (ctx.isSlash) {
-          await ctx.interaction!.editReply({
-            embeds: [
-              errorEmbed(`➕ Added to queue at position #${pos}\n**${track.info.title}**\nRequested by <@${ctx.userId}>`)
-                .setThumbnail(track.info.artworkUrl ?? null),
-            ],
-          });
+          await ctx.interaction!.editReply({ embeds: [queueEmbed] });
+        } else if (botMessage && botMessage.author.id === botUserId) {
+          await botMessage.edit({ embeds: [queueEmbed] });
         } else {
-          await ctx.message!.edit({
-            embeds: [
-              errorEmbed(`➕ Added to queue at position #${pos}\n**${track.info.title}**\nRequested by <@${ctx.userId}>`)
-                .setThumbnail(track.info.artworkUrl ?? null),
-            ],
-          });
+          await ctx.message!.reply({ embeds: [queueEmbed] });
         }
       }
     }
