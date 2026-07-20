@@ -37,7 +37,7 @@ async function searchLyrics(query) {
 }
 export default {
     data: new SlashCommandBuilder()
-        .setName('lyrics')
+        .setName('lyricssearch')
         .setDescription('Search for song lyrics')
         .addStringOption(o => o.setName('query').setDescription('Song name or "Artist - Song" (e.g. "Ed Sheeran - Shape of You")').setRequired(true)),
     category: 'Music',

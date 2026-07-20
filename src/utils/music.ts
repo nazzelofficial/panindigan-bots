@@ -184,6 +184,7 @@ export interface NodeHealthInfo {
   playerCount?: number;
   memoryUsage?: number;
   cpuLoad?: number;
+  debugReason?: string; // Debug info for why node is unhealthy
 }
 
 /**
@@ -193,17 +194,38 @@ export interface NodeHealthInfo {
  */
 export function getNodeHealthInfo(node: any): NodeHealthInfo {
   const stats = node?.stats;
-  return {
+  const state = node?.state;
+  const sessionId = node?.sessionId;
+  const wsReadyState = node?.ws?.readyState;
+
+  // In lavalink-client v2.x, the main indicator is the 'state' property
+  // Valid states: 'connected', 'connecting', 'disconnected', 'error'
+  const isConnected = state === "connected";
+  const hasSession = !!sessionId;
+  const wsOpen = wsReadyState === 1; // WebSocket.OPEN
+
+  const healthInfo: NodeHealthInfo = {
     nodeId: node.id,
-    connected: (node as any).connected === true || (node as any).state === "connected",
-    ready: node?.state === "connected" || node?.state === "ready",
-    websocketOpen: node?.ws?.readyState === 1, // WebSocket.OPEN
-    authenticated: node?.state !== "disconnected" && node?.state !== "error",
+    connected: isConnected,
+    ready: isConnected && hasSession,
+    websocketOpen: wsOpen,
+    authenticated: isConnected && hasSession,
     ping: stats?.ping ?? undefined,
     playerCount: stats?.players ?? undefined,
     memoryUsage: stats?.memory?.used ?? undefined,
     cpuLoad: stats?.cpu?.lavalinkLoad ?? undefined,
   };
+
+  // Add debug reason if unhealthy
+  if (!isConnected) {
+    healthInfo.debugReason = `State is "${state}" (expected "connected")`;
+  } else if (!hasSession) {
+    healthInfo.debugReason = `No session ID (sessionId: ${sessionId})`;
+  } else if (!wsOpen) {
+    healthInfo.debugReason = `WebSocket not open (readyState: ${wsReadyState})`;
+  }
+
+  return healthInfo;
 }
 
 /**
@@ -213,7 +235,23 @@ export function getNodeHealthInfo(node: any): NodeHealthInfo {
  */
 export function isNodeHealthy(node: any): boolean {
   const health = getNodeHealthInfo(node);
-  return health.connected && health.ready && health.websocketOpen && health.authenticated;
+  const isHealthy = health.connected && health.ready && health.authenticated;
+
+  // Debug log if unhealthy
+  if (!isHealthy) {
+    console.log(`[MUSIC DEBUG] Node "${health.nodeId}" is unhealthy:`, {
+      connected: health.connected,
+      ready: health.ready,
+      authenticated: health.authenticated,
+      websocketOpen: health.websocketOpen,
+      reason: health.debugReason,
+      state: node?.state,
+      sessionId: node?.sessionId,
+      wsReadyState: node?.ws?.readyState,
+    });
+  }
+
+  return isHealthy;
 }
 
 /**
@@ -224,16 +262,31 @@ export function isNodeHealthy(node: any): boolean {
 export function getHealthyNode(client: PanindiganClient): ReturnType<LavalinkManager["nodeManager"]["nodes"]["get"]> | null {
   const lavalink = client.lavalink;
   if (!lavalink?.nodeManager?.nodes) {
+    console.log("[MUSIC DEBUG] getHealthyNode: Lavalink or nodeManager not available");
     return null;
   }
 
+  const nodes = Array.from(lavalink.nodeManager.nodes.values());
+  console.log(`[MUSIC DEBUG] getHealthyNode: Checking ${nodes.length} node(s)`);
+
   // Find the first healthy node
-  for (const node of lavalink.nodeManager.nodes.values()) {
+  for (const node of nodes) {
+    const health = getNodeHealthInfo(node);
+    console.log(`[MUSIC DEBUG] Checking node "${health.nodeId}":`, {
+      connected: health.connected,
+      ready: health.ready,
+      authenticated: health.authenticated,
+      websocketOpen: health.websocketOpen,
+      reason: health.debugReason,
+    });
+
     if (isNodeHealthy(node)) {
+      console.log(`[MUSIC DEBUG] ✓ Found healthy node: "${health.nodeId}"`);
       return node;
     }
   }
 
+  console.log("[MUSIC DEBUG] ✗ No healthy nodes found");
   return null;
 }
 
@@ -254,17 +307,24 @@ export function getConnectedNode(client: PanindiganClient): ReturnType<LavalinkM
  * @returns Error message or null if valid
  */
 export function validateMusicOperation(client: PanindiganClient): string | null {
+  console.log("[MUSIC DEBUG] validateMusicOperation called");
+
   const status = getMusicStatus(client);
+  console.log("[MUSIC DEBUG] Music status:", status);
+
   if (status.status !== MusicStatus.READY) {
+    console.log("[MUSIC DEBUG] Music status not READY, returning error");
     return getMusicUnavailableMessage(client);
   }
 
   // Additional node health validation
   const healthyNode = getHealthyNode(client);
   if (!healthyNode) {
+    console.log("[MUSIC DEBUG] No healthy node found, returning error");
     return "❌ Music service is currently unavailable.\nNo Lavalink node is currently ready.\nPlease try again later.";
   }
 
+  console.log("[MUSIC DEBUG] ✓ Validation passed, healthy node found");
   return null;
 }
 

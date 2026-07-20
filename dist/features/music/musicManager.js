@@ -239,6 +239,32 @@ export async function initLavalink(client) {
             logConnectionSuccess(node.id);
             isInitialized = true;
             isInitializing = false;
+            activeNodeId = node.id;
+            // Log comprehensive node properties for debugging
+            log.info(`[MUSIC] Node "${node.id}" properties after connection:`, {
+                id: node.id,
+                connected: node.connected,
+                state: node.state,
+                sessionId: node.sessionId,
+                wsReadyState: node.ws?.readyState,
+                wsUrl: node.ws?._url ? "present" : "missing",
+                stats: node.stats ? {
+                    players: node.stats.players,
+                    playingPlayers: node.stats.playingPlayers,
+                    uptime: node.stats.uptime,
+                    memory: node.stats.memory,
+                    cpu: node.stats.cpu,
+                } : "not available",
+            });
+            // Log health check result
+            const health = getNodeHealthInfo(node);
+            log.info(`[MUSIC] Node "${node.id}" health check result:`, {
+                connected: health.connected,
+                ready: health.ready,
+                websocketOpen: health.websocketOpen,
+                authenticated: health.authenticated,
+                isHealthy: isNodeHealthy(node),
+            });
             client.updateMusicStatus(MusicStatus.READY, getMusicStatus(client));
         });
         lavalink.nodeManager.on("disconnect", (node) => {
