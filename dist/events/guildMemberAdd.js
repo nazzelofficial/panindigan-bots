@@ -1,6 +1,6 @@
 import { GuildModel } from "../database/models/Guild.js";
 import { GlobalBanModel, BlacklistModel } from "../database/models/Moderation.js";
-import { baseEmbed } from "../utils/embeds.js";
+import { createWelcomeEmbed } from "../utils/welcomeEmbed.js";
 import { scopedLogger } from "../utils/logger.js";
 const log = scopedLogger("member-add");
 function fillTemplate(template, member) {
@@ -49,15 +49,36 @@ const event = {
             if (config.autoNicknameFormat) {
                 await member.setNickname(fillTemplate(config.autoNicknameFormat, member)).catch(() => { });
             }
-            if (config.welcome?.enabled && config.welcome.channelId) {
-                const channel = member.guild.channels.cache.get(config.welcome.channelId);
+            // Welcome system
+            const welcomeConfig = config.welcome;
+            if (welcomeConfig?.enabled && welcomeConfig.channelId) {
+                const channel = member.guild.channels.cache.get(welcomeConfig.channelId);
                 if (channel?.isTextBased()) {
-                    const text = fillTemplate(config.welcome.message, member);
-                    if (config.welcome.embed) {
-                        await channel.send({ embeds: [baseEmbed("success").setDescription(text).setThumbnail(member.user.displayAvatarURL())] }).catch(() => { });
+                    try {
+                        const { embed, attachment } = await createWelcomeEmbed({
+                            user: member.user,
+                            member,
+                            guild: member.guild,
+                            channel: channel,
+                            config: welcomeConfig,
+                        });
+                        if (welcomeConfig.dmEnabled) {
+                            await member.user.send({ embeds: [embed], files: attachment ? [attachment] : [] }).catch(() => { });
+                        }
+                        if (welcomeConfig.embed) {
+                            await channel.send({ embeds: [embed], files: attachment ? [attachment] : [] }).catch(() => { });
+                        }
+                        else {
+                            await channel.send({ content: fillTemplate(welcomeConfig.message, member) }).catch(() => { });
+                        }
+                        // Assign autorole if configured
+                        if (welcomeConfig.autoroleId) {
+                            await member.roles.add(welcomeConfig.autoroleId).catch(() => { });
+                        }
+                        log.info(`Welcome message sent for ${member.user.tag} in ${member.guild.name}`);
                     }
-                    else {
-                        await channel.send({ content: text }).catch(() => { });
+                    catch (error) {
+                        log.error("Failed to send welcome message", { error: String(error) });
                     }
                 }
             }

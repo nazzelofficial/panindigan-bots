@@ -2,6 +2,9 @@ import { Events } from "discord.js";
 import { sendLogEvent } from "../features/logging/logEngine.js";
 import { baseEmbed } from "../utils/embeds.js";
 import { GuildModel } from "../database/models/Guild.js";
+import { createGoodbyeEmbed } from "../utils/goodbyeEmbed.js";
+import { scopedLogger } from "../utils/logger.js";
+const log = scopedLogger("member-remove");
 const event = {
     name: Events.GuildMemberRemove,
     async execute(_client, member) {
@@ -10,12 +13,32 @@ const event = {
         if (goodbye?.enabled && goodbye.channelId) {
             const ch = member.guild.channels.cache.get(goodbye.channelId);
             if (ch?.isTextBased()) {
-                const msg = (goodbye.message ?? "Goodbye {user}! We hope to see you again.")
-                    .replace("{user}", member.user?.username ?? "someone")
-                    .replace("{mention}", `<@${member.id}>`)
-                    .replace("{server}", member.guild.name)
-                    .replace("{memberCount}", String(member.guild.memberCount));
-                await ch.send({ content: msg }).catch(() => { });
+                try {
+                    const { embed, attachment } = await createGoodbyeEmbed({
+                        user: member.user,
+                        guild: member.guild,
+                        channel: ch,
+                        config: goodbye,
+                    });
+                    if (goodbye.dmEnabled) {
+                        await member.user?.send({ embeds: [embed], files: attachment ? [attachment] : [] }).catch(() => { });
+                    }
+                    if (goodbye.embed) {
+                        await ch.send({ embeds: [embed], files: attachment ? [attachment] : [] }).catch(() => { });
+                    }
+                    else {
+                        const msg = (goodbye.message ?? "Goodbye {user}! We hope to see you again.")
+                            .replace("{user}", member.user?.username ?? "someone")
+                            .replace("{mention}", `<@${member.id}>`)
+                            .replace("{server}", member.guild.name)
+                            .replace("{memberCount}", String(member.guild.memberCount));
+                        await ch.send({ content: msg }).catch(() => { });
+                    }
+                    log.info(`Goodbye message sent for ${member.user?.tag} in ${member.guild.name}`);
+                }
+                catch (error) {
+                    log.error("Failed to send goodbye message", { error: String(error) });
+                }
             }
         }
         await sendLogEvent(member.guild.id, "memberLeave", () => baseEmbed("danger")
