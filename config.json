@@ -1,9 +1,9 @@
 {
   "bot": {
     "name": "Panindigan Official",
-    "defaultPrefix": "!",
+    "defaultPrefix": "P!",
     "supportServerInvite": "https://discord.gg/your-invite-here",
-    "website": "https://panindigan.example.com",
+    "website": "https://bot.panindigan.com",
     "shardCount": "auto",
     "presence": {
       "rotate": true,
