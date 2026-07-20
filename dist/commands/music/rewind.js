@@ -1,5 +1,6 @@
 import { successEmbed, errorEmbed } from "../../utils/embeds.js";
 import { validateMusicOperation } from "../../utils/music.js";
+import { MusicService } from "../../services/MusicService.js";
 const command = {
     name: "rewind",
     description: "Seek backward in the current song",
@@ -28,7 +29,11 @@ const command = {
             : (parseInt(ctx.args[0] ?? "10") || 10);
         const current = player.position ?? 0;
         const next = Math.max(0, current - seconds * 1000);
-        await player.seek?.(next);
+        const result = await MusicService.seek(player, next);
+        if (!result.success) {
+            await ctx.reply({ embeds: [errorEmbed(result.message)] });
+            return;
+        }
         await ctx.reply({ embeds: [successEmbed(`⏪ Rewound **${seconds}s**.`)] });
     },
 };

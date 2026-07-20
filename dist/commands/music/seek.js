@@ -1,4 +1,5 @@
 import { successEmbed, errorEmbed } from "../../utils/embeds.js";
+import { MusicService } from "../../services/MusicService.js";
 function parseTime(input) {
     // Accepts: 1:23, 1:23:45, 90s, 90
     const colonMatch = input.match(/^(?:(\d+):)?(\d+):(\d+)$/);
@@ -54,13 +55,11 @@ const command = {
             await ctx.reply({ embeds: [errorEmbed("Invalid na oras. Use format: `1:30` o `90`.")] });
             return;
         }
-        const duration = player.queue?.current?.info?.duration ?? player.current?.duration ?? 0;
-        if (duration > 0 && posMs > duration) {
-            await ctx.reply({ embeds: [errorEmbed(`Ang track ay ${formatMs(duration)} lang ang haba.`)] });
+        const result = await MusicService.seek(player, posMs);
+        if (!result.success) {
+            await ctx.reply({ embeds: [errorEmbed(result.message)] });
             return;
         }
-        if (typeof player.seek === "function")
-            await player.seek(posMs);
         await ctx.reply({ embeds: [successEmbed(`⏩ Switch to **${formatMs(posMs)}**`)] });
     },
 };

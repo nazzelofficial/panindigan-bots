@@ -1,6 +1,6 @@
 import { PermissionFlagsBits, SlashCommandBuilder } from "discord.js";
 import type { CommandDefinition } from "../../structures/types.js";
-import { GuildModel } from "../../database/models/Guild.js";
+import { WelcomeService } from "../../services/WelcomeService.js";
 import { successEmbed, errorEmbed } from "../../utils/embeds.js";
 
 const command: CommandDefinition = {
@@ -31,125 +31,124 @@ const command: CommandDefinition = {
     if (!guild) return;
     const sub = ctx.isSlash ? ctx.interaction!.options.getSubcommand(true) : ctx.args[0]?.toLowerCase();
 
-    const update: Record<string, any> = {};
+    let value: any;
+    let field: keyof import("../../services/WelcomeService.js").WelcomeConfig;
 
     if (sub === "title") {
+      field = "title";
       const text = ctx.isSlash ? ctx.interaction!.options.getString("text") : ctx.args.slice(1).join(" ");
       if (text === null || text === "") {
-        update["welcome.title"] = null;
-        await GuildModel.findOneAndUpdate({ guildId: guild.id }, { $unset: { "welcome.title": "" } }, { upsert: true });
-        await ctx.reply({ embeds: [successEmbed("Welcome title removed.")] });
-        return;
+        value = null;
+      } else {
+        value = text;
       }
-      update["welcome.title"] = text;
     } else if (sub === "description") {
+      field = "description";
       const text = ctx.isSlash ? ctx.interaction!.options.getString("text") : ctx.args.slice(1).join(" ");
       if (text === null || text === "") {
-        update["welcome.description"] = null;
-        await GuildModel.findOneAndUpdate({ guildId: guild.id }, { $unset: { "welcome.description": "" } }, { upsert: true });
-        await ctx.reply({ embeds: [successEmbed("Welcome description removed.")] });
-        return;
+        value = null;
+      } else {
+        value = text;
       }
-      update["welcome.description"] = text;
     } else if (sub === "color") {
+      field = "color";
       const hex = ctx.isSlash ? ctx.interaction!.options.getString("hex") : ctx.args[1];
       if (!hex || hex === "") {
-        update["welcome.color"] = "#57F287";
+        value = "#57F287";
       } else {
         if (!/^#[0-9A-Fa-f]{6}$/.test(hex)) {
           await ctx.reply({ embeds: [errorEmbed("Invalid hex color. Use format: #RRGGBB")] });
           return;
         }
-        update["welcome.color"] = hex;
+        value = hex;
       }
     } else if (sub === "footer") {
+      field = "footer";
       const text = ctx.isSlash ? ctx.interaction!.options.getString("text") : ctx.args.slice(1).join(" ");
       if (text === null || text === "") {
-        update["welcome.footer"] = null;
-        await GuildModel.findOneAndUpdate({ guildId: guild.id }, { $unset: { "welcome.footer": "" } }, { upsert: true });
-        await ctx.reply({ embeds: [successEmbed("Welcome footer removed.")] });
-        return;
+        value = null;
+      } else {
+        value = text;
       }
-      update["welcome.footer"] = text;
     } else if (sub === "thumbnail") {
+      field = "thumbnail";
       const url = ctx.isSlash ? ctx.interaction!.options.getString("url") : ctx.args[1];
       if (!url || url === "") {
-        update["welcome.thumbnail"] = null;
-        await GuildModel.findOneAndUpdate({ guildId: guild.id }, { $unset: { "welcome.thumbnail": "" } }, { upsert: true });
-        await ctx.reply({ embeds: [successEmbed("Welcome thumbnail removed.")] });
-        return;
+        value = null;
+      } else {
+        value = url;
       }
-      update["welcome.thumbnail"] = url;
     } else if (sub === "image") {
+      field = "image";
       const url = ctx.isSlash ? ctx.interaction!.options.getString("url") : ctx.args[1];
       if (!url || url === "") {
-        update["welcome.image"] = null;
-        await GuildModel.findOneAndUpdate({ guildId: guild.id }, { $unset: { "welcome.image": "" } }, { upsert: true });
-        await ctx.reply({ embeds: [successEmbed("Welcome image removed.")] });
-        return;
+        value = null;
+      } else {
+        value = url;
       }
-      update["welcome.image"] = url;
     } else if (sub === "banner") {
+      field = "banner";
       const url = ctx.isSlash ? ctx.interaction!.options.getString("url") : ctx.args[1];
       if (!url || url === "") {
-        update["welcome.banner"] = null;
-        await GuildModel.findOneAndUpdate({ guildId: guild.id }, { $unset: { "welcome.banner": "" } }, { upsert: true });
-        await ctx.reply({ embeds: [successEmbed("Welcome banner removed.")] });
-        return;
+        value = null;
+      } else {
+        value = url;
       }
-      update["welcome.banner"] = url;
     } else if (sub === "background") {
+      field = "background";
       const url = ctx.isSlash ? ctx.interaction!.options.getString("url") : ctx.args[1];
       if (!url || url === "") {
-        update["welcome.background"] = null;
-        await GuildModel.findOneAndUpdate({ guildId: guild.id }, { $unset: { "welcome.background": "" } }, { upsert: true });
-        await ctx.reply({ embeds: [successEmbed("Welcome background removed.")] });
-        return;
+        value = null;
+      } else {
+        value = url;
       }
-      update["welcome.background"] = url;
     } else if (sub === "autorole") {
+      field = "autoroleId";
       const role = ctx.isSlash ? ctx.interaction!.options.getRole("role") : guild.roles.cache.get(ctx.args[1]?.replace(/\D/g, "") ?? "");
       if (!role) {
-        update["welcome.autoroleId"] = null;
-        await GuildModel.findOneAndUpdate({ guildId: guild.id }, { $unset: { "welcome.autoroleId": "" } }, { upsert: true });
-        await ctx.reply({ embeds: [successEmbed("Welcome autorole removed.")] });
-        return;
+        value = null;
+      } else {
+        value = role.id;
       }
-      update["welcome.autoroleId"] = role.id;
     } else if (sub === "dm") {
+      field = "dmEnabled";
       const status = ctx.isSlash ? ctx.interaction!.options.getString("status", true) : ctx.args[1]?.toLowerCase();
       if (status !== "on" && status !== "off") {
         await ctx.reply({ embeds: [errorEmbed("Use: on or off")] });
         return;
       }
-      update["welcome.dmEnabled"] = status === "on";
+      value = status === "on";
     } else if (sub === "language") {
+      field = "language";
       const lang = ctx.isSlash ? ctx.interaction!.options.getString("lang") : ctx.args[1];
       if (!lang || lang === "") {
-        update["welcome.language"] = "en";
+        value = "en";
       } else {
-        update["welcome.language"] = lang;
+        value = lang;
       }
     } else if (sub === "theme") {
+      field = "theme";
       const name = ctx.isSlash ? ctx.interaction!.options.getString("name") : ctx.args[1];
       if (!name || name === "") {
-        update["welcome.theme"] = "default";
+        value = "default";
       } else {
-        update["welcome.theme"] = name;
+        value = name;
       }
     } else if (sub === "buttons") {
+      field = "buttons";
       const enabled = ctx.isSlash ? ctx.interaction!.options.getBoolean("enabled", true) : ctx.args[1]?.toLowerCase() !== "false";
-      update["welcome.buttons"] = enabled;
+      value = enabled;
     } else if (sub === "embed") {
+      field = "embed";
       const enabled = ctx.isSlash ? ctx.interaction!.options.getBoolean("enabled", true) : ctx.args[1]?.toLowerCase() !== "false";
-      update["welcome.embed"] = enabled;
+      value = enabled;
     } else {
       await ctx.reply({ embeds: [errorEmbed("Use: title | description | color | footer | thumbnail | image | banner | background | autorole | dm | language | theme | buttons | embed")] });
       return;
     }
 
-    await GuildModel.findOneAndUpdate({ guildId: guild.id }, { $set: update }, { upsert: true });
-    await ctx.reply({ embeds: [successEmbed(`Welcome ${sub} updated.`)] });
+    const result = await WelcomeService.updateField({ guild, field, value });
+    await ctx.reply({ embeds: [result.success ? successEmbed(result.message) : errorEmbed(result.message)] });
   },
 };
 

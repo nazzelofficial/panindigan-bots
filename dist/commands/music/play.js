@@ -1,6 +1,6 @@
 import { errorEmbed } from "../../utils/embeds.js";
 import { validateMusicOperation } from "../../utils/music.js";
-import { createSearchingEmbed, createPlaylistLoadingEmbed, createPlaylistLoadedEmbed, } from "../../features/music/embeds/musicEmbeds.js";
+import { MusicService } from "../../services/MusicService.js";
 function getMusicUnavailableEmbed() {
     return errorEmbed("❌ Music service is currently unavailable.\nThe Lavalink server is offline or unreachable.\nPlease try again later.");
 }
@@ -61,127 +61,23 @@ const command = {
             return;
         }
         const textChannelId = ctx.interaction?.channelId ?? ctx.message?.channelId;
-        const textChannel = ctx.client.channels.cache.get(textChannelId);
-        // Store the bot's message for editing (for prefix commands)
-        let botMessage = null;
-        const botUserId = ctx.client.user?.id;
-        if (!botUserId) {
-            await ctx.reply({ embeds: [errorEmbed("Bot user not available.")] });
-            return;
-        }
-        // Send searching embed - different logic for slash vs prefix
+        // Defer slash command
         if (ctx.isSlash) {
             await ctx.interaction.deferReply();
         }
-        else {
-            // For prefix commands, reply with searching embed and store the message
-            botMessage = await ctx.message.reply({ embeds: [createSearchingEmbed(query)] });
-        }
-        let player = ctx.client.lavalink.getPlayer(guild.id);
-        if (!player) {
-            player = ctx.client.lavalink.createPlayer({
-                guildId: guild.id,
-                voiceChannelId,
-                textChannelId,
-                selfDeaf: true,
-                selfMute: false,
-                volume: 80,
-            });
-        }
-        if (!player.connected)
-            await player.connect();
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        let result = null;
-        try {
-            result = await player.search({ query, source: "ytsearch" }, { id: botUserId, username: "bot" });
-        }
-        catch (error) {
-            const errorEmbedMsg = errorEmbed("❌ Music service unavailable — could not search for that track. Try again shortly.");
-            if (ctx.isSlash) {
-                await ctx.interaction.editReply({ embeds: [errorEmbedMsg] });
-            }
-            else if (botMessage && botMessage.author.id === botUserId) {
-                await botMessage.edit({ embeds: [errorEmbedMsg] });
-            }
-            else {
-                await ctx.message.reply({ embeds: [errorEmbedMsg] });
-            }
-            return;
-        }
-        if (!result || result.loadType === "empty" || result.loadType === "error") {
-            const errorEmbedMsg = errorEmbed("No results found for your query.");
-            if (ctx.isSlash) {
-                await ctx.interaction.editReply({ embeds: [errorEmbedMsg] });
-            }
-            else if (botMessage && botMessage.author.id === botUserId) {
-                await botMessage.edit({ embeds: [errorEmbedMsg] });
-            }
-            else {
-                await ctx.message.reply({ embeds: [errorEmbedMsg] });
-            }
-            return;
-        }
-        if (result.loadType === "playlist") {
-            // Send loading embed
-            const loadingEmbed = createPlaylistLoadingEmbed(result.playlist?.name ?? "Playlist", result.playlist?.artworkUrl ?? "", 0, result.tracks.length);
-            if (ctx.isSlash) {
-                await ctx.interaction.editReply({ embeds: [loadingEmbed] });
-            }
-            else if (botMessage && botMessage.author.id === botUserId) {
-                await botMessage.edit({ embeds: [loadingEmbed] });
-            }
-            else {
-                await ctx.message.reply({ embeds: [loadingEmbed] });
-            }
-            for (const track of result.tracks) {
-                track.requester = ctx.userId;
-                player.queue.add(track);
-            }
-            const totalDuration = result.tracks.reduce((acc, t) => acc + (t.info.duration || 0), 0);
-            const loadedEmbed = createPlaylistLoadedEmbed(result.playlist?.name ?? "Playlist", result.playlist?.artworkUrl ?? "", result.tracks.length, totalDuration);
-            if (ctx.isSlash) {
-                await ctx.interaction.editReply({ embeds: [loadedEmbed] });
-            }
-            else if (botMessage && botMessage.author.id === botUserId) {
-                await botMessage.edit({ embeds: [loadedEmbed] });
-            }
-            else {
-                await ctx.message.reply({ embeds: [loadedEmbed] });
-            }
-            if (!player.playing)
-                await player.play().catch(() => { });
-        }
-        else {
-            const track = result.tracks[0];
-            track.requester = ctx.userId;
-            player.queue.add(track);
-            if (!player.playing) {
-                await player.play().catch(() => { });
-                // Controller will be updated by trackStart event
-                const nowPlayingEmbed = errorEmbed(`▶️ Now Playing\n**${track.info.title}**\nRequested by <@${ctx.userId}>`).setThumbnail(track.info.artworkUrl ?? null);
-                if (ctx.isSlash) {
-                    await ctx.interaction.editReply({ embeds: [nowPlayingEmbed] });
-                }
-                else if (botMessage && botMessage.author.id === botUserId) {
-                    await botMessage.edit({ embeds: [nowPlayingEmbed] });
-                }
-                else {
-                    await ctx.message.reply({ embeds: [nowPlayingEmbed] });
-                }
-            }
-            else {
-                const pos = player.queue.tracks.length;
-                const queueEmbed = errorEmbed(`➕ Added to queue at position #${pos}\n**${track.info.title}**\nRequested by <@${ctx.userId}>`).setThumbnail(track.info.artworkUrl ?? null);
-                if (ctx.isSlash) {
-                    await ctx.interaction.editReply({ embeds: [queueEmbed] });
-                }
-                else if (botMessage && botMessage.author.id === botUserId) {
-                    await botMessage.edit({ embeds: [queueEmbed] });
-                }
-                else {
-                    await ctx.message.reply({ embeds: [queueEmbed] });
-                }
-            }
+        const result = await MusicService.play({
+            guild,
+            voiceChannelId,
+            textChannelId: textChannelId,
+            query,
+            userId: ctx.userId,
+            client: ctx.client,
+            isSlash: ctx.isSlash,
+            interaction: ctx.interaction,
+            message: ctx.message,
+        });
+        if (!result.success) {
+            await ctx.reply({ embeds: [errorEmbed(result.message)] });
         }
     },
 };

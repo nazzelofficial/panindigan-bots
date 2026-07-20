@@ -1,5 +1,6 @@
 import { errorEmbed } from "../../utils/embeds.js";
 import { validateMusicOperation } from "../../utils/music.js";
+import { MusicService } from "../../services/MusicService.js";
 import { createQueueEmbed, createQueueNavigationButtons } from "../../features/music/embeds/musicEmbeds.js";
 const command = {
     name: "queue",
@@ -24,11 +25,10 @@ const command = {
             await ctx.reply({ embeds: [errorEmbed("No active music player.")] });
             return;
         }
-        const current = player.queue?.current;
-        const tracks = player.queue?.tracks ?? [];
+        const queueInfo = MusicService.getQueue(player);
         const page = Math.max(1, ctx.isSlash ? (ctx.interaction.options.getInteger("page") ?? 1) : (parseInt(ctx.args[0] ?? "1") || 1));
         const embed = createQueueEmbed(player.queue, page);
-        const buttons = createQueueNavigationButtons(page, Math.max(1, Math.ceil(tracks.length / 10)));
+        const buttons = createQueueNavigationButtons(page, Math.max(1, Math.ceil(queueInfo.tracks.length / 10)));
         await ctx.reply({ embeds: [embed], components: buttons ? [buttons] : [] });
     },
 };

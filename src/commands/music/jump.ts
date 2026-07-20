@@ -2,6 +2,7 @@ import { SlashCommandBuilder } from "discord.js";
 import type { CommandDefinition } from "../../structures/types.js";
 import { successEmbed, errorEmbed } from "../../utils/embeds.js";
 import { validateMusicOperation } from "../../utils/music.js";
+import { MusicService } from "../../services/MusicService.js";
 
 function fmtTime(s: number) {
   const m = Math.floor(s / 60), sec = s % 60;
@@ -45,7 +46,13 @@ const command: CommandDefinition = {
         totalSeconds = parseInt(raw) || 0;
       }
     }
-    await player.seek?.(totalSeconds * 1000);
+    
+    const result = await MusicService.seek(player, totalSeconds * 1000);
+    if (!result.success) {
+      await ctx.reply({ embeds: [errorEmbed(result.message)] });
+      return;
+    }
+    
     await ctx.reply({ embeds: [successEmbed(`⏩ Jumped to **${fmtTime(totalSeconds)}**.`)] });
   },
 };

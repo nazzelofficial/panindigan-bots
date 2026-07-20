@@ -7,6 +7,7 @@ const command = {
     guildOnly: true,
     cooldown: 10,
     aliases: ["si", "guildinfo", "server"],
+    slashData: (b) => b,
     async execute(ctx) {
         const guild = ctx.interaction?.guild ?? ctx.message?.guild;
         if (!guild)

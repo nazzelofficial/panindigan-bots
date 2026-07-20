@@ -1,6 +1,6 @@
 import { errorEmbed } from "../../utils/embeds.js";
 import { validateMusicOperation } from "../../utils/music.js";
-import { MusicControllerManager } from "../../features/music/controller/musicController.js";
+import { MusicService } from "../../services/MusicService.js";
 const LOOP_MODES = ["off", "track", "queue"];
 const command = {
     name: "loop",
@@ -42,14 +42,7 @@ const command = {
             const idx = LOOP_MODES.indexOf(current);
             next = LOOP_MODES[(idx + 1) % LOOP_MODES.length];
         }
-        if (typeof player.setRepeatMode === "function") {
-            await player.setRepeatMode(next === "off" ? 0 : next === "track" ? 1 : 2);
-        }
-        else if (player.repeatMode !== undefined) {
-            player.repeatMode = next;
-        }
-        // Update controller state
-        MusicControllerManager.updateState(guild.id, ctx.interaction?.channelId ?? ctx.message?.channelId ?? "", { loopMode: next });
+        const result = await MusicService.setLoopMode(player, next);
         const labels = {
             off: "🔁 Loop **OFF**",
             track: "🔂 Loop **TRACK** — paulit-ulit ang current track",

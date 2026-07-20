@@ -16,6 +16,7 @@ import { MaintenanceStateModel } from "../database/models/System.js";
 import { isBotOwner } from "../utils/permissions.js";
 import { botCache, CACHE_TTL } from "../utils/cache.js";
 import { isFeatureEnabled } from "../config/config.js";
+import { commandRegistry, type CommandMetadata } from "../structures/CommandRegistry.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname  = path.dirname(__filename);
@@ -180,6 +181,29 @@ function walk(dir: string): string[] {
 
 // ── Command loader ───────────────────────────────────────────────────────────
 
+/** Convert CommandDefinition to CommandMetadata for parity tracking */
+function commandToMetadata(command: CommandDefinition): CommandMetadata {
+  return {
+    name: command.name,
+    description: command.description,
+    category: command.category,
+    prefixSupport: true, // All commands support prefix by default in this architecture
+    slashSupport: !!command.slashData, // Commands with slashData support slash
+    aliases: command.aliases ?? [],
+    permissions: (command.memberPermissions as string[]) ?? [],
+    botPermissions: (command.botPermissions as string[]) ?? [],
+    cooldown: command.cooldown ?? 0,
+    usage: `${command.name} [args]`,
+    examples: [`/${command.name}`, `p!${command.name}`],
+    premiumRequired: command.premium ?? false,
+    guildOnly: command.guildOnly ?? true,
+    ownerOnly: command.access === "owner" || command.access === "coowner",
+    nsfw: false,
+    autocomplete: !!command.autocomplete,
+    options: [], // Could be parsed from slashData if needed
+  };
+}
+
 export async function loadCommands(client: PanindiganClient): Promise<number> {
   const commandsDir = path.join(__dirname, "..", "commands");
   if (!fs.existsSync(commandsDir)) {
@@ -241,6 +265,10 @@ export async function loadCommands(client: PanindiganClient): Promise<number> {
 
       client.commands.set(command.name, command);
 
+      // ── Register in CommandRegistry for parity tracking ─────────────────
+      const metadata = commandToMetadata(command);
+      commandRegistry.register(command, metadata);
+
       for (const alias of command.aliases ?? []) {
         if (client.aliases.has(alias)) {
           log.warn(`Duplicate alias "${alias}" for command "${command.name}" — skipping alias`);
@@ -266,6 +294,10 @@ export async function loadCommands(client: PanindiganClient): Promise<number> {
       }
     }
   }
+
+  // ── Log parity report ─────────────────────────────────────────────────
+  const parityReport = commandRegistry.validateParity();
+  log.info(`Command parity report: ${parityReport.both.length} both, ${parityReport.prefixOnly.length} prefix-only, ${parityReport.slashOnly.length} slash-only`);
 
   log.info(`Loaded ${loaded} commands from ${files.length} files`);
   return loaded;

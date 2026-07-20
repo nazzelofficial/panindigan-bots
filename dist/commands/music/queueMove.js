@@ -1,5 +1,6 @@
 import { errorEmbed } from "../../utils/embeds.js";
 import { validateMusicOperation } from "../../utils/music.js";
+import { MusicService } from "../../services/MusicService.js";
 const command = {
     name: "queuemove",
     description: "Move a track from one position to another in the queue",
@@ -27,15 +28,12 @@ const command = {
         }
         const from = ctx.isSlash ? ctx.interaction.options.getInteger("from", true) : (parseInt(ctx.args[0] ?? "0") || 0);
         const to = ctx.isSlash ? ctx.interaction.options.getInteger("to", true) : (parseInt(ctx.args[1] ?? "0") || 0);
-        const tracks = player.queue?.tracks ?? [];
-        if (from < 1 || from > tracks.length || to < 1 || to > tracks.length) {
-            await ctx.reply({ embeds: [errorEmbed(`Invalid positions. Queue has **${tracks.length}** track${tracks.length !== 1 ? "s" : ""}.`)] });
+        const result = await MusicService.moveTrackInQueue(player, from - 1, to - 1);
+        if (!result.success) {
+            await ctx.reply({ embeds: [errorEmbed(result.message)] });
             return;
         }
-        const [moved] = tracks.splice(from - 1, 1);
-        tracks.splice(to - 1, 0, moved);
-        const title = moved?.info?.title ?? moved?.title ?? `Track #${from}`;
-        await ctx.reply({ embeds: [errorEmbed(`✅ Moved **${title}** from position **#${from}** to **#${to}**.`)] });
+        await ctx.reply({ embeds: [errorEmbed(result.message)] });
     },
 };
 export default command;

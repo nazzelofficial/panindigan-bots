@@ -2,7 +2,7 @@ import { SlashCommandBuilder } from "discord.js";
 import type { CommandDefinition } from "../../structures/types.js";
 import { errorEmbed } from "../../utils/embeds.js";
 import { validateMusicOperation } from "../../utils/music.js";
-import { MusicControllerManager } from "../../features/music/controller/musicController.js";
+import { MusicService } from "../../services/MusicService.js";
 
 const command: CommandDefinition = {
   name: "previous",
@@ -23,18 +23,14 @@ const command: CommandDefinition = {
     if (!guild) return;
     const player = (ctx.client.lavalink as any).getPlayer?.(guild.id);
     if (!player?.playing && !player?.paused) { await ctx.reply({ embeds: [errorEmbed("Nothing is currently playing.")] }); return; }
-    const prev = player.queue?.previous ?? player.get?.("previousTrack");
-    if (!prev) { await ctx.reply({ embeds: [errorEmbed("No previous track available.")] }); return; }
-    if (typeof player.skip === "function") {
-      // Re-add current to front, seek to start of previous
-      player.queue?.unshift?.(player.queue.current);
-      player.queue?.unshift?.(prev);
-      await player.skip();
-    } else {
-      await player.seek?.(0);
+    
+    const result = await MusicService.playPrevious(player);
+    if (!result.success) {
+      await ctx.reply({ embeds: [errorEmbed(result.message)] });
+      return;
     }
-    const title = prev.info?.title ?? prev.title ?? "previous track";
-    await ctx.reply({ embeds: [errorEmbed(`⏮️ Playing previous track: **${title}**`)] });
+    
+    await ctx.reply({ embeds: [errorEmbed(`⏮️ Playing previous track: **${result.track?.info?.title ?? result.track?.title ?? "previous track"}**`)] });
   },
 };
 export default command;

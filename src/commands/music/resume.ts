@@ -2,7 +2,7 @@ import { SlashCommandBuilder } from "discord.js";
 import type { CommandDefinition } from "../../structures/types.js";
 import { errorEmbed } from "../../utils/embeds.js";
 import { validateMusicOperation } from "../../utils/music.js";
-import { MusicControllerManager } from "../../features/music/controller/musicController.js";
+import { MusicService } from "../../services/MusicService.js";
 
 const command: CommandDefinition = {
   name: "resume",
@@ -24,12 +24,9 @@ const command: CommandDefinition = {
     const player = (ctx.client.lavalink as any).getPlayer?.(guild.id);
     if (!player) { await ctx.reply({ embeds: [errorEmbed("No active music player.")] }); return; }
     if (!player.paused) { await ctx.reply({ embeds: [errorEmbed("Music is not paused.")] }); return; }
-    await player.resume?.();
     
-    // Update controller state
-    MusicControllerManager.updateState(guild.id, ctx.interaction?.channelId ?? ctx.message?.channelId ?? "", { isPaused: false });
-    
-    await ctx.reply({ embeds: [errorEmbed("▶️ Music resumed.")] });
+    const result = await MusicService.resume(player);
+    await ctx.reply({ embeds: [result.success ? errorEmbed("▶️ Music resumed.") : errorEmbed(result.message)] });
   },
 };
 export default command;

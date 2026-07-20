@@ -2,6 +2,7 @@ import { SlashCommandBuilder } from "discord.js";
 import type { CommandDefinition } from "../../structures/types.js";
 import { errorEmbed } from "../../utils/embeds.js";
 import { validateMusicOperation } from "../../utils/music.js";
+import { MusicService } from "../../services/MusicService.js";
 
 const command: CommandDefinition = {
   name: "volume",
@@ -51,15 +52,18 @@ const command: CommandDefinition = {
       return;
     }
 
-    await player.setVolume(level);
-    const bar = buildVolumeBar(level);
-    const emoji = level === 0 ? "🔇" : level < 50 ? "🔈" : level < 100 ? "🔉" : "🔊";
-
-    await ctx.reply({
-      embeds: [
-        errorEmbed(`${emoji} Volume set to **${level}%**\n${bar}`),
-      ],
-    });
+    const result = await MusicService.setVolume(player, level);
+    if (result.success) {
+      const bar = buildVolumeBar(level);
+      const emoji = level === 0 ? "🔇" : level < 50 ? "🔈" : level < 100 ? "🔉" : "🔊";
+      await ctx.reply({
+        embeds: [
+          errorEmbed(`${emoji} Volume set to **${level}%**\n${bar}`),
+        ],
+      });
+    } else {
+      await ctx.reply({ embeds: [errorEmbed(result.message)] });
+    }
   },
 };
 

@@ -1,5 +1,6 @@
 import { errorEmbed } from "../../utils/embeds.js";
 import { validateMusicOperation } from "../../utils/music.js";
+import { MusicService } from "../../services/MusicService.js";
 const command = {
     name: "skip",
     description: "Skip the current or a specific number of tracks",
@@ -26,9 +27,12 @@ const command = {
         const count = ctx.isSlash ? (ctx.interaction.options.getInteger("count") ?? 1) : (parseInt(ctx.args[0] ?? "1") || 1);
         const current = player.queue.current;
         for (let i = 0; i < count; i++) {
-            await player.skip?.();
+            const result = await MusicService.skip(player);
+            if (!result.success) {
+                await ctx.reply({ embeds: [errorEmbed(result.message)] });
+                return;
+            }
         }
-        // Update controller state (controller will be updated by trackStart event)
         await ctx.reply({ embeds: [errorEmbed(`⏭️ Skipped **${count}** track${count !== 1 ? "s" : ""}. Was playing: **${current.info.title}**`)] });
     },
 };

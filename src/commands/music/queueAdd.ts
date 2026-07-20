@@ -2,6 +2,7 @@ import { SlashCommandBuilder } from "discord.js";
 import type { CommandDefinition } from "../../structures/types.js";
 import { successEmbed, errorEmbed } from "../../utils/embeds.js";
 import { validateMusicOperation } from "../../utils/music.js";
+import { MusicService } from "../../services/MusicService.js";
 
 const command: CommandDefinition = {
   name: "queueadd",
@@ -27,16 +28,16 @@ const command: CommandDefinition = {
     if (!player) { await ctx.reply({ embeds: [errorEmbed("No active player. Use `/play` first to start music.")] }); return; }
     const query = ctx.isSlash ? ctx.interaction!.options.getString("query", true) : ctx.args.join(" ");
     if (!query) { await ctx.reply({ embeds: [errorEmbed("Please provide a song name or URL.")] }); return; }
+    
     const result = await player.search?.({ query, source: "ytsearch" }, ctx.client.user!).catch(() => null);
     if (!result || result.loadType === "empty" || result.loadType === "error") {
       await ctx.reply({ embeds: [errorEmbed("No results found for your query.")] });
       return;
     }
     const track = result.tracks[0];
-    player.queue?.add?.(track);
+    const addResult = await MusicService.addToQueue(player, track);
     const title = track?.info?.title ?? track?.title ?? query;
-    const pos = player.queue?.tracks?.length ?? 1;
-    await ctx.reply({ embeds: [successEmbed(`➕ Added **${title}** to queue at position **#${pos}**.`)] });
+    await ctx.reply({ embeds: [successEmbed(`➕ Added **${title}** to queue at position **#${addResult.position}**.`)] });
   },
 };
 export default command;

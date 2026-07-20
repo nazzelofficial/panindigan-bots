@@ -2,6 +2,7 @@ import { SlashCommandBuilder } from "discord.js";
 import type { CommandDefinition } from "../../structures/types.js";
 import { successEmbed, errorEmbed } from "../../utils/embeds.js";
 import { validateMusicOperation } from "../../utils/music.js";
+import { MusicService } from "../../services/MusicService.js";
 
 function parseTime(input: string): number | null {
   // Accepts: 1:23, 1:23:45, 90s, 90
@@ -54,13 +55,11 @@ const command: CommandDefinition = {
     const posMs = parseTime(input);
     if (posMs === null) { await ctx.reply({ embeds: [errorEmbed("Invalid na oras. Use format: `1:30` o `90`.")] }); return; }
 
-    const duration: number = player.queue?.current?.info?.duration ?? player.current?.duration ?? 0;
-    if (duration > 0 && posMs > duration) {
-      await ctx.reply({ embeds: [errorEmbed(`Ang track ay ${formatMs(duration)} lang ang haba.`)] });
+    const result = await MusicService.seek(player, posMs);
+    if (!result.success) {
+      await ctx.reply({ embeds: [errorEmbed(result.message)] });
       return;
     }
-
-    if (typeof player.seek === "function") await player.seek(posMs);
 
     await ctx.reply({ embeds: [successEmbed(`⏩ Switch to **${formatMs(posMs)}**`)] });
   },

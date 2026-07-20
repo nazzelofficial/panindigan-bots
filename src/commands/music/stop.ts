@@ -2,7 +2,7 @@ import { SlashCommandBuilder } from "discord.js";
 import type { CommandDefinition } from "../../structures/types.js";
 import { errorEmbed } from "../../utils/embeds.js";
 import { validateMusicOperation } from "../../utils/music.js";
-import { MusicControllerManager } from "../../features/music/controller/musicController.js";
+import { MusicService } from "../../services/MusicService.js";
 
 const command: CommandDefinition = {
   name: "stop",
@@ -27,15 +27,8 @@ const command: CommandDefinition = {
     const player = lava.getPlayer?.(guild.id);
     if (!player) { await ctx.reply({ embeds: [errorEmbed("No active music player.")] }); return; }
 
-    // Clear queue and stop
-    if (player.queue && typeof player.queue.clear === "function") player.queue.clear();
-    if (typeof player.stop === "function") await player.stop();
-    else if (typeof player.destroy === "function") await player.destroy();
-
-    // Remove controller
-    MusicControllerManager.removeController(guild.id);
-
-    await ctx.reply({ embeds: [errorEmbed("⏹️ Naitigil ang music at na-clear ang queue.")] });
+    const result = await MusicService.stop(player);
+    await ctx.reply({ embeds: [result.success ? errorEmbed("⏹️ Naitigil ang music at na-clear ang queue.") : errorEmbed(result.message)] });
   },
 };
 

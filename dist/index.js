@@ -15,7 +15,7 @@ import { startPremiumExpiryAudit } from "./features/scheduler/premiumAudit.js";
 import { startTempbanScheduler } from "./features/scheduler/tempbanScheduler.js";
 import { startBirthdayScheduler } from "./features/scheduler/birthdayScheduler.js";
 import { Monitor } from "./structures/Monitor.js";
-const VERSION = "0.2.3";
+const VERSION = "0.2.4";
 const log = scopedLogger("bootstrap");
 /** Run a named startup phase, record its duration, and surface errors cleanly. */
 async function phase(name, fn) {

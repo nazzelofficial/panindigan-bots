@@ -1,5 +1,6 @@
 import { successEmbed, errorEmbed } from "../../utils/embeds.js";
 import { validateMusicOperation } from "../../utils/music.js";
+import { MusicService } from "../../services/MusicService.js";
 const command = {
     name: "skipto",
     description: "Skip to a specific position in the queue",
@@ -24,17 +25,12 @@ const command = {
             return;
         }
         const pos = ctx.isSlash ? ctx.interaction.options.getInteger("position", true) : (parseInt(ctx.args[0] ?? "1") || 1);
-        const tracks = player.queue?.tracks ?? [];
-        if (pos < 1 || pos > tracks.length) {
-            await ctx.reply({ embeds: [errorEmbed(`Invalid position. Queue has **${tracks.length}** upcoming track${tracks.length !== 1 ? "s" : ""}.`)] });
+        const result = await MusicService.skipTo(player, pos);
+        if (!result.success) {
+            await ctx.reply({ embeds: [errorEmbed(result.message)] });
             return;
         }
-        const target = tracks[pos - 1];
-        tracks.splice(0, pos - 1);
-        if (typeof player.skip === "function")
-            await player.skip();
-        const title = target?.info?.title ?? target?.title ?? `Track #${pos}`;
-        await ctx.reply({ embeds: [successEmbed(`⏭️ Skipped to **${title}** (position #${pos}).`)] });
+        await ctx.reply({ embeds: [successEmbed(`⏭️ Skipped to **${result.track?.info?.title ?? result.track?.title ?? `Track #${pos}`}** (position #${pos}).`)] });
     },
 };
 export default command;

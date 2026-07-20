@@ -10,6 +10,71 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ---
 
+## [0.2.4] — 2026-07-20
+
+### Summary
+
+Major architectural refactoring for Prefix & Slash Command Parity. Implemented centralized command registry, shared service layer for business logic, and smart argument parser. Refactored Welcome and Goodbye systems to use shared services, eliminating code duplication between prefix and slash command handlers.
+
+---
+
+### Added
+
+#### Command Registry System
+- `src/structures/CommandRegistry.ts` - Centralized command registry with metadata tracking
+- Command metadata includes: name, description, category, prefix/slash support, aliases, permissions, cooldowns, usage, examples, premium requirements
+- Parity validation method to identify prefix-only, slash-only, and dual-support commands
+- Automatic command discovery and validation reporting
+
+#### Smart Argument Parser
+- `src/services/ArgumentParser.ts` - Advanced prefix command argument parser
+- Supports quoted strings, flags (--flag, -f), and type inference
+- Levenshtein distance algorithm for "Did you mean..." corrections
+- Autocomplete suggestions for incomplete prefix commands
+- Smart argument parsing with tokenization and type detection
+
+#### Shared Service Layer
+- `src/services/WelcomeService.ts` - Welcome system business logic service
+- `src/services/GoodbyeService.ts` - Goodbye system business logic service
+- Eliminates code duplication between prefix and slash command handlers
+- Methods: getConfig, setup, updateField, disable, sendWelcome/sendGoodbye, reset, getInfo
+- Type-safe configuration interfaces with all fields
+
+#### Service Integration
+- Welcome commands now use WelcomeService for all database operations
+- Goodbye commands now use GoodbyeService for all database operations
+- Commands only parse input and delegate to services
+- Consistent error handling and response formatting
+
+---
+
+### Changed
+
+#### Command Architecture
+- Refactored `src/commands/welcome/welcome.ts` to use WelcomeService
+- Refactored `src/commands/goodbye/goodbye.ts` to use GoodbyeService
+- Refactored `src/commands/welcome/welcomeSet.ts` to use WelcomeService
+- Refactored `src/commands/goodbye/goodbyeSet.ts` to use GoodbyeService
+- Removed direct database access from command handlers
+- Unified response handling through service layer
+
+#### Code Quality
+- Eliminated ~200 lines of duplicated business logic
+- Improved type safety with proper service interfaces
+- Better separation of concerns (parsing vs business logic)
+- Easier to maintain and test individual components
+
+---
+
+### Fixed
+
+#### TypeScript Compilation
+- Fixed type errors in ArgumentParser Levenshtein distance algorithm
+- Added proper type annotations for matrix arrays
+- All TypeScript compilation errors resolved
+
+---
+
 ## [0.2.3] — 2026-07-20
 
 ### Summary

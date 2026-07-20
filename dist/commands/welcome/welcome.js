@@ -1,5 +1,5 @@
 import { PermissionFlagsBits, AttachmentBuilder } from "discord.js";
-import { GuildModel } from "../../database/models/Guild.js";
+import { WelcomeService } from "../../services/WelcomeService.js";
 import { baseEmbed, successEmbed, errorEmbed } from "../../utils/embeds.js";
 function fillTemplate(template, replacements) {
     return template.replace(/\{(\w+)\}/g, (_, key) => replacements[key] ?? `{${key}}`);
@@ -31,13 +31,13 @@ const command = {
         const sub = ctx.isSlash ? ctx.interaction.options.getSubcommand(true) : ctx.args[0]?.toLowerCase();
         if (sub === "setup") {
             const channel = ctx.isSlash ? ctx.interaction.options.getChannel("channel", true) : guild.channels.cache.get(ctx.args[1]?.replace(/\D/g, "") ?? "");
-            const msg = ctx.isSlash ? ctx.interaction.options.getString("message") ?? "Welcome to **{server}**, {user}! You are member #{membercount}." : ctx.args.slice(2).join(" ") || "Welcome to **{server}**, {user}! You are member #{membercount}.";
+            const msg = ctx.isSlash ? ctx.interaction.options.getString("message") : ctx.args.slice(2).join(" ");
             if (!channel?.isTextBased?.()) {
                 await ctx.reply({ embeds: [errorEmbed("Provide a valid text channel.")] });
                 return;
             }
-            await GuildModel.findOneAndUpdate({ guildId: guild.id }, { $set: { "welcome.enabled": true, "welcome.channelId": channel.id, "welcome.message": msg } }, { upsert: true });
-            await ctx.reply({ embeds: [successEmbed(`Welcome messages enabled in ${channel}.`)] });
+            const result = await WelcomeService.setup({ guild, channelId: channel.id, message: msg || undefined });
+            await ctx.reply({ embeds: [result.success ? successEmbed(result.message) : errorEmbed(result.message)] });
         }
         else if (sub === "message") {
             const text = ctx.isSlash ? ctx.interaction.options.getString("text", true) : ctx.args.slice(1).join(" ");
@@ -45,17 +45,16 @@ const command = {
                 await ctx.reply({ embeds: [errorEmbed("Provide a message.")] });
                 return;
             }
-            await GuildModel.findOneAndUpdate({ guildId: guild.id }, { $set: { "welcome.message": text } }, { upsert: true });
-            await ctx.reply({ embeds: [successEmbed(`Welcome message updated:\n> ${text}`)] });
+            const result = await WelcomeService.updateField({ guild, field: "message", value: text });
+            await ctx.reply({ embeds: [result.success ? successEmbed(result.message) : errorEmbed(result.message)] });
         }
         else if (sub === "disable") {
-            await GuildModel.findOneAndUpdate({ guildId: guild.id }, { $set: { "welcome.enabled": false } }, { upsert: true });
-            await ctx.reply({ embeds: [successEmbed("Welcome messages disabled.")] });
+            const result = await WelcomeService.disable(guild.id);
+            await ctx.reply({ embeds: [result.success ? successEmbed(result.message) : errorEmbed(result.message)] });
         }
         else if (sub === "test") {
-            const cfg = await GuildModel.findOne({ guildId: guild.id }).lean();
-            const welcomeCfg = cfg?.welcome ?? {};
-            if (!welcomeCfg.channelId) {
+            const welcomeCfg = await WelcomeService.getConfig(guild.id);
+            if (!welcomeCfg?.channelId) {
                 await ctx.reply({ embeds: [errorEmbed("Run `welcome setup` first.")] });
                 return;
             }
@@ -111,8 +110,8 @@ const command = {
         }
         else if (sub === "card") {
             const enabled = ctx.isSlash ? ctx.interaction.options.getBoolean("enabled", true) : ctx.args[1]?.toLowerCase() !== "false";
-            await GuildModel.findOneAndUpdate({ guildId: guild.id }, { $set: { "welcome.cardEnabled": enabled } }, { upsert: true });
-            await ctx.reply({ embeds: [successEmbed(`Welcome cards **${enabled ? "enabled" : "disabled"}**.`)] });
+            const result = await WelcomeService.updateField({ guild, field: "cardEnabled", value: enabled });
+            await ctx.reply({ embeds: [result.success ? successEmbed(result.message) : errorEmbed(result.message)] });
         }
         else {
             await ctx.reply({ embeds: [errorEmbed("Use: setup | message | disable | test | card")] });

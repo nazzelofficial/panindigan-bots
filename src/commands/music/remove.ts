@@ -2,6 +2,7 @@ import { SlashCommandBuilder } from "discord.js";
 import type { CommandDefinition } from "../../structures/types.js";
 import { errorEmbed } from "../../utils/embeds.js";
 import { validateMusicOperation } from "../../utils/music.js";
+import { MusicService } from "../../services/MusicService.js";
 
 const command: CommandDefinition = {
   name: "remove",
@@ -26,13 +27,14 @@ const command: CommandDefinition = {
     const player = (ctx.client.lavalink as any).getPlayer?.(guild.id);
     if (!player) { await ctx.reply({ embeds: [errorEmbed("No active music player.")] }); return; }
     const pos = ctx.isSlash ? ctx.interaction!.options.getInteger("position", true) : (parseInt(ctx.args[0] ?? "1") || 1);
-    const tracks = player.queue?.tracks ?? [];
-    if (pos < 1 || pos > tracks.length) {
-      await ctx.reply({ embeds: [errorEmbed(`Invalid position. Queue has **${tracks.length}** upcoming track${tracks.length !== 1 ? "s" : ""}.`)] });
+    
+    const result = await MusicService.removeFromQueue(player, pos - 1);
+    if (!result.success) {
+      await ctx.reply({ embeds: [errorEmbed(result.message)] });
       return;
     }
-    const removed = tracks.splice(pos - 1, 1)[0];
-    const title = removed?.info?.title ?? removed?.title ?? `Track #${pos}`;
+    
+    const title = result.track?.info?.title ?? result.track?.title ?? `Track #${pos}`;
     await ctx.reply({ embeds: [errorEmbed(`🗑️ Removed **${title}** from position #${pos}.`)] });
   },
 };

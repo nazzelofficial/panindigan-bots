@@ -2,7 +2,7 @@ import { SlashCommandBuilder } from "discord.js";
 import type { CommandDefinition } from "../../structures/types.js";
 import { errorEmbed } from "../../utils/embeds.js";
 import { validateMusicOperation } from "../../utils/music.js";
-import { MusicControllerManager } from "../../features/music/controller/musicController.js";
+import { MusicService } from "../../services/MusicService.js";
 
 const command: CommandDefinition = {
   name: "skip",
@@ -34,10 +34,13 @@ const command: CommandDefinition = {
     const current = player.queue.current;
 
     for (let i = 0; i < count; i++) {
-      await player.skip?.();
+      const result = await MusicService.skip(player);
+      if (!result.success) {
+        await ctx.reply({ embeds: [errorEmbed(result.message)] });
+        return;
+      }
     }
 
-    // Update controller state (controller will be updated by trackStart event)
     await ctx.reply({ embeds: [errorEmbed(`⏭️ Skipped **${count}** track${count !== 1 ? "s" : ""}. Was playing: **${current.info.title}**`)] });
   },
 };

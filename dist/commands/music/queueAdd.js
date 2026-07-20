@@ -1,5 +1,6 @@
 import { successEmbed, errorEmbed } from "../../utils/embeds.js";
 import { validateMusicOperation } from "../../utils/music.js";
+import { MusicService } from "../../services/MusicService.js";
 const command = {
     name: "queueadd",
     description: "Add a song to the queue without immediately playing",
@@ -34,10 +35,9 @@ const command = {
             return;
         }
         const track = result.tracks[0];
-        player.queue?.add?.(track);
+        const addResult = await MusicService.addToQueue(player, track);
         const title = track?.info?.title ?? track?.title ?? query;
-        const pos = player.queue?.tracks?.length ?? 1;
-        await ctx.reply({ embeds: [successEmbed(`➕ Added **${title}** to queue at position **#${pos}**.`)] });
+        await ctx.reply({ embeds: [successEmbed(`➕ Added **${title}** to queue at position **#${addResult.position}**.`)] });
     },
 };
 export default command;

@@ -1,5 +1,6 @@
 import { errorEmbed } from "../../utils/embeds.js";
 import { validateMusicOperation } from "../../utils/music.js";
+import { MusicService } from "../../services/MusicService.js";
 const command = {
     name: "volume",
     description: "I-adjust ang volume ng music player (0-200)",
@@ -46,14 +47,19 @@ const command = {
             await ctx.reply({ embeds: [errorEmbed("Volume ay dapat between **0** at **200**.")] });
             return;
         }
-        await player.setVolume(level);
-        const bar = buildVolumeBar(level);
-        const emoji = level === 0 ? "🔇" : level < 50 ? "🔈" : level < 100 ? "🔉" : "🔊";
-        await ctx.reply({
-            embeds: [
-                errorEmbed(`${emoji} Volume set to **${level}%**\n${bar}`),
-            ],
-        });
+        const result = await MusicService.setVolume(player, level);
+        if (result.success) {
+            const bar = buildVolumeBar(level);
+            const emoji = level === 0 ? "🔇" : level < 50 ? "🔈" : level < 100 ? "🔉" : "🔊";
+            await ctx.reply({
+                embeds: [
+                    errorEmbed(`${emoji} Volume set to **${level}%**\n${bar}`),
+                ],
+            });
+        }
+        else {
+            await ctx.reply({ embeds: [errorEmbed(result.message)] });
+        }
     },
 };
 function buildVolumeBar(level) {

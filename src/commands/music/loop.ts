@@ -2,7 +2,7 @@ import { SlashCommandBuilder } from "discord.js";
 import type { CommandDefinition } from "../../structures/types.js";
 import { errorEmbed } from "../../utils/embeds.js";
 import { validateMusicOperation } from "../../utils/music.js";
-import { MusicControllerManager } from "../../features/music/controller/musicController.js";
+import { MusicService } from "../../services/MusicService.js";
 
 const LOOP_MODES = ["off", "track", "queue"] as const;
 type LoopMode = typeof LOOP_MODES[number];
@@ -52,14 +52,7 @@ const command: CommandDefinition = {
       next = LOOP_MODES[(idx + 1) % LOOP_MODES.length];
     }
 
-    if (typeof player.setRepeatMode === "function") {
-      await player.setRepeatMode(next === "off" ? 0 : next === "track" ? 1 : 2);
-    } else if (player.repeatMode !== undefined) {
-      player.repeatMode = next;
-    }
-
-    // Update controller state
-    MusicControllerManager.updateState(guild.id, ctx.interaction?.channelId ?? ctx.message?.channelId ?? "", { loopMode: next });
+    const result = await MusicService.setLoopMode(player, next);
 
     const labels: Record<LoopMode, string> = {
       off: "🔁 Loop **OFF**",
@@ -67,7 +60,7 @@ const command: CommandDefinition = {
       queue: "🔁 Loop **QUEUE** — paulit-ulit ang full queue",
     };
 
-    await ctx.reply({ embeds: [errorEmbed(labels[next])] });
+    await ctx.reply({ embeds: [errorEmbed(labels[next as LoopMode])] });
   },
 };
 

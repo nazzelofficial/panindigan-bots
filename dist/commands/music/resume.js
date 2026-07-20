@@ -1,6 +1,6 @@
 import { errorEmbed } from "../../utils/embeds.js";
 import { validateMusicOperation } from "../../utils/music.js";
-import { MusicControllerManager } from "../../features/music/controller/musicController.js";
+import { MusicService } from "../../services/MusicService.js";
 const command = {
     name: "resume",
     description: "Resume paused music",
@@ -28,10 +28,8 @@ const command = {
             await ctx.reply({ embeds: [errorEmbed("Music is not paused.")] });
             return;
         }
-        await player.resume?.();
-        // Update controller state
-        MusicControllerManager.updateState(guild.id, ctx.interaction?.channelId ?? ctx.message?.channelId ?? "", { isPaused: false });
-        await ctx.reply({ embeds: [errorEmbed("▶️ Music resumed.")] });
+        const result = await MusicService.resume(player);
+        await ctx.reply({ embeds: [result.success ? errorEmbed("▶️ Music resumed.") : errorEmbed(result.message)] });
     },
 };
 export default command;

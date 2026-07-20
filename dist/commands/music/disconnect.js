@@ -1,6 +1,6 @@
 import { errorEmbed } from "../../utils/embeds.js";
 import { validateMusicOperation } from "../../utils/music.js";
-import { MusicControllerManager } from "../../features/music/controller/musicController.js";
+import { MusicService } from "../../services/MusicService.js";
 const command = {
     name: "disconnect",
     description: "Disconnect the bot from the voice channel",
@@ -33,17 +33,11 @@ const command = {
                 return;
             }
             guild.members.me?.voice.disconnect().catch(() => { });
-            MusicControllerManager.removeController(guild.id);
             await ctx.reply({ embeds: [errorEmbed("👋 The bot has been disconnected from the voice channel.")] });
             return;
         }
-        if (player.queue && typeof player.queue.clear === "function")
-            player.queue.clear();
-        if (typeof player.destroy === "function")
-            await player.destroy();
-        // Remove controller
-        MusicControllerManager.removeController(guild.id);
-        await ctx.reply({ embeds: [errorEmbed("👋 The bot has left the voice channel.")] });
+        const result = await MusicService.disconnect(player);
+        await ctx.reply({ embeds: [result.success ? errorEmbed("👋 The bot has left the voice channel.") : errorEmbed(result.message)] });
     },
 };
 export default command;
