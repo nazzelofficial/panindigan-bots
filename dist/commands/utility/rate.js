@@ -1,7 +1,7 @@
 import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
 export default {
     data: new SlashCommandBuilder()
-        .setName('rate')
+        .setName('utilityrate')
         .setDescription('Rate something')
         .addStringOption(option => option.setName('thing')
         .setDescription('Thing to rate')

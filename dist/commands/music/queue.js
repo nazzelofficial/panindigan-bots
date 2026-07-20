@@ -1,4 +1,5 @@
 import { baseEmbed, errorEmbed, infoEmbed } from "../../utils/embeds.js";
+import { validateMusicOperation } from "../../utils/music.js";
 const command = {
     name: "queue",
     description: "View the current music queue",
@@ -9,8 +10,9 @@ const command = {
     aliases: ["q"],
     slashData: (b) => b.addIntegerOption((o) => o.setName("page").setDescription("Page number").setRequired(false).setMinValue(1)),
     async execute(ctx) {
-        if (!ctx.client.lavalink) {
-            await ctx.reply({ embeds: [errorEmbed("Music is not configured.")] });
+        const validationError = validateMusicOperation(ctx.client);
+        if (validationError) {
+            await ctx.reply({ embeds: [errorEmbed(validationError)] });
             return;
         }
         const guild = ctx.interaction?.guild ?? ctx.message?.guild;

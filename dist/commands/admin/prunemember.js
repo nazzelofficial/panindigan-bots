@@ -9,7 +9,7 @@ const command = {
     botPermissions: [PermissionFlagsBits.KickMembers],
     guildOnly: true,
     cooldown: 30,
-    aliases: ["prune", "prunemembers"],
+    aliases: ["prunemembers"],
     slashData: (b) => b
         .addIntegerOption((o) => o
         .setName("days")

@@ -1,4 +1,5 @@
 import { successEmbed, errorEmbed } from "../../utils/embeds.js";
+import { validateMusicOperation } from "../../utils/music.js";
 const command = {
     name: "forward",
     description: "Seek forward in the current song",
@@ -9,8 +10,9 @@ const command = {
     aliases: ["ff", "fastforward"],
     slashData: (b) => b.addIntegerOption((o) => o.setName("seconds").setDescription("Seconds to seek forward (default: 10)").setRequired(false).setMinValue(1).setMaxValue(600)),
     async execute(ctx) {
-        if (!ctx.client.lavalink) {
-            await ctx.reply({ embeds: [errorEmbed("Music isn't configured.")] });
+        const validationError = validateMusicOperation(ctx.client);
+        if (validationError) {
+            await ctx.reply({ embeds: [errorEmbed(validationError)] });
             return;
         }
         const guild = ctx.interaction?.guild ?? ctx.message?.guild;

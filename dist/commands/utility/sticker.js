@@ -1,7 +1,7 @@
 import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
 export default {
     data: new SlashCommandBuilder()
-        .setName('sticker')
+        .setName('stickerinfo')
         .setDescription('View sticker information')
         .addStringOption(option => option.setName('name')
         .setDescription('Sticker name')

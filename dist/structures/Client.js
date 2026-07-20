@@ -1,6 +1,7 @@
 import { Client, Collection, GatewayIntentBits, Partials } from "discord.js";
 import { config } from "../config/config.js";
 import { scopedLogger } from "../utils/logger.js";
+import { MusicStatus } from "../utils/music.js";
 const log = scopedLogger("client");
 export class PanindiganClient extends Client {
     commands = new Collection();
@@ -12,6 +13,9 @@ export class PanindiganClient extends Client {
     startedAt = Date.now();
     /** customId prefix (before the first ":") -> handler, for buttons/selects/modals. */
     componentHandlers = new Collection();
+    /** Music system status tracking */
+    musicStatus = MusicStatus.NOT_CONFIGURED;
+    musicStatusInfo = null;
     constructor() {
         super({
             intents: [
@@ -42,6 +46,24 @@ export class PanindiganClient extends Client {
         }
         bucket.set(userId, now + seconds * 1000);
         return null;
+    }
+    /**
+     * Updates the music system status
+     * @param status The new music status
+     * @param info Optional detailed status information
+     */
+    updateMusicStatus(status, info) {
+        this.musicStatus = status;
+        if (info) {
+            this.musicStatusInfo = info;
+        }
+    }
+    /**
+     * Checks if the music system is ready for operations
+     * @returns true if music is ready, false otherwise
+     */
+    isMusicReady() {
+        return this.musicStatus === MusicStatus.READY;
     }
     log = log;
 }

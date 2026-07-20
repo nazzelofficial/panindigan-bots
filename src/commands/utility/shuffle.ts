@@ -3,7 +3,7 @@ import { CommandDefinition } from '../../structures/CommandDefinition.js';
 
 export default {
   data: new SlashCommandBuilder()
-    .setName('shuffle')
+    .setName('utilityshuffle')
     .setDescription('Shuffle a list of items')
     .addStringOption(option =>
       option.setName('items')

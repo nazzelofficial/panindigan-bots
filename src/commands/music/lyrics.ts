@@ -1,6 +1,7 @@
 import { SlashCommandBuilder } from "discord.js";
 import type { CommandDefinition } from "../../structures/types.js";
 import { baseEmbed, errorEmbed, infoEmbed } from "../../utils/embeds.js";
+import { validateMusicOperation } from "../../utils/music.js";
 
 const command: CommandDefinition = {
   name: "lyrics",

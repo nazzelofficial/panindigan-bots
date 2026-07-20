@@ -1,6 +1,7 @@
 import { SlashCommandBuilder, ButtonStyle, ActionRowBuilder, ButtonBuilder } from "discord.js";
 import type { CommandDefinition } from "../../structures/types.js";
 import { baseEmbed, errorEmbed, infoEmbed } from "../../utils/embeds.js";
+import { validateMusicOperation } from "../../utils/music.js";
 
 const command: CommandDefinition = {
   name: "controls",
@@ -11,8 +12,9 @@ const command: CommandDefinition = {
   cooldown: 5,
   aliases: ["player", "music"],
   async execute(ctx) {
-    if (!ctx.client.lavalink) {
-      await ctx.reply({ embeds: [errorEmbed("Music is not configured. Set LAVALINK_HOST, LAVALINK_PORT, and LAVALINK_PASSWORD.")] });
+    const validationError = validateMusicOperation(ctx.client);
+    if (validationError) {
+      await ctx.reply({ embeds: [errorEmbed(validationError)] });
       return;
     }
 

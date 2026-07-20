@@ -3,7 +3,7 @@ import { CommandDefinition } from '../../structures/CommandDefinition.js';
 
 export default {
   data: new SlashCommandBuilder()
-    .setName('rate')
+    .setName('utilityrate')
     .setDescription('Rate something')
     .addStringOption(option =>
       option.setName('thing')

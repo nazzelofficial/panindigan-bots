@@ -3,7 +3,7 @@ import { CommandDefinition } from '../../structures/CommandDefinition.js';
 
 export default {
   data: new SlashCommandBuilder()
-    .setName('sticker')
+    .setName('stickerinfo')
     .setDescription('View sticker information')
     .addStringOption(option =>
       option.setName('name')

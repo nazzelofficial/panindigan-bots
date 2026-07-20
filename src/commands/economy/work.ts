@@ -25,7 +25,6 @@ const command: CommandDefinition = {
   access: "general",
   guildOnly: true,
   cooldown: 5,
-  aliases: ["job"],
   slashData: (b) => b as any,
   async execute(ctx) {
     const guild = ctx.interaction?.guild ?? ctx.message?.guild;

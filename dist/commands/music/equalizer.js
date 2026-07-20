@@ -1,4 +1,5 @@
 import { successEmbed, errorEmbed } from "../../utils/embeds.js";
+import { validateMusicOperation } from "../../utils/music.js";
 const EQ_PRESETS = {
     flat: { label: "Flat", bands: Array.from({ length: 15 }, (_, i) => ({ band: i, gain: 0 })) },
     bass: { label: "Bass Boost", bands: [{ band: 0, gain: 0.3 }, { band: 1, gain: 0.25 }, { band: 2, gain: 0.2 }, { band: 3, gain: 0.1 }, { band: 4, gain: 0.05 }, ...Array.from({ length: 10 }, (_, i) => ({ band: i + 5, gain: 0 }))] },
@@ -20,8 +21,9 @@ const command = {
     slashData: (b) => b.addStringOption((o) => o.setName("preset").setDescription("EQ preset to apply").setRequired(true)
         .addChoices(...Object.entries(EQ_PRESETS).map(([k, v]) => ({ name: v.label, value: k })))),
     async execute(ctx) {
-        if (!ctx.client.lavalink) {
-            await ctx.reply({ embeds: [errorEmbed("Music isn't configured.")] });
+        const validationError = validateMusicOperation(ctx.client);
+        if (validationError) {
+            await ctx.reply({ embeds: [errorEmbed(validationError)] });
             return;
         }
         const guild = ctx.interaction?.guild ?? ctx.message?.guild;

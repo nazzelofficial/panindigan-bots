@@ -1,4 +1,5 @@
 import { successEmbed, errorEmbed } from "../../utils/embeds.js";
+import { validateMusicOperation } from "../../utils/music.js";
 const command = {
     name: "queueadd",
     description: "Add a song to the queue without immediately playing",
@@ -9,8 +10,9 @@ const command = {
     aliases: ["qadd", "addqueue"],
     slashData: (b) => b.addStringOption((o) => o.setName("query").setDescription("Song name or URL to add to queue").setRequired(true)),
     async execute(ctx) {
-        if (!ctx.client.lavalink) {
-            await ctx.reply({ embeds: [errorEmbed("Music isn't configured.")] });
+        const validationError = validateMusicOperation(ctx.client);
+        if (validationError) {
+            await ctx.reply({ embeds: [errorEmbed(validationError)] });
             return;
         }
         const guild = ctx.interaction?.guild ?? ctx.message?.guild;

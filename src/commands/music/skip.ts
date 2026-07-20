@@ -1,6 +1,7 @@
 import { SlashCommandBuilder } from "discord.js";
 import type { CommandDefinition } from "../../structures/types.js";
 import { successEmbed, errorEmbed, infoEmbed } from "../../utils/embeds.js";
+import { validateMusicOperation } from "../../utils/music.js";
 
 const command: CommandDefinition = {
   name: "skip",
@@ -13,8 +14,9 @@ const command: CommandDefinition = {
   slashData: (b) =>
     (b as SlashCommandBuilder).addIntegerOption((o) => o.setName("count").setDescription("Number of tracks to skip").setRequired(false).setMinValue(1)),
   async execute(ctx) {
-    if (!ctx.client.lavalink) {
-      await ctx.reply({ embeds: [errorEmbed("Music is not configured.")] });
+    const validationError = validateMusicOperation(ctx.client);
+    if (validationError) {
+      await ctx.reply({ embeds: [errorEmbed(validationError)] });
       return;
     }
 

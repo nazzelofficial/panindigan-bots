@@ -3,7 +3,7 @@ import { CommandDefinition } from '../../structures/CommandDefinition.js';
 
 export default {
   data: new SlashCommandBuilder()
-    .setName('roll')
+    .setName('utilityroll')
     .setDescription('Roll a die')
     .addIntegerOption(option =>
       option.setName('sides')

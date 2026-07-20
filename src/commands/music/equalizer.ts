@@ -1,6 +1,7 @@
 import { SlashCommandBuilder } from "discord.js";
 import type { CommandDefinition } from "../../structures/types.js";
 import { successEmbed, errorEmbed } from "../../utils/embeds.js";
+import { validateMusicOperation } from "../../utils/music.js";
 
 const EQ_PRESETS: Record<string, { label: string; bands: Array<{ band: number; gain: number }> }> = {
   flat: { label: "Flat", bands: Array.from({ length: 15 }, (_, i) => ({ band: i, gain: 0 })) },
@@ -27,7 +28,11 @@ const command: CommandDefinition = {
         .addChoices(...Object.entries(EQ_PRESETS).map(([k, v]) => ({ name: v.label, value: k }))),
     ),
   async execute(ctx) {
-    if (!ctx.client.lavalink) { await ctx.reply({ embeds: [errorEmbed("Music isn't configured.")] }); return; }
+    const validationError = validateMusicOperation(ctx.client);
+    if (validationError) {
+      await ctx.reply({ embeds: [errorEmbed(validationError)] });
+      return;
+    }
     const guild = ctx.interaction?.guild ?? ctx.message?.guild;
     if (!guild) return;
     const player = (ctx.client.lavalink as any).getPlayer?.(guild.id);

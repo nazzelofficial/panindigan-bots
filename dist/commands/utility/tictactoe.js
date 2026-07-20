@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from 'discord.js';
 export default {
     data: new SlashCommandBuilder()
-        .setName('tictactoe')
+        .setName('utilitytictactoe')
         .setDescription('Play Tic Tac Toe')
         .addUserOption(option => option.setName('opponent')
         .setDescription('Opponent')

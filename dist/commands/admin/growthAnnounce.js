@@ -8,7 +8,7 @@ const command = {
     memberPermissions: [PermissionFlagsBits.ManageGuild],
     guildOnly: true,
     cooldown: 30,
-    aliases: ["announce", "milestone"],
+    aliases: ["milestone"],
     slashData: (b) => b
         .addChannelOption((o) => o.setName("channel").setDescription("Channel to send the announcement to").setRequired(true))
         .addStringOption((o) => o.setName("title").setDescription("Announcement title").setRequired(true).setMaxLength(100))

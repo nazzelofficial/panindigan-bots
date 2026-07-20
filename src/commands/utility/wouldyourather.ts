@@ -3,7 +3,7 @@ import { CommandDefinition } from '../../structures/CommandDefinition.js';
 
 export default {
   data: new SlashCommandBuilder()
-    .setName('wouldyourather')
+    .setName('utilitywouldyourather')
     .setDescription('Play Would You Rather'),
   category: 'Utility',
   accessTier: 'user',

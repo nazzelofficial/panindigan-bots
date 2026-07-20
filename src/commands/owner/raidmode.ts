@@ -4,7 +4,7 @@ import { GuildModel } from '../../database/models/Guild.js';
 
 export default {
   data: new SlashCommandBuilder()
-    .setName('raidmode')
+    .setName('globalraidmode')
     .setDescription('Enable or disable temporary raid lockdown on a server (owner only)')
     .addSubcommand(sub =>
       sub.setName('on')

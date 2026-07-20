@@ -11,7 +11,7 @@ const command: CommandDefinition = {
   botPermissions: [PermissionFlagsBits.KickMembers],
   guildOnly: true,
   cooldown: 30,
-  aliases: ["prune", "prunemembers"],
+  aliases: ["prunemembers"],
   slashData: (b) =>
     (b as SlashCommandBuilder)
       .addIntegerOption((o) =>

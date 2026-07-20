@@ -3,7 +3,7 @@ import { CommandDefinition } from '../../structures/CommandDefinition.js';
 
 export default {
   data: new SlashCommandBuilder()
-    .setName('trivia')
+    .setName('utilitytrivia')
     .setDescription('Get a random trivia question'),
   category: 'Utility',
   accessTier: 'user',

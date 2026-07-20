@@ -3,7 +3,7 @@ import { CommandDefinition } from '../../structures/CommandDefinition.js';
 
 export default {
   data: new SlashCommandBuilder()
-    .setName('riddle')
+    .setName('utilityriddle')
     .setDescription('Get a riddle to solve'),
   category: 'Utility',
   accessTier: 'user',

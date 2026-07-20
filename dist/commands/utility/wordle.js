@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from 'discord.js';
 export default {
     data: new SlashCommandBuilder()
-        .setName('wordle')
+        .setName('utilitywordle')
         .setDescription('Play Wordle'),
     category: 'Utility',
     accessTier: 'user',

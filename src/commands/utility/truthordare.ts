@@ -3,7 +3,7 @@ import { CommandDefinition } from '../../structures/CommandDefinition.js';
 
 export default {
   data: new SlashCommandBuilder()
-    .setName('truthordare')
+    .setName('utilitytruthordare')
     .setDescription('Play Truth or Dare')
     .addStringOption(option =>
       option.setName('choice')

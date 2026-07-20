@@ -23,7 +23,6 @@ const command: CommandDefinition = {
   memberPermissions: [PermissionFlagsBits.ModerateMembers],
   botPermissions: [PermissionFlagsBits.ModerateMembers],
   cooldown: 3,
-  aliases: ["untimeout"],
   slashData: (b) =>
     (b as SlashCommandBuilder)
       .addSubcommand((s) =>

@@ -1,4 +1,5 @@
 import { successEmbed, errorEmbed } from "../../utils/embeds.js";
+import { validateMusicOperation } from "../../utils/music.js";
 const command = {
     name: "skipall",
     description: "Skip all songs in the queue and stop playback",
@@ -9,8 +10,9 @@ const command = {
     aliases: ["stopall"],
     slashData: (b) => b,
     async execute(ctx) {
-        if (!ctx.client.lavalink) {
-            await ctx.reply({ embeds: [errorEmbed("Music isn't configured.")] });
+        const validationError = validateMusicOperation(ctx.client);
+        if (validationError) {
+            await ctx.reply({ embeds: [errorEmbed(validationError)] });
             return;
         }
         const guild = ctx.interaction?.guild ?? ctx.message?.guild;

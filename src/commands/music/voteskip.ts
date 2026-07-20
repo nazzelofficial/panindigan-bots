@@ -1,6 +1,7 @@
 import { SlashCommandBuilder } from "discord.js";
 import type { CommandDefinition } from "../../structures/types.js";
 import { successEmbed, errorEmbed, baseEmbed } from "../../utils/embeds.js";
+import { validateMusicOperation } from "../../utils/music.js";
 
 // Track active vote-skips per guild: Map<guildId, Set<userId>>
 const voteSkipSessions = new Map<string, Set<string>>();
@@ -16,8 +17,9 @@ const command: CommandDefinition = {
   aliases: ["vskip", "vs"],
   slashData: (_b) => _b,
   async execute(ctx) {
-    if (!ctx.client.lavalink) {
-      await ctx.reply({ embeds: [errorEmbed("Music is not configured on this bot.")] });
+    const validationError = validateMusicOperation(ctx.client);
+    if (validationError) {
+      await ctx.reply({ embeds: [errorEmbed(validationError)] });
       return;
     }
 
@@ -25,7 +27,7 @@ const command: CommandDefinition = {
     const member = ctx.interaction?.member ?? ctx.message?.member;
     if (!guild || !member) return;
 
-    const player = ctx.client.lavalink.getPlayer(guild.id);
+    const player = ctx.client.lavalink!.getPlayer(guild.id);
     if (!player || !player.queue.current) {
       await ctx.reply({ embeds: [errorEmbed("Nothing is playing right now.")] });
       return;

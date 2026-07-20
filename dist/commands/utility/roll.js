@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from 'discord.js';
 export default {
     data: new SlashCommandBuilder()
-        .setName('roll')
+        .setName('utilityroll')
         .setDescription('Roll a die')
         .addIntegerOption(option => option.setName('sides')
         .setDescription('Number of sides')

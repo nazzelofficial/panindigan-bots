@@ -65,7 +65,7 @@ function evaluateHand(hand: Card[]): HandRank {
 }
 
 const command: CommandDefinition = {
-  name: 'poker',
+  name: 'videopoker',
   description: 'Play Video Poker (Jacks or Better) — hold cards and draw for the best hand!',
   category: 'Games',
   access: 'general',

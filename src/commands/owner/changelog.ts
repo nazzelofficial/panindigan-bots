@@ -4,7 +4,7 @@ import { clientRegistry } from '../../structures/clientRegistry.js';
 
 export default {
   data: new SlashCommandBuilder()
-    .setName('changelog')
+    .setName('broadcastchangelog')
     .setDescription('Post changelog/update announcement to all servers')
     .addStringOption(option =>
       option.setName('message')

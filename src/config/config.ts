@@ -137,6 +137,7 @@ export const ENV_SCHEMA: EnvSchemaEntry[] = [
   { key: "LAVALINK_HOST",       required: false, description: "Lavalink node host (music)" },
   { key: "LAVALINK_PORT",       required: false, description: "Lavalink node port (music)" },
   { key: "LAVALINK_PASSWORD",   required: false, description: "Lavalink node password (music)" },
+  { key: "LAVALINK_SECURE",     required: false, description: "Lavalink secure connection (wss://) - true/false" },
   { key: "OPENAI_API_KEY",      required: false, description: "OpenAI API key (AI features)" },
   { key: "API_PORT",            required: false, description: "Port for the REST API / dashboard backend" },
   { key: "API_JWT_SECRET",      required: false, description: "Secret used to sign REST API JWTs" },

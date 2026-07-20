@@ -10,6 +10,131 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ---
 
+## [0.1.9] — 2026-07-20
+
+### Summary
+
+Production-grade Lavalink music system audit and command organization release. Implemented comprehensive music system reliability improvements including node readiness validation, automatic failover, health monitoring, voice lifecycle cleanup, and guild isolation. Resolved all duplicate command names and aliases that were causing warnings during command loading.
+
+---
+
+### Added
+
+#### Music System — Production-Grade Reliability
+- Comprehensive node health validation before all music operations (connected, ready, WebSocket open, authenticated)
+- Automatic node failover with multiple Lavalink node support (comma-separated env vars)
+- Health monitoring background service running every 30 seconds with structured logging
+- Voice connection lifecycle cleanup (bot leave, kick, guild delete, queue end, player errors)
+- Node health tracking with consecutive failure/recovery thresholds
+- Healthiest node selection based on latency, CPU load, and player count
+- Detailed node health information interface (ping, memory, CPU, player count)
+- Multiple node configuration parsing from environment variables
+- Automatic failover on critical errors (authentication, connection refused)
+- Structured health logging with node status metrics
+
+---
+
+### Changed
+
+#### Music System
+- Enhanced validateMusicOperation() with comprehensive node health checks
+- Added isNodeHealthy() function for node readiness validation
+- Added getHealthyNode() function to find healthy nodes
+- Added getNodeHealthInfo() for detailed node metrics
+- Added getAllNodesHealthInfo() for monitoring all nodes
+- Updated musicManager.ts with voice lifecycle event handlers
+- Updated musicManager.ts with automatic failover logic
+- Updated musicManager.ts with health monitor integration
+- Added healthMonitor.ts module for background health checks
+- Enhanced node connection logging with structured health info
+
+---
+
+### Fixed
+
+#### Command System
+- Fixed duplicate command name "poker" - renamed games/poker.ts to "videopoker"
+- Fixed duplicate command name "ping" - renamed owner/ping.ts to "shardping"
+- Fixed duplicate command name "raidmode" - renamed owner/raidmode.ts to "globalraidmode"
+- Fixed duplicate command name "changelog" - renamed owner/changelog.ts to "broadcastchangelog"
+- Fixed duplicate command name "rate" - renamed utility/rate.ts to "utilityrate"
+- Fixed duplicate command name "riddle" - renamed utility/riddle.ts to "utilityriddle"
+- Fixed duplicate command name "roll" - renamed utility/roll.ts to "utilityroll"
+- Fixed duplicate command name "rps" - renamed utility/rps.ts to "utilityrps"
+- Fixed duplicate command name "ship" - renamed utility/ship.ts to "utilityship"
+- Fixed duplicate command name "shuffle" - renamed utility/shuffle.ts to "utilityshuffle"
+- Fixed duplicate command name "sticker" - renamed utility/sticker.ts to "stickerinfo"
+- Fixed duplicate command name "tictactoe" - renamed utility/tictactoe.ts to "utilitytictactoe"
+- Fixed duplicate command name "trivia" - renamed utility/trivia.ts to "utilitytrivia"
+- Fixed duplicate command name "truthordare" - renamed utility/truthordare.ts to "utilitytruthordare"
+- Fixed duplicate command name "wordle" - renamed utility/wordle.ts to "utilitywordle"
+- Fixed duplicate command name "wouldyourather" - renamed utility/wouldyourather.ts to "utilitywouldyourather"
+- Fixed duplicate alias "job" - removed from work.ts (kept in jobs.ts)
+- Fixed duplicate alias "lockdown" - removed from lock.ts (kept in serverlock.ts)
+- Fixed duplicate alias "prune" - removed from purge.ts (kept in prunemember.ts)
+- Fixed duplicate alias "untimeout" - removed from timeout.ts (kept in unmute.ts)
+- Fixed duplicate alias "announce" - removed from growthannounce.ts (kept in say.ts)
+
+---
+
+## [0.1.8] — 2026-07-20
+
+### Summary
+
+Infrastructure and music system stability release. Migrated build system from tsup to native TypeScript compiler (tsc) for better compatibility with Node.js 24+ and native ESM. Implemented production-grade Lavalink music system with comprehensive error handling, validation, and graceful degradation. Music commands now fail gracefully when Lavalink is unavailable without affecting other bot features.
+
+---
+
+### Changed
+
+#### Build System — tsup to tsc Migration
+- Removed tsup dependency and configuration completely
+- Migrated to native TypeScript compiler (tsc) for compilation
+- Updated tsconfig.json for Node.js 24+ compatibility with native ESM
+- Changed moduleResolution from "bundler" to "node" for proper runtime resolution
+- Removed path aliases (@/) and converted all 582 files to relative imports
+- Added .js extensions to all relative imports for ESM compatibility
+- Updated Dockerfile to use tsc build output (removed manual src copying)
+- Build script now: `pnpm clean && tsc`
+- All 780 TypeScript files compile successfully with zero errors
+- Full folder structure preserved in dist/ output
+
+#### Music System — Production-Grade Lavalink Implementation
+- Added LAVALINK_SECURE to ENV_SCHEMA for WSS/WS configuration
+- Created comprehensive music utility module (`src/utils/music.ts`) with validation
+- Implemented MusicStatus enum for tracking Lavalink availability states
+- Added configuration validation (host, port, password, secure flag)
+- Implemented duplicate initialization prevention in musicManager
+- Added comprehensive event logging (connect, disconnect, error, reconnect, destroy)
+- Implemented detailed startup diagnostics showing connection configuration
+- Added specific error type detection (authentication, connection refused, DNS, timeout, SSL/TLS)
+- Implemented retry configuration with exponential backoff support
+- Added client music status tracking in PanindiganClient
+- Updated 41 music commands with validateMusicOperation() checks
+- All music commands now return user-friendly error messages when Lavalink unavailable
+- Bot remains fully operational when Lavalink is offline or unreachable
+- No uncaught exceptions from music system failures
+
+---
+
+### Fixed
+
+#### Music System
+- Fixed "No available Node was found" error with proper node validation
+- Fixed "Unable to connect after 5 attempts" with improved error handling
+- Fixed music commands throwing uncaught exceptions when Lavalink unavailable
+- Fixed race conditions in Lavalink initialization
+- Fixed missing node connection checks before player creation
+- Fixed TypeScript errors related to Lavalink node state checking
+
+#### Build System
+- Fixed unresolved path aliases in compiled JavaScript
+- Fixed missing .js extensions causing ESM module resolution errors
+- Fixed Docker build requiring manual file copying
+- Fixed tsup bundling issues with dynamic imports
+
+---
+
 ## [0.1.7] — 2026-07-19
 
 ### Summary

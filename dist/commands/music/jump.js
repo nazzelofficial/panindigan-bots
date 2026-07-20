@@ -1,4 +1,5 @@
 import { successEmbed, errorEmbed } from "../../utils/embeds.js";
+import { validateMusicOperation } from "../../utils/music.js";
 function fmtTime(s) {
     const m = Math.floor(s / 60), sec = s % 60;
     return `${m}:${String(sec).padStart(2, "0")}`;
@@ -15,8 +16,9 @@ const command = {
         .addIntegerOption((o) => o.setName("minutes").setDescription("Minutes").setRequired(false).setMinValue(0))
         .addIntegerOption((o) => o.setName("seconds").setDescription("Seconds").setRequired(false).setMinValue(0).setMaxValue(59)),
     async execute(ctx) {
-        if (!ctx.client.lavalink) {
-            await ctx.reply({ embeds: [errorEmbed("Music isn't configured.")] });
+        const validationError = validateMusicOperation(ctx.client);
+        if (validationError) {
+            await ctx.reply({ embeds: [errorEmbed(validationError)] });
             return;
         }
         const guild = ctx.interaction?.guild ?? ctx.message?.guild;

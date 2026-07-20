@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from 'discord.js';
 export default {
     data: new SlashCommandBuilder()
-        .setName('rps')
+        .setName('utilityrps')
         .setDescription('Play rock paper scissors')
         .addStringOption(option => option.setName('choice')
         .setDescription('Your choice')

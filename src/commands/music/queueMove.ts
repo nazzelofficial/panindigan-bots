@@ -1,6 +1,7 @@
 import { SlashCommandBuilder } from "discord.js";
 import type { CommandDefinition } from "../../structures/types.js";
 import { successEmbed, errorEmbed } from "../../utils/embeds.js";
+import { validateMusicOperation } from "../../utils/music.js";
 
 const command: CommandDefinition = {
   name: "queuemove",
@@ -15,7 +16,11 @@ const command: CommandDefinition = {
       .addIntegerOption((o) => o.setName("from").setDescription("Current position (1-based)").setRequired(true).setMinValue(1))
       .addIntegerOption((o) => o.setName("to").setDescription("Target position (1-based)").setRequired(true).setMinValue(1)),
   async execute(ctx) {
-    if (!ctx.client.lavalink) { await ctx.reply({ embeds: [errorEmbed("Music isn't configured.")] }); return; }
+    const validationError = validateMusicOperation(ctx.client);
+    if (validationError) {
+      await ctx.reply({ embeds: [errorEmbed(validationError)] });
+      return;
+    }
     const guild = ctx.interaction?.guild ?? ctx.message?.guild;
     if (!guild) return;
     const player = (ctx.client.lavalink as any).getPlayer?.(guild.id);

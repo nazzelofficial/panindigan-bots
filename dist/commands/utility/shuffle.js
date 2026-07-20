@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from 'discord.js';
 export default {
     data: new SlashCommandBuilder()
-        .setName('shuffle')
+        .setName('utilityshuffle')
         .setDescription('Shuffle a list of items')
         .addStringOption(option => option.setName('items')
         .setDescription('Items separated by comma')

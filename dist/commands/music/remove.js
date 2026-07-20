@@ -1,4 +1,5 @@
 import { successEmbed, errorEmbed } from "../../utils/embeds.js";
+import { validateMusicOperation } from "../../utils/music.js";
 const command = {
     name: "remove",
     description: "Remove a song from the queue by position",
@@ -9,8 +10,9 @@ const command = {
     aliases: ["dequeue", "rm"],
     slashData: (b) => b.addIntegerOption((o) => o.setName("position").setDescription("Queue position to remove (1 = next)").setRequired(true).setMinValue(1)),
     async execute(ctx) {
-        if (!ctx.client.lavalink) {
-            await ctx.reply({ embeds: [errorEmbed("Music isn't configured.")] });
+        const validationError = validateMusicOperation(ctx.client);
+        if (validationError) {
+            await ctx.reply({ embeds: [errorEmbed(validationError)] });
             return;
         }
         const guild = ctx.interaction?.guild ?? ctx.message?.guild;

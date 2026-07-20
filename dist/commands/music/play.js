@@ -1,6 +1,7 @@
 import { baseEmbed, errorEmbed } from "../../utils/embeds.js";
-function getMusicNotConfiguredEmbed() {
-    return errorEmbed("Music isn't configured on this bot yet — set `LAVALINK_HOST`, `LAVALINK_PORT`, and `LAVALINK_PASSWORD` in your environment.");
+import { validateMusicOperation } from "../../utils/music.js";
+function getMusicUnavailableEmbed() {
+    return errorEmbed("❌ Music service is currently unavailable.\nThe Lavalink server is offline or unreachable.\nPlease try again later.");
 }
 const command = {
     name: "play",
@@ -39,8 +40,9 @@ const command = {
         }
     },
     async execute(ctx) {
-        if (!ctx.client.lavalink) {
-            await ctx.reply({ embeds: [getMusicNotConfiguredEmbed()] });
+        const validationError = validateMusicOperation(ctx.client);
+        if (validationError) {
+            await ctx.reply({ embeds: [errorEmbed(validationError)] });
             return;
         }
         const guild = ctx.interaction?.guild ?? ctx.message?.guild;

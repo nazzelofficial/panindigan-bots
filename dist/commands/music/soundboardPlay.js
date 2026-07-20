@@ -1,4 +1,5 @@
 import { successEmbed, errorEmbed } from "../../utils/embeds.js";
+import { validateMusicOperation } from "../../utils/music.js";
 import { GuildModel } from "../../database/models/Guild.js";
 const command = {
     name: "soundboardplay",
@@ -10,8 +11,9 @@ const command = {
     aliases: ["playsound", "sb"],
     slashData: (b) => b.addStringOption((o) => o.setName("name").setDescription("Name of the sound to play").setRequired(true)),
     async execute(ctx) {
-        if (!ctx.client.lavalink) {
-            await ctx.reply({ embeds: [errorEmbed("Music isn't configured.")] });
+        const validationError = validateMusicOperation(ctx.client);
+        if (validationError) {
+            await ctx.reply({ embeds: [errorEmbed(validationError)] });
             return;
         }
         const guild = ctx.interaction?.guild ?? ctx.message?.guild;

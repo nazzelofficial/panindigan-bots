@@ -1,4 +1,5 @@
 import { successEmbed, errorEmbed } from "../../utils/embeds.js";
+import { validateMusicOperation } from "../../utils/music.js";
 const command = {
     name: "equalizercustom",
     description: "Set custom EQ: bass, mid, treble adjustments (-0.25 to 1.0)",
@@ -12,8 +13,9 @@ const command = {
         .addNumberOption((o) => o.setName("mid").setDescription("Mid gain (-0.25 to 1.0, default 0)").setRequired(false).setMinValue(-0.25).setMaxValue(1.0))
         .addNumberOption((o) => o.setName("treble").setDescription("Treble gain (-0.25 to 1.0, default 0)").setRequired(false).setMinValue(-0.25).setMaxValue(1.0)),
     async execute(ctx) {
-        if (!ctx.client.lavalink) {
-            await ctx.reply({ embeds: [errorEmbed("Music isn't configured.")] });
+        const validationError = validateMusicOperation(ctx.client);
+        if (validationError) {
+            await ctx.reply({ embeds: [errorEmbed(validationError)] });
             return;
         }
         const guild = ctx.interaction?.guild ?? ctx.message?.guild;

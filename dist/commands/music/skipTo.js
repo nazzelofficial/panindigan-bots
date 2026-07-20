@@ -1,4 +1,5 @@
 import { successEmbed, errorEmbed } from "../../utils/embeds.js";
+import { validateMusicOperation } from "../../utils/music.js";
 const command = {
     name: "skipto",
     description: "Skip to a specific position in the queue",
@@ -9,8 +10,9 @@ const command = {
     aliases: ["jumpto"],
     slashData: (b) => b.addIntegerOption((o) => o.setName("position").setDescription("Queue position to skip to (1 = next)").setRequired(true).setMinValue(1)),
     async execute(ctx) {
-        if (!ctx.client.lavalink) {
-            await ctx.reply({ embeds: [errorEmbed("Music isn't configured.")] });
+        const validationError = validateMusicOperation(ctx.client);
+        if (validationError) {
+            await ctx.reply({ embeds: [errorEmbed(validationError)] });
             return;
         }
         const guild = ctx.interaction?.guild ?? ctx.message?.guild;

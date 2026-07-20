@@ -1,4 +1,5 @@
 import { successEmbed, errorEmbed, infoEmbed } from "../../utils/embeds.js";
+import { validateMusicOperation } from "../../utils/music.js";
 const command = {
     name: "skip",
     description: "Skip the current or a specific number of tracks",
@@ -9,8 +10,9 @@ const command = {
     aliases: ["s", "next"],
     slashData: (b) => b.addIntegerOption((o) => o.setName("count").setDescription("Number of tracks to skip").setRequired(false).setMinValue(1)),
     async execute(ctx) {
-        if (!ctx.client.lavalink) {
-            await ctx.reply({ embeds: [errorEmbed("Music is not configured.")] });
+        const validationError = validateMusicOperation(ctx.client);
+        if (validationError) {
+            await ctx.reply({ embeds: [errorEmbed(validationError)] });
             return;
         }
         const guild = ctx.interaction?.guild ?? ctx.message?.guild;

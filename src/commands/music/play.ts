@@ -1,9 +1,10 @@
 import { SlashCommandBuilder } from "discord.js";
 import type { CommandDefinition } from "../../structures/types.js";
 import { baseEmbed, errorEmbed } from "../../utils/embeds.js";
+import { validateMusicOperation } from "../../utils/music.js";
 
-function getMusicNotConfiguredEmbed() {
-  return errorEmbed("Music isn't configured on this bot yet — set `LAVALINK_HOST`, `LAVALINK_PORT`, and `LAVALINK_PASSWORD` in your environment.");
+function getMusicUnavailableEmbed() {
+  return errorEmbed("❌ Music service is currently unavailable.\nThe Lavalink server is offline or unreachable.\nPlease try again later.");
 }
 
 const command: CommandDefinition = {
@@ -47,7 +48,11 @@ const command: CommandDefinition = {
   },
 
   async execute(ctx) {
-    if (!ctx.client.lavalink) { await ctx.reply({ embeds: [getMusicNotConfiguredEmbed()] }); return; }
+    const validationError = validateMusicOperation(ctx.client);
+    if (validationError) {
+      await ctx.reply({ embeds: [errorEmbed(validationError)] });
+      return;
+    }
 
     const guild  = ctx.interaction?.guild ?? ctx.message?.guild;
     const member = ctx.interaction?.member ?? ctx.message?.member;
@@ -64,9 +69,9 @@ const command: CommandDefinition = {
 
     const textChannelId = ctx.interaction?.channelId ?? ctx.message?.channelId;
 
-    let player = ctx.client.lavalink.getPlayer(guild.id);
+    let player = ctx.client.lavalink!.getPlayer(guild.id);
     if (!player) {
-      player = ctx.client.lavalink.createPlayer({
+      player = ctx.client.lavalink!.createPlayer({
         guildId: guild.id,
         voiceChannelId,
         textChannelId,

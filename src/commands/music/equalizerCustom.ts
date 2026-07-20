@@ -1,6 +1,7 @@
 import { SlashCommandBuilder } from "discord.js";
 import type { CommandDefinition } from "../../structures/types.js";
 import { successEmbed, errorEmbed } from "../../utils/embeds.js";
+import { validateMusicOperation } from "../../utils/music.js";
 
 const command: CommandDefinition = {
   name: "equalizercustom",
@@ -16,7 +17,11 @@ const command: CommandDefinition = {
       .addNumberOption((o) => o.setName("mid").setDescription("Mid gain (-0.25 to 1.0, default 0)").setRequired(false).setMinValue(-0.25).setMaxValue(1.0))
       .addNumberOption((o) => o.setName("treble").setDescription("Treble gain (-0.25 to 1.0, default 0)").setRequired(false).setMinValue(-0.25).setMaxValue(1.0)),
   async execute(ctx) {
-    if (!ctx.client.lavalink) { await ctx.reply({ embeds: [errorEmbed("Music isn't configured.")] }); return; }
+    const validationError = validateMusicOperation(ctx.client);
+    if (validationError) {
+      await ctx.reply({ embeds: [errorEmbed(validationError)] });
+      return;
+    }
     const guild = ctx.interaction?.guild ?? ctx.message?.guild;
     if (!guild) return;
     const player = (ctx.client.lavalink as any).getPlayer?.(guild.id);

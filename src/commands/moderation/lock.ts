@@ -11,7 +11,6 @@ const command: CommandDefinition = {
   botPermissions: [PermissionFlagsBits.ManageChannels, PermissionFlagsBits.ManageRoles],
   guildOnly: true,
   cooldown: 5,
-  aliases: ["lockdown"],
   slashData: (b) =>
     (b as SlashCommandBuilder)
       .addSubcommand((s) =>

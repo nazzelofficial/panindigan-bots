@@ -9,7 +9,6 @@ const command = {
     botPermissions: [PermissionFlagsBits.ManageChannels, PermissionFlagsBits.ManageRoles],
     guildOnly: true,
     cooldown: 5,
-    aliases: ["lockdown"],
     slashData: (b) => b
         .addSubcommand((s) => s.setName("lock")
         .setDescription("Lock a channel (deny @everyone from sending messages)")

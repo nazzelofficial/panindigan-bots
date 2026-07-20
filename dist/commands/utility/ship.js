@@ -1,7 +1,7 @@
 import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
 export default {
     data: new SlashCommandBuilder()
-        .setName('ship')
+        .setName('utilityship')
         .setDescription('Ship two users together')
         .addUserOption(option => option.setName('user1')
         .setDescription('First user')

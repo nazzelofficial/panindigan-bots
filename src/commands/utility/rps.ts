@@ -3,7 +3,7 @@ import { CommandDefinition } from '../../structures/CommandDefinition.js';
 
 export default {
   data: new SlashCommandBuilder()
-    .setName('rps')
+    .setName('utilityrps')
     .setDescription('Play rock paper scissors')
     .addStringOption(option =>
       option.setName('choice')

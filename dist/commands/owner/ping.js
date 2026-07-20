@@ -2,8 +2,8 @@ import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
 import { clientRegistry } from '../../structures/clientRegistry.js';
 export default {
     data: new SlashCommandBuilder()
-        .setName('ping')
-        .setDescription('View bot latency')
+        .setName('shardping')
+        .setDescription('View bot latency for specific shard')
         .addIntegerOption(option => option.setName('shard')
         .setDescription('Specific shard ID to check')
         .setRequired(false)),

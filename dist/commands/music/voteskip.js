@@ -1,4 +1,5 @@
 import { successEmbed, errorEmbed, baseEmbed } from "../../utils/embeds.js";
+import { validateMusicOperation } from "../../utils/music.js";
 // Track active vote-skips per guild: Map<guildId, Set<userId>>
 const voteSkipSessions = new Map();
 const command = {
@@ -12,8 +13,9 @@ const command = {
     aliases: ["vskip", "vs"],
     slashData: (_b) => _b,
     async execute(ctx) {
-        if (!ctx.client.lavalink) {
-            await ctx.reply({ embeds: [errorEmbed("Music is not configured on this bot.")] });
+        const validationError = validateMusicOperation(ctx.client);
+        if (validationError) {
+            await ctx.reply({ embeds: [errorEmbed(validationError)] });
             return;
         }
         const guild = ctx.interaction?.guild ?? ctx.message?.guild;

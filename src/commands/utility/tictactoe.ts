@@ -3,7 +3,7 @@ import { CommandDefinition } from '../../structures/CommandDefinition.js';
 
 export default {
   data: new SlashCommandBuilder()
-    .setName('tictactoe')
+    .setName('utilitytictactoe')
     .setDescription('Play Tic Tac Toe')
     .addUserOption(option =>
       option.setName('opponent')

@@ -1,4 +1,5 @@
 import { successEmbed, errorEmbed } from "../../utils/embeds.js";
+import { validateMusicOperation } from "../../utils/music.js";
 import { SavedQueueModel } from "../../database/models/Community.js";
 const command = {
     name: "savedqueuesave",
@@ -10,8 +11,9 @@ const command = {
     aliases: ["savqueue", "qsave"],
     slashData: (b) => b.addStringOption((o) => o.setName("name").setDescription("Name for this saved queue").setRequired(true).setMaxLength(50)),
     async execute(ctx) {
-        if (!ctx.client.lavalink) {
-            await ctx.reply({ embeds: [errorEmbed("Music isn't configured.")] });
+        const validationError = validateMusicOperation(ctx.client);
+        if (validationError) {
+            await ctx.reply({ embeds: [errorEmbed(validationError)] });
             return;
         }
         const guild = ctx.interaction?.guild ?? ctx.message?.guild;

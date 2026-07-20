@@ -1,6 +1,7 @@
 import { SlashCommandBuilder } from "discord.js";
 import type { CommandDefinition } from "../../structures/types.js";
 import { successEmbed, errorEmbed } from "../../utils/embeds.js";
+import { validateMusicOperation } from "../../utils/music.js";
 import { SavedQueueModel } from "../../database/models/Community.js";
 
 const command: CommandDefinition = {
@@ -33,7 +34,11 @@ const command: CommandDefinition = {
   },
 
   async execute(ctx) {
-    if (!ctx.client.lavalink) { await ctx.reply({ embeds: [errorEmbed("Music isn't configured.")] }); return; }
+    const validationError = validateMusicOperation(ctx.client);
+    if (validationError) {
+      await ctx.reply({ embeds: [errorEmbed(validationError)] });
+      return;
+    }
     const guild  = ctx.interaction?.guild ?? ctx.message?.guild;
     if (!guild) return;
     const member = ctx.interaction?.member ?? ctx.message?.member;

@@ -1,7 +1,7 @@
 import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
 export default {
     data: new SlashCommandBuilder()
-        .setName('trivia')
+        .setName('utilitytrivia')
         .setDescription('Get a random trivia question'),
     category: 'Utility',
     accessTier: 'user',
