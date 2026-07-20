@@ -302,11 +302,7 @@ export async function initLavalink(client: PanindiganClient): Promise<void> {
       // Log comprehensive node properties for debugging
       log.info(`[MUSIC] Node "${node.id}" properties after connection:`, {
         id: node.id,
-        connected: (node as any).connected,
-        state: (node as any).state,
         sessionId: (node as any).sessionId,
-        wsReadyState: (node as any).ws?.readyState,
-        wsUrl: (node as any).ws?._url ? "present" : "missing",
         stats: node.stats ? {
           players: node.stats.players,
           playingPlayers: node.stats.playingPlayers,
@@ -320,9 +316,8 @@ export async function initLavalink(client: PanindiganClient): Promise<void> {
       const health = getNodeHealthInfo(node);
       log.info(`[MUSIC] Node "${node.id}" health check result:`, {
         connected: health.connected,
-        ready: health.ready,
-        websocketOpen: health.websocketOpen,
-        authenticated: health.authenticated,
+        hasSession: health.hasSession,
+        hasStats: health.hasStats,
         isHealthy: isNodeHealthy(node),
       });
 

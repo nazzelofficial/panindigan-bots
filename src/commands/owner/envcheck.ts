@@ -16,7 +16,8 @@ export default {
     ];
     
     const optionalVars = [
-      'OPENAI_API_KEY',
+      'GROQ_API_KEY',
+      'AI_MODEL',
       'LAVALINK_HOST',
       'LAVALINK_PORT',
       'LAVALINK_PASSWORD',

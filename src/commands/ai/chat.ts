@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from "discord.js";
 import type { CommandDefinition } from "../../structures/types.js";
 import { baseEmbed, errorEmbed } from "../../utils/embeds.js";
-import { getOpenAiClient, isAiConfigured } from "../../features/ai/openaiClient.js";
+import { getGroqClient, getAiModel, isAiConfigured } from "../../features/ai/openaiClient.js";
 
 const command: CommandDefinition = {
   name: "chat",
@@ -17,7 +17,7 @@ const command: CommandDefinition = {
       .addStringOption((o) => o.setName("persona").setDescription("Optional persona override (e.g. 'Helpful assistant')").setRequired(false)),
   async execute(ctx) {
     if (!isAiConfigured()) {
-      await ctx.reply({ embeds: [errorEmbed("AI features aren't configured yet — set `OPENAI_API_KEY` in the environment.")] });
+      await ctx.reply({ embeds: [errorEmbed("⚠️ AI service is temporarily unavailable.")] });
       return;
     }
     const message = ctx.isSlash ? ctx.interaction!.options.getString("message", true) : ctx.args.join(" ");
@@ -28,13 +28,14 @@ const command: CommandDefinition = {
     else await ctx.reply({ embeds: [baseEmbed("primary").setDescription("🤔 Thinking...")] });
 
     try {
-      const openai = getOpenAiClient();
+      const groq = getGroqClient();
+      const model = getAiModel();
       const systemPrompt = persona
         ? `You are ${persona}. Be helpful, concise, and friendly.`
         : "You are Panindigan, a helpful AI assistant for Filipino Discord communities. Be friendly, helpful, and concise. Support both English and Filipino.";
 
-      const completion = await openai.chat.completions.create({
-        model: "gpt-4o-mini",
+      const completion = await groq.chat.completions.create({
+        model,
         messages: [
           { role: "system", content: systemPrompt },
           { role: "user", content: message },
@@ -55,7 +56,8 @@ const command: CommandDefinition = {
       if (ctx.isSlash) await ctx.interaction!.editReply({ embeds: [embed] });
       else await (ctx.message as any)?.edit?.({ embeds: [embed] }) ?? await ctx.reply({ embeds: [embed] });
     } catch (err: any) {
-      const errEmbed = errorEmbed(`AI request failed: ${err.message}`);
+      console.error("[AI] Chat command error:", err);
+      const errEmbed = errorEmbed("⚠️ AI service is temporarily unavailable. Please try again in a moment.");
       if (ctx.isSlash) await ctx.interaction!.editReply({ embeds: [errEmbed] }).catch(() => {});
       else await ctx.reply({ embeds: [errEmbed] });
     }

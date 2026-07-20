@@ -1,6 +1,6 @@
 import { SlashCommandBuilder } from "discord.js";
 import type { CommandDefinition } from "../../structures/types.js";
-import { isAiConfigured, getOpenAiClient } from "../../features/ai/openaiClient.js";
+import { isAiConfigured, getGroqClient, getAiModel } from "../../features/ai/openaiClient.js";
 import { baseEmbed, errorEmbed, infoEmbed } from "../../utils/embeds.js";
 import { UserModel } from "../../database/models/User.js";
 import { GuildModel } from "../../database/models/Guild.js";
@@ -10,15 +10,15 @@ import { apiLog } from "../../utils/logger.js";
 // Per-user conversation history: userId → messages[]
 const chatHistory = new Map<string, Array<{ role: string; content: string }>>();
 
-/** Classify OpenAI errors into user-friendly messages. */
-function describeOpenAiError(err: unknown): string {
+/** Classify AI errors into user-friendly messages. */
+function describeAiError(err: unknown): string {
   const msg = err instanceof Error ? err.message : String(err);
-  if (msg.includes("insufficient_quota") || msg.includes("billing"))   return "❌ AI service quota exceeded — the OpenAI account has run out of credits.";
+  if (msg.includes("insufficient_quota") || msg.includes("billing"))   return "❌ AI service quota exceeded — the account has run out of credits.";
   if (msg.includes("rate_limit"))                                       return "⏳ AI service is busy right now — please try again in a few seconds.";
   if (msg.includes("context_length") || msg.includes("maximum"))       return "❌ Your message is too long for the AI to process. Please shorten it.";
   if (msg.includes("content_policy") || msg.includes("safety"))        return "🚫 Your request was blocked by the AI's content policy.";
   if (msg.includes("timeout") || msg.includes("ECONNRESET"))           return "⏳ AI service timed out — please try again.";
-  return "❌ AI service unavailable — please try again shortly.";
+  return "⚠️ AI service is temporarily unavailable. Please try again in a moment.";
 }
 
 const command: CommandDefinition = {
@@ -62,13 +62,14 @@ const command: CommandDefinition = {
 
   async execute(ctx) {
     if (!isAiConfigured()) {
-      await ctx.reply({ embeds: [errorEmbed("AI features aren't configured yet — set `OPENAI_API_KEY` in your environment.")] });
+      await ctx.reply({ embeds: [errorEmbed("⚠️ AI service is temporarily unavailable.")] });
       return;
     }
 
     const sub    = ctx.isSlash ? ctx.interaction!.options.getSubcommand(true) : ctx.args[0]?.toLowerCase() ?? "chat";
     const config = getConfig();
-    const openai = getOpenAiClient();
+    const groq = getGroqClient();
+    const model = getAiModel();
 
     // Usage limit check
     const doc         = await UserModel.findOne({ userId: ctx.userId }).lean();
@@ -107,15 +108,16 @@ const command: CommandDefinition = {
       const t0 = Date.now();
       let completion;
       try {
-        completion = await openai.chat.completions.create({
-          model:      config.ai?.chatModel ?? "gpt-4o-mini",
+        completion = await groq.chat.completions.create({
+          model,
           messages:   [{ role: "system", content: personaPrompt }, ...history as any],
           max_tokens: 1024,
         });
-        apiLog.info("OpenAI chat completion", { userId: ctx.userId, ms: Date.now() - t0, model: config.ai?.chatModel ?? "gpt-4o-mini" });
+        apiLog.info("Groq chat completion", { userId: ctx.userId, ms: Date.now() - t0, model });
       } catch (err) {
-        apiLog.error("OpenAI chat error", { error: err instanceof Error ? err.message : String(err) });
-        await ctx.reply({ embeds: [errorEmbed(describeOpenAiError(err))] });
+        console.error("[AI] Chat error:", err);
+        apiLog.error("Groq chat error", { error: err instanceof Error ? err.message : String(err) });
+        await ctx.reply({ embeds: [errorEmbed(describeAiError(err))] });
         return;
       }
 
@@ -141,15 +143,16 @@ const command: CommandDefinition = {
 
       let res;
       try {
-        res = await openai.chat.completions.create({
-          model:      config.ai?.chatModel ?? "gpt-4o-mini",
+        res = await groq.chat.completions.create({
+          model,
           messages:   [{ role: "system", content: `You are a translator. Translate the user's text to ${lang}. Output ONLY the translation, no explanation.` }, { role: "user", content: text }],
           max_tokens: 1024,
         });
         await bumpUsage();
       } catch (err) {
-        apiLog.error("OpenAI translate error", { error: err instanceof Error ? err.message : String(err) });
-        await ctx.reply({ embeds: [errorEmbed(describeOpenAiError(err))] });
+        console.error("[AI] Translate error:", err);
+        apiLog.error("Groq translate error", { error: err instanceof Error ? err.message : String(err) });
+        await ctx.reply({ embeds: [errorEmbed(describeAiError(err))] });
         return;
       }
       const translated = res.choices[0]?.message?.content ?? "No response.";
@@ -162,15 +165,16 @@ const command: CommandDefinition = {
 
       let res;
       try {
-        res = await openai.chat.completions.create({
-          model:      config.ai?.chatModel ?? "gpt-4o-mini",
+        res = await groq.chat.completions.create({
+          model,
           messages:   [{ role: "system", content: "Summarize the following text concisely in bullet points." }, { role: "user", content: text }],
           max_tokens: 512,
         });
         await bumpUsage();
       } catch (err) {
-        apiLog.error("OpenAI summarize error", { error: err instanceof Error ? err.message : String(err) });
-        await ctx.reply({ embeds: [errorEmbed(describeOpenAiError(err))] });
+        console.error("[AI] Summarize error:", err);
+        apiLog.error("Groq summarize error", { error: err instanceof Error ? err.message : String(err) });
+        await ctx.reply({ embeds: [errorEmbed(describeAiError(err))] });
         return;
       }
       await ctx.reply({ embeds: [baseEmbed("primary").setTitle("📝 Summary").setDescription(res.choices[0]?.message?.content?.slice(0, 4000) ?? "No response.")] });
@@ -183,15 +187,16 @@ const command: CommandDefinition = {
 
       let res;
       try {
-        res = await openai.chat.completions.create({
-          model:      config.ai?.chatModel ?? "gpt-4o-mini",
+        res = await groq.chat.completions.create({
+          model,
           messages:   [{ role: "system", content: `You are an expert programmer. Generate clean, well-commented ${lang} code. Format code in a code block.` }, { role: "user", content: prompt }],
           max_tokens: 1500,
         });
         await bumpUsage();
       } catch (err) {
-        apiLog.error("OpenAI code error", { error: err instanceof Error ? err.message : String(err) });
-        await ctx.reply({ embeds: [errorEmbed(describeOpenAiError(err))] });
+        console.error("[AI] Code error:", err);
+        apiLog.error("Groq code error", { error: err instanceof Error ? err.message : String(err) });
+        await ctx.reply({ embeds: [errorEmbed(describeAiError(err))] });
         return;
       }
       const code = res.choices[0]?.message?.content ?? "No response.";
@@ -199,49 +204,11 @@ const command: CommandDefinition = {
 
     // ── imagegen ──────────────────────────────────────────────────────────────
     } else if (sub === "imagegen") {
-      const prompt = ctx.isSlash ? ctx.interaction!.options.getString("prompt", true) : ctx.args.slice(1).join(" ");
-      if (!prompt) { await ctx.reply({ embeds: [errorEmbed("Provide an image description.")] }); return; }
-
-      await ctx.reply({ embeds: [infoEmbed("Generating image… this may take a moment.")] });
-
-      let res;
-      try {
-        res = await openai.images.generate({ model: "dall-e-3", prompt, n: 1, size: "1024x1024", quality: "standard" });
-        await bumpUsage();
-        apiLog.info("OpenAI image generated", { userId: ctx.userId, prompt: prompt.slice(0, 50) });
-      } catch (err) {
-        apiLog.error("OpenAI imagegen error", { error: err instanceof Error ? err.message : String(err) });
-        if (ctx.isSlash) await ctx.interaction!.editReply({ embeds: [errorEmbed(describeOpenAiError(err))] });
-        return;
-      }
-
-      const url = res.data?.[0]?.url;
-      if (!url) {
-        if (ctx.isSlash) await ctx.interaction!.editReply({ embeds: [errorEmbed("Image generation returned no URL.")] });
-        return;
-      }
-      const embed = baseEmbed("primary").setTitle("🎨 Generated Image").setDescription(`**Prompt:** ${prompt}`).setImage(url);
-      if (ctx.isSlash) await ctx.interaction!.editReply({ embeds: [embed] });
+      await ctx.reply({ embeds: [errorEmbed("⚠️ Image generation is not available with the current AI provider. This feature requires a provider that supports image generation.")] });
 
     // ── image analysis ────────────────────────────────────────────────────────
     } else if (sub === "image") {
-      const imgUrl   = ctx.isSlash ? ctx.interaction!.options.getString("url", true) : ctx.args[1];
-      const question = ctx.isSlash ? ctx.interaction!.options.getString("question") ?? "What is in this image?" : ctx.args.slice(2).join(" ") || "What is in this image?";
-
-      let res;
-      try {
-        res = await openai.chat.completions.create({
-          model:    "gpt-4o-mini",
-          messages: [{ role: "user", content: [{ type: "text", text: question }, { type: "image_url", image_url: { url: imgUrl } }] as any }],
-          max_tokens: 512,
-        });
-        await bumpUsage();
-      } catch (err) {
-        apiLog.error("OpenAI image analysis error", { error: err instanceof Error ? err.message : String(err) });
-        await ctx.reply({ embeds: [errorEmbed(describeOpenAiError(err))] });
-        return;
-      }
-      await ctx.reply({ embeds: [baseEmbed("primary").setTitle("🔍 Image Analysis").setDescription(res.choices[0]?.message?.content?.slice(0, 4000) ?? "No response.").setThumbnail(imgUrl)] });
+      await ctx.reply({ embeds: [errorEmbed("⚠️ Image analysis is not available with the current AI provider. This feature requires a provider that supports vision/image analysis.")] });
 
     // ── clear ─────────────────────────────────────────────────────────────────
     } else if (sub === "clear") {

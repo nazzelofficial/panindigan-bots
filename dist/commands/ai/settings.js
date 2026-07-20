@@ -32,7 +32,7 @@ export default {
             const embed = new EmbedBuilder()
                 .setTitle("🤖 AI Settings")
                 .setColor("#5865F2")
-                .addFields({ name: "Status", value: ai.enabled !== false ? "✅ Enabled" : "❌ Disabled", inline: true }, { name: "Daily Limit", value: ai.dailyLimit != null ? `${ai.dailyLimit} messages/user` : "Unlimited", inline: true }, { name: "Channel Lock", value: ai.channelId ? `<#${ai.channelId}>` : "All channels", inline: true }, { name: "Provider", value: "OpenAI GPT-4o", inline: true }, { name: "Context Window", value: "10 messages", inline: true }, { name: "Premium Feature", value: ai.premiumOnly ? "Yes — Premium servers only" : "No — All servers", inline: true })
+                .addFields({ name: "Status", value: ai.enabled !== false ? "✅ Enabled" : "❌ Disabled", inline: true }, { name: "Daily Limit", value: ai.dailyLimit != null ? `${ai.dailyLimit} messages/user` : "Unlimited", inline: true }, { name: "Channel Lock", value: ai.channelId ? `<#${ai.channelId}>` : "All channels", inline: true }, { name: "Provider", value: "Groq (Llama 3.3)", inline: true }, { name: "Context Window", value: "10 messages", inline: true }, { name: "Premium Feature", value: ai.premiumOnly ? "Yes — Premium servers only" : "No — All servers", inline: true })
                 .setFooter({ text: "Use /aisettings toggle | limit | channel to configure" })
                 .setTimestamp();
             await ctx.reply({ embeds: [embed] });

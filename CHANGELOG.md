@@ -10,6 +10,71 @@ This project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.htm
 
 ---
 
+## [0.2.0] — 2026-07-20
+
+### Summary
+
+Major AI provider migration and Lavalink health monitoring release. Migrated entire AI subsystem from OpenAI API to Groq API for improved performance and cost efficiency. Fixed critical Lavalink health monitoring issues where connected nodes were incorrectly reported as disconnected. Updated all environment variable references and documentation.
+
+---
+
+### Added
+
+#### AI System — Groq Migration
+- Groq API integration as primary AI provider (drop-in OpenAI-compatible)
+- Configurable AI model via `AI_MODEL` environment variable (default: llama-3.3-70b-versatile)
+- `getGroqClient()` function in openaiClient.ts with Groq-specific baseURL configuration
+- `getAiModel()` function for model configuration retrieval
+- User-friendly error messages for AI service unavailability (generic "temporarily unavailable" messages)
+- Structured error logging for all AI command failures
+
+---
+
+### Changed
+
+#### AI System — Complete Migration
+- Migrated all text AI commands to Groq: `chat`, `code`, `codeexplain`, `grammar`, `rewrite`, `summarize`, `translate`
+- Updated `ai.ts` multi-subcommand command to use Groq for chat, translate, summarize, and code subcommands
+- Changed environment variable from `OPENAI_API_KEY` to `GROQ_API_KEY`
+- Updated ENV_SCHEMA to include `GROQ_API_KEY` and `AI_MODEL` variables
+- Updated `envcheck.ts` owner command to check for `GROQ_API_KEY` and `AI_MODEL`
+- Updated `settings.ts` to display "Groq (Llama 3.3)" as provider instead of "OpenAI GPT-4o"
+- Replaced `describeOpenAiError()` with `describeAiError()` for generic error handling
+- Updated all AI command error messages to use generic "AI service temporarily unavailable" text
+
+#### AI System — Disabled Features
+- Image generation commands (`image`, `imagegen`, `texttoimage`) disabled with informative message (Groq does not support image generation)
+- Content moderation command (`moderate`) disabled with informative message (Groq does not support moderation API)
+- Audio transcription command (`voicetotext`) disabled with informative message (Groq does not support Whisper)
+- Image analysis subcommand in `ai.ts` disabled with informative message
+
+#### Music System — Health Monitoring Fixes
+- Removed deprecated node state assumptions (`state`, `wsReadyState`, `connected`, `websocketOpen`, `authenticated`)
+- Rewrote `getNodeHealthInfo()` to use only official lavalink-client v2.10.3 API properties
+- Health validation now based on `sessionId` presence and `stats` reception
+- Updated `NodeHealthInfo` interface to use `hasSession` and `hasStats` instead of deprecated properties
+- Updated `isNodeHealthy()` to check `connected && hasSession && hasStats`
+- Enhanced debug logging to show actual API properties being checked
+- Updated `musicManager.ts` node connection logging to remove deprecated property references
+- Updated `healthMonitor.ts` logging to use new health properties
+
+---
+
+### Fixed
+
+#### Music System — Health Monitoring
+- Fixed false "Disconnected" reports for connected Lavalink nodes
+- Fixed incorrect node readiness detection by using official API signals
+- Fixed TypeScript errors from accessing non-existent node properties
+- Fixed health monitoring to correctly identify nodes as ready when authenticated with active session
+
+#### AI System — Migration
+- Fixed all AI commands to use new Groq client functions
+- Fixed environment variable validation to check for `GROQ_API_KEY` instead of `OPENAI_API_KEY`
+- Fixed error handling to provide generic user-friendly messages instead of provider-specific details
+
+---
+
 ## [0.1.9] — 2026-07-20
 
 ### Summary

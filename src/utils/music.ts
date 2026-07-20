@@ -178,8 +178,8 @@ export interface NodeHealthInfo {
   nodeId: string;
   connected: boolean;
   ready: boolean;
-  websocketOpen: boolean;
-  authenticated: boolean;
+  hasSession: boolean;
+  hasStats: boolean;
   ping?: number;
   playerCount?: number;
   memoryUsage?: number;
@@ -189,27 +189,28 @@ export interface NodeHealthInfo {
 
 /**
  * Gets detailed health information for a specific node
+ * Uses only officially supported lavalink-client v2.x API properties
  * @param node The Lavalink node
  * @returns NodeHealthInfo object
  */
 export function getNodeHealthInfo(node: any): NodeHealthInfo {
   const stats = node?.stats;
-  const state = node?.state;
   const sessionId = node?.sessionId;
-  const wsReadyState = node?.ws?.readyState;
 
-  // In lavalink-client v2.x, the main indicator is the 'state' property
-  // Valid states: 'connected', 'connecting', 'disconnected', 'error'
-  const isConnected = state === "connected";
+  // In lavalink-client v2.10.3, we determine health by:
+  // 1. Node exists in the nodeManager
+  // 2. Node has a sessionId (indicates successful connection)
+  // 3. Node is receiving stats (indicates active connection)
   const hasSession = !!sessionId;
-  const wsOpen = wsReadyState === 1; // WebSocket.OPEN
+  const hasStats = !!stats;
+  const isConnected = hasSession && hasStats;
 
   const healthInfo: NodeHealthInfo = {
     nodeId: node.id,
     connected: isConnected,
-    ready: isConnected && hasSession,
-    websocketOpen: wsOpen,
-    authenticated: isConnected && hasSession,
+    ready: isConnected,
+    hasSession,
+    hasStats,
     ping: stats?.ping ?? undefined,
     playerCount: stats?.players ?? undefined,
     memoryUsage: stats?.memory?.used ?? undefined,
@@ -217,12 +218,10 @@ export function getNodeHealthInfo(node: any): NodeHealthInfo {
   };
 
   // Add debug reason if unhealthy
-  if (!isConnected) {
-    healthInfo.debugReason = `State is "${state}" (expected "connected")`;
-  } else if (!hasSession) {
-    healthInfo.debugReason = `No session ID (sessionId: ${sessionId})`;
-  } else if (!wsOpen) {
-    healthInfo.debugReason = `WebSocket not open (readyState: ${wsReadyState})`;
+  if (!hasSession) {
+    healthInfo.debugReason = `No session ID (node not connected)`;
+  } else if (!hasStats) {
+    healthInfo.debugReason = `No stats received (connection may be unstable)`;
   }
 
   return healthInfo;
@@ -230,24 +229,23 @@ export function getNodeHealthInfo(node: any): NodeHealthInfo {
 
 /**
  * Validates if a node is healthy and ready for operations
+ * Uses only officially supported lavalink-client v2.x API properties
  * @param node The Lavalink node
  * @returns true if node is healthy, false otherwise
  */
 export function isNodeHealthy(node: any): boolean {
   const health = getNodeHealthInfo(node);
-  const isHealthy = health.connected && health.ready && health.authenticated;
+  const isHealthy = health.connected && health.hasSession && health.hasStats;
 
   // Debug log if unhealthy
   if (!isHealthy) {
     console.log(`[MUSIC DEBUG] Node "${health.nodeId}" is unhealthy:`, {
       connected: health.connected,
-      ready: health.ready,
-      authenticated: health.authenticated,
-      websocketOpen: health.websocketOpen,
+      hasSession: health.hasSession,
+      hasStats: health.hasStats,
       reason: health.debugReason,
-      state: node?.state,
       sessionId: node?.sessionId,
-      wsReadyState: node?.ws?.readyState,
+      hasStatsObject: !!node?.stats,
     });
   }
 
@@ -274,9 +272,8 @@ export function getHealthyNode(client: PanindiganClient): ReturnType<LavalinkMan
     const health = getNodeHealthInfo(node);
     console.log(`[MUSIC DEBUG] Checking node "${health.nodeId}":`, {
       connected: health.connected,
-      ready: health.ready,
-      authenticated: health.authenticated,
-      websocketOpen: health.websocketOpen,
+      hasSession: health.hasSession,
+      hasStats: health.hasStats,
       reason: health.debugReason,
     });
 

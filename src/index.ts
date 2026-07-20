@@ -16,7 +16,7 @@ import { startBirthdayScheduler } from "./features/scheduler/birthdayScheduler.j
 import { Monitor } from "./structures/Monitor.js";
 import type { StartupPhaseResult } from "./structures/types.js";
 
-const VERSION = "0.1.9";
+const VERSION = "0.2.0";
 const log = scopedLogger("bootstrap");
 
 /** Run a named startup phase, record its duration, and surface errors cleanly. */

@@ -147,9 +147,8 @@ function performHealthCheck(client: PanindiganClient): void {
 function logStructuredNodeHealth(health: ReturnType<typeof getNodeHealthInfo>): void {
   log.info(`[MUSIC] Node Health: ${health.nodeId}`, {
     status: health.connected ? "Connected" : "Disconnected",
-    ready: health.ready ? "Ready" : "Not Ready",
-    websocket: health.websocketOpen ? "Open" : "Closed",
-    authenticated: health.authenticated ? "Yes" : "No",
+    hasSession: health.hasSession ? "Yes" : "No",
+    hasStats: health.hasStats ? "Yes" : "No",
     ping: health.ping ? `${health.ping}ms` : "N/A",
     players: health.playerCount ?? 0,
     memory: health.memoryUsage ? `${Math.round(health.memoryUsage / 1024 / 1024)}MB` : "N/A",

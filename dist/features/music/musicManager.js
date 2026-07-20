@@ -243,11 +243,7 @@ export async function initLavalink(client) {
             // Log comprehensive node properties for debugging
             log.info(`[MUSIC] Node "${node.id}" properties after connection:`, {
                 id: node.id,
-                connected: node.connected,
-                state: node.state,
                 sessionId: node.sessionId,
-                wsReadyState: node.ws?.readyState,
-                wsUrl: node.ws?._url ? "present" : "missing",
                 stats: node.stats ? {
                     players: node.stats.players,
                     playingPlayers: node.stats.playingPlayers,
@@ -260,9 +256,8 @@ export async function initLavalink(client) {
             const health = getNodeHealthInfo(node);
             log.info(`[MUSIC] Node "${node.id}" health check result:`, {
                 connected: health.connected,
-                ready: health.ready,
-                websocketOpen: health.websocketOpen,
-                authenticated: health.authenticated,
+                hasSession: health.hasSession,
+                hasStats: health.hasStats,
                 isHealthy: isNodeHealthy(node),
             });
             client.updateMusicStatus(MusicStatus.READY, getMusicStatus(client));

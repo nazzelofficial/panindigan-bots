@@ -1,7 +1,6 @@
 import { SlashCommandBuilder } from "discord.js";
 import type { CommandDefinition } from "../../structures/types.js";
 import { baseEmbed, errorEmbed } from "../../utils/embeds.js";
-import { getOpenAiClient, isAiConfigured } from "../../features/ai/openaiClient.js";
 
 const command: CommandDefinition = {
   name: "imagegen",
@@ -24,36 +23,7 @@ const command: CommandDefinition = {
           { name: "Pixel Art", value: "pixel art" },
         )),
   async execute(ctx) {
-    if (!isAiConfigured()) {
-      await ctx.reply({ embeds: [errorEmbed("AI features aren't configured — set `OPENAI_API_KEY`.")] });
-      return;
-    }
-    const basePrompt = ctx.isSlash ? ctx.interaction!.options.getString("prompt", true) : ctx.args.join(" ");
-    const style = ctx.isSlash ? (ctx.interaction!.options.getString("style") ?? "") : "";
-    if (!basePrompt) { await ctx.reply({ embeds: [errorEmbed("Please describe the image.")] }); return; }
-    const fullPrompt = style ? `${basePrompt}, ${style} style` : basePrompt;
-
-    if (ctx.isSlash) await ctx.interaction!.deferReply();
-
-    try {
-      const openai = getOpenAiClient();
-      const response = await openai.images.generate({
-        model: "dall-e-3", prompt: fullPrompt, n: 1, size: "1024x1024",
-      });
-      const url = (response.data as any[])[0]?.url;
-      if (!url) throw new Error("No image URL returned.");
-      const embed = baseEmbed("primary")
-        .setTitle("🎨 AI Image Generated")
-        .setDescription(`**Prompt:** ${fullPrompt.length > 200 ? fullPrompt.slice(0, 200) + "…" : fullPrompt}`)
-        .setImage(url)
-        .setFooter({ text: "Powered by DALL-E 3" });
-      if (ctx.isSlash) await ctx.interaction!.editReply({ embeds: [embed] });
-      else await ctx.reply({ embeds: [embed] });
-    } catch (err: any) {
-      const e = errorEmbed(`Image generation failed: ${err.message}`);
-      if (ctx.isSlash) await ctx.interaction!.editReply({ embeds: [e] }).catch(() => {});
-      else await ctx.reply({ embeds: [e] });
-    }
+    await ctx.reply({ embeds: [errorEmbed("⚠️ Image generation is not available with the current AI provider. This feature requires a provider that supports image generation.")] });
   },
 };
 export default command;

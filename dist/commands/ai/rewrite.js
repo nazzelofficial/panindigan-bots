@@ -1,5 +1,5 @@
 import { baseEmbed, errorEmbed } from "../../utils/embeds.js";
-import { getOpenAiClient, isAiConfigured } from "../../features/ai/openaiClient.js";
+import { getGroqClient, getAiModel, isAiConfigured } from "../../features/ai/openaiClient.js";
 const command = {
     name: "rewrite",
     description: "Rewrite text in a different tone or style",
@@ -14,7 +14,7 @@ const command = {
         .addChoices({ name: "Professional", value: "professional" }, { name: "Casual/Friendly", value: "casual" }, { name: "Formal", value: "formal" }, { name: "Persuasive", value: "persuasive" }, { name: "Simple/Easy", value: "simple" }, { name: "Creative", value: "creative" })),
     async execute(ctx) {
         if (!isAiConfigured()) {
-            await ctx.reply({ embeds: [errorEmbed("AI features aren't configured — set `OPENAI_API_KEY`.")] });
+            await ctx.reply({ embeds: [errorEmbed("⚠️ AI service is temporarily unavailable.")] });
             return;
         }
         const text = ctx.isSlash ? ctx.interaction.options.getString("text", true) : ctx.args.join(" ");
@@ -34,9 +34,10 @@ const command = {
             creative: "creative and engaging",
         };
         try {
-            const openai = getOpenAiClient();
-            const completion = await openai.chat.completions.create({
-                model: "gpt-4o-mini",
+            const groq = getGroqClient();
+            const model = getAiModel();
+            const completion = await groq.chat.completions.create({
+                model,
                 messages: [
                     { role: "system", content: `Rewrite the given text in a ${toneDescs[tone] ?? tone} tone. Keep the same meaning but change the wording. Return ONLY the rewritten text.` },
                     { role: "user", content: text },
@@ -53,7 +54,8 @@ const command = {
                 await ctx.reply({ embeds: [embed] });
         }
         catch (err) {
-            const e = errorEmbed(`Rewrite failed: ${err.message}`);
+            console.error("[AI] Rewrite command error:", err);
+            const e = errorEmbed("⚠️ AI service is temporarily unavailable. Please try again in a moment.");
             if (ctx.isSlash)
                 await ctx.interaction.editReply({ embeds: [e] }).catch(() => { });
             else

@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from "discord.js";
 import type { CommandDefinition } from "../../structures/types.js";
 import { baseEmbed, errorEmbed } from "../../utils/embeds.js";
-import { getOpenAiClient, isAiConfigured } from "../../features/ai/openaiClient.js";
+import { getGroqClient, getAiModel, isAiConfigured } from "../../features/ai/openaiClient.js";
 
 const command: CommandDefinition = {
   name: "codeexplain",
@@ -18,7 +18,7 @@ const command: CommandDefinition = {
         .addChoices({ name: "Beginner", value: "beginner" }, { name: "Intermediate", value: "intermediate" }, { name: "Expert", value: "expert" })),
   async execute(ctx) {
     if (!isAiConfigured()) {
-      await ctx.reply({ embeds: [errorEmbed("AI features aren't configured yet — set `OPENAI_API_KEY`.")] });
+      await ctx.reply({ embeds: [errorEmbed("⚠️ AI service is temporarily unavailable.")] });
       return;
     }
     const code = ctx.isSlash ? ctx.interaction!.options.getString("code", true) : ctx.args.join(" ");
@@ -28,9 +28,10 @@ const command: CommandDefinition = {
     if (ctx.isSlash) await ctx.interaction!.deferReply();
 
     try {
-      const openai = getOpenAiClient();
-      const completion = await openai.chat.completions.create({
-        model: "gpt-4o-mini",
+      const groq = getGroqClient();
+      const model = getAiModel();
+      const completion = await groq.chat.completions.create({
+        model,
         messages: [
           { role: "system", content: `You are a programming teacher. Explain the following code at a ${level} level. Be concise and clear. Identify the language, explain what it does step-by-step, and mention any notable patterns or potential issues.` },
           { role: "user", content: code },
@@ -48,7 +49,8 @@ const command: CommandDefinition = {
       if (ctx.isSlash) await ctx.interaction!.editReply({ embeds: [embed] });
       else await ctx.reply({ embeds: [embed] });
     } catch (err: any) {
-      const e = errorEmbed(`Explanation failed: ${err.message}`);
+      console.error("[AI] Codeexplain command error:", err);
+      const e = errorEmbed("⚠️ AI service is temporarily unavailable. Please try again in a moment.");
       if (ctx.isSlash) await ctx.interaction!.editReply({ embeds: [e] }).catch(() => {});
       else await ctx.reply({ embeds: [e] });
     }
