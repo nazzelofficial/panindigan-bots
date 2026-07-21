@@ -36,7 +36,7 @@ const command: CommandDefinition = {
     
     const embed = baseEmbed('warning')
       .setTitle('👢 Kick History')
-      .setDescription(cases.map(c => `**${new Date(c.createdAt).toLocaleString()}**: ${c.reason}`).join('\n'))
+      .setDescription(cases.map((c: any) => `**${new Date(c.createdAt).toLocaleString()}**: ${c.reason}`).join('\n'))
       .setTimestamp();
     
     await ctx.reply({ embeds: [embed] });

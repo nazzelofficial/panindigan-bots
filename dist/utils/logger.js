@@ -153,6 +153,7 @@ export const dbLog = {
     info: (msg, meta) => logger.info(msg, { category: "DB", ...meta }),
     warn: (msg, meta) => logger.warn(msg, { category: "DB", ...meta }),
     error: (msg, meta) => logger.error(msg, { category: "DB", ...meta }),
+    debug: (msg, meta) => logger.debug(msg, { category: "DB", ...meta }),
 };
 /** [API] magenta — external API calls (OpenAI, Lavalink, weather) */
 export const apiLog = {

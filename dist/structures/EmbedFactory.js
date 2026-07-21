@@ -80,5 +80,19 @@ export class EmbedFactory {
     static base(color = "primary") {
         return base(color);
     }
+    /** ⏳ Staged — background operation in progress (alias for loading). */
+    static staged(description, title) {
+        return EmbedFactory.loading(description, title);
+    }
+    /** 🎵 Music — music player embeds. */
+    static music(description, title) {
+        const e = base("primary").setDescription(description);
+        e.setTitle(title);
+        return e;
+    }
+    /** ⚠️ Danger — alias for error for consistency. */
+    static danger(description, title) {
+        return EmbedFactory.error(description, title);
+    }
 }
 //# sourceMappingURL=EmbedFactory.js.map

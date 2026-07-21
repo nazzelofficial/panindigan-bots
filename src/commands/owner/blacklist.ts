@@ -88,7 +88,7 @@ const command: CommandDefinition = {
         .setTitle("🚫 Blacklisted Entries")
         .setDescription(
           entries
-            .map((e) => `**${e.entityType === "user" ? "👤" : "🏠"} \`${e.entityId}\`** — ${e.reason} (by <@${e.moderatorId}>)`)
+            .map((e: any) => `**${e.entityType === "user" ? "👤" : "🏠"} ${e.entityId}** — ${e.reason} (by <@${e.moderatorId}>)`)
             .join("\n")
             .slice(0, 4000),
         )

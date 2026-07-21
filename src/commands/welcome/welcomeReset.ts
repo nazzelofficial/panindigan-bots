@@ -27,7 +27,7 @@ const command: CommandDefinition = {
 
     const collector = msg.createMessageComponentCollector({ time: 15000 });
 
-    collector.on("collect", async (i) => {
+    collector.on("collect", async (i: any) => {
       if (i.user.id !== ctx.userId) {
         await i.reply({ content: "Only the command user can interact with this.", ephemeral: true });
         return;
@@ -68,7 +68,7 @@ const command: CommandDefinition = {
       }
     });
 
-    collector.on("end", async (collected) => {
+    collector.on("end", async (collected: any) => {
       if (collected.size === 0) {
         await msg.edit({ embeds: [errorEmbed("Reset timed out.")], components: [] });
       }

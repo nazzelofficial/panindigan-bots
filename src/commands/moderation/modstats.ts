@@ -18,10 +18,10 @@ const command: CommandDefinition = {
     const cases = await ModCaseModel.find({ guildId: guild.id });
     
     const stats = {
-      warn: cases.filter(c => c.type === 'warn').length,
-      kick: cases.filter(c => c.type === 'kick').length,
-      ban: cases.filter(c => c.type === 'ban').length,
-      mute: cases.filter(c => c.type === 'mute').length,
+      warn: cases.filter((c: any) => c.type === 'warn').length,
+      kick: cases.filter((c: any) => c.type === 'kick').length,
+      ban: cases.filter((c: any) => c.type === 'ban').length,
+      mute: cases.filter((c: any) => c.type === 'mute').length,
       total: cases.length
     };
     

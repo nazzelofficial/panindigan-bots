@@ -108,7 +108,7 @@ const command: CommandDefinition = {
       }
 
       if (giveaway.participants.includes(userId)) {
-        giveaway.participants = giveaway.participants.filter((e) => e !== userId);
+        giveaway.participants = giveaway.participants.filter((e: string) => e !== userId);
         await giveaway.save();
         await interaction.reply({ content: "✅ You have left the giveaway.", ephemeral: true });
       } else {

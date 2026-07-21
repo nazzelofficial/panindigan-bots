@@ -72,7 +72,7 @@ const command: CommandDefinition = {
         if (role) await member.roles.add(roleId, "Select role assign").catch(() => {});
       }
 
-      const roleNames = selectedRoleIds.map((id) => guild.roles.cache.get(id)?.name ?? id).join(", ");
+      const roleNames = selectedRoleIds.map((id: string) => guild.roles.cache.get(id)?.name ?? id).join(", ");
       await interaction.reply({
         content: selectedRoleIds.length
           ? `✅ Your roles have been updated: **${roleNames}**`
@@ -219,7 +219,7 @@ const command: CommandDefinition = {
       const panels = await SelectRolePanelModel.find({ guildId: guild.id }).lean().limit(10);
       if (!panels.length) { await ctx.reply({ embeds: [infoEmbed("No select-role panels configured.")] }); return; }
       const embed = baseEmbed("primary").setTitle("🎭 Select-Role Panels").setDescription(
-        panels.map((p) => `**${p.placeholder}** — ${(p.options as any[]).length} option(s) · <#${p.channelId}> · \`${p.messageId}\``).join("\n"),
+        panels.map((p: any) => `**${p.placeholder}** — ${(p.options as any[]).length} option(s) · <#${p.channelId}> · \`${p.messageId}\``).join("\n"),
       );
       await ctx.reply({ embeds: [embed] });
 

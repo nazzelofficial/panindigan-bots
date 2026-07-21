@@ -103,7 +103,7 @@ const command: CommandDefinition = {
       await btn.update({ embeds: [resultEmbed], components: [] });
     });
 
-    collector.on('end', async (collected) => {
+    collector.on('end', async (collected: any) => {
       if (collected.size === 0) {
         await (msg as any).edit({
           embeds: [

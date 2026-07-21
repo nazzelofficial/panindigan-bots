@@ -85,4 +85,21 @@ export class EmbedFactory {
   static base(color: ColorKey = "primary"): EmbedBuilder {
     return base(color);
   }
+
+  /** ⏳ Staged — background operation in progress (alias for loading). */
+  static staged(description: string, title?: string): EmbedBuilder {
+    return EmbedFactory.loading(description, title);
+  }
+
+  /** 🎵 Music — music player embeds. */
+  static music(description: string, title: string): EmbedBuilder {
+    const e = base("primary").setDescription(description);
+    e.setTitle(title);
+    return e;
+  }
+
+  /** ⚠️ Danger — alias for error for consistency. */
+  static danger(description: string, title?: string): EmbedBuilder {
+    return EmbedFactory.error(description, title);
+  }
 }

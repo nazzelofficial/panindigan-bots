@@ -173,7 +173,7 @@ const command = {
         // Collect hold/draw interactions for 30 seconds
         const collector = msg.createMessageComponentCollector({
             componentType: ComponentType.Button,
-            filter: i => i.user.id === userId,
+            filter: (i) => i.user.id === userId,
             time: 30_000,
         });
         collector.on("collect", async (btnInteraction) => {

@@ -27,7 +27,7 @@ const command = {
         }
         const embed = baseEmbed('primary')
             .setTitle('📝 Staff Notes')
-            .setDescription(notes.map(n => `**${new Date(n.createdAt).toLocaleString()}**: ${n.note}`).join('\n'))
+            .setDescription(notes.map((n) => `**${new Date(n.createdAt).toLocaleString()}**: ${n.note}`).join('\n'))
             .setTimestamp();
         await ctx.reply({ embeds: [embed] });
     },

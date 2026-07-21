@@ -82,7 +82,7 @@ const command: CommandDefinition = {
       const templates = await ServerTemplateModel.find({ guildId: guild.id }).lean().limit(20);
       if (!templates.length) { await ctx.reply({ embeds: [infoEmbed("No templates saved. Use `/servertemplate save [name]` to create one.")] }); return; }
       const embed = baseEmbed("primary").setTitle("📋 Server Templates").setDescription(
-        templates.map((t) => {
+        templates.map((t: any) => {
           const d = t.data as any;
           const ts = Math.floor(new Date(d.capturedAt || (t as any).createdAt).getTime() / 1000);
           return `**${t.name}** — ${d.roles?.length ?? "?"} roles, ${d.channels?.length ?? "?"} channels · <t:${ts}:R>`;

@@ -182,6 +182,7 @@ export const dbLog = {
   info:  (msg: string, meta?: Record<string, unknown>) => logger.info(msg,  { category: "DB",   ...meta }),
   warn:  (msg: string, meta?: Record<string, unknown>) => logger.warn(msg,  { category: "DB",   ...meta }),
   error: (msg: string, meta?: Record<string, unknown>) => logger.error(msg, { category: "DB",   ...meta }),
+  debug: (msg: string, meta?: Record<string, unknown>) => logger.debug(msg, { category: "DB",   ...meta }),
 };
 
 /** [API] magenta — external API calls (OpenAI, Lavalink, weather) */

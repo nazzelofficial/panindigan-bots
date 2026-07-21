@@ -76,10 +76,10 @@ const command: CommandDefinition = {
         let next = new Date(now.getFullYear(), b.month - 1, b.day);
         if (next <= now) next = new Date(now.getFullYear() + 1, b.month - 1, b.day);
         return { ...b, nextDate: next };
-      }).sort((a, b) => a.nextDate.getTime() - b.nextDate.getTime());
+      }).sort((a: any, b: any) => a.nextDate.getTime() - b.nextDate.getTime());
 
       await ctx.reply({ embeds: [baseEmbed("warning").setTitle("🎂 Upcoming Birthdays").setDescription(
-        withNext.slice(0, 15).map((b) => `<@${b.userId}> — **${MONTHS[b.month - 1]} ${b.day}** (<t:${Math.floor(b.nextDate.getTime() / 1000)}:R>)`).join("\n"),
+        withNext.slice(0, 15).map((b: any) => `<@${b.userId}> — **${MONTHS[b.month - 1]} ${b.day}** (<t:${Math.floor(b.nextDate.getTime() / 1000)}:R>)`).join("\n"),
       )] });
     } else if (sub === "setchannel") {
       const member = ctx.interaction?.member ?? ctx.message?.member;

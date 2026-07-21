@@ -96,7 +96,7 @@ const command: CommandDefinition = {
       await msg.reply({ embeds: [resultEmbed] });
     });
 
-    collector.on('end', async (collected) => {
+    collector.on('end', async (collected: any) => {
       if (collected.size === 0) {
         const ftCh = ctx.interaction?.channel ?? ctx.message?.channel; await (ftCh as any)?.send?.({
           content: '⏰ Time\'s up! You didn\'t type the sentence in time.',

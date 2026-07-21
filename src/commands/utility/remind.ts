@@ -66,7 +66,7 @@ const command: CommandDefinition = {
         .setTitle("⏰ Your Reminders")
         .setDescription(
           user.reminders
-            .map((r: any, i) => `**${i + 1}.** \`${r.id}\` — <t:${Math.floor(new Date(r.remindAt).getTime() / 1000)}:R>\n> ${r.text.slice(0, 80)}`)
+            .map((r: any, i: number) => `**${i + 1}.** \`${r.id}\` — <t:${Math.floor(new Date(r.remindAt).getTime() / 1000)}:R>\n> ${r.text.slice(0, 80)}`)
             .join("\n\n"),
         )
         .setFooter({ text: `${user.reminders.length}/10 reminders` });

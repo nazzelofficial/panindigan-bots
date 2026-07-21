@@ -40,7 +40,7 @@ const command: CommandDefinition = {
     const embed = baseEmbed("primary")
       .setTitle("🐾 Pet Information")
       .addFields(
-        { name: "Pet", value: `${petEmojis[(profile as any).pet] || "🐾"} ${(profile as any).pet}`, inline: true },
+        { name: "Pet", value: `${petEmojis[(profile as any).pet as keyof typeof petEmojis] || "🐾"} ${(profile as any).pet}`, inline: true },
         { name: "Happiness", value: `${(profile as any).petHappiness || 100}%`, inline: true },
         { name: "Hunger", value: `${(profile as any).petHunger || 0}%`, inline: true }
       );

@@ -27,7 +27,7 @@ const command = {
         }
         const embed = baseEmbed('primary')
             .setTitle('📜 Moderation History')
-            .setDescription(cases.map(c => `**${c.type.toUpperCase()}**: ${c.reason} - ${new Date(c.createdAt).toLocaleString()}`).join('\n'))
+            .setDescription(cases.map((c) => `**${c.type.toUpperCase()}**: ${c.reason} - ${new Date(c.createdAt).toLocaleString()}`).join('\n'))
             .setTimestamp();
         await ctx.reply({ embeds: [embed] });
     },

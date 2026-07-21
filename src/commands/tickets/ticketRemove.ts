@@ -25,7 +25,7 @@ const command: CommandDefinition = {
     if (!userId) { await ctx.reply({ embeds: [errorEmbed("Please mention a user to remove.")] }); return; }
     if (userId === ticket.openerId) { await ctx.reply({ embeds: [errorEmbed("Cannot remove the ticket opener.")] }); return; }
     await (channel as TextChannel).permissionOverwrites.delete(userId).catch(() => {});
-    ticket.participants = ticket.participants.filter((p) => p !== userId);
+    ticket.participants = ticket.participants.filter((p: string) => p !== userId);
     await ticket.save();
     await ctx.reply({ embeds: [successEmbed(`✅ Removed <@${userId}> from ticket #${ticket.ticketNumber}.`)] });
   },

@@ -26,11 +26,11 @@ const command: CommandDefinition = {
       let next = new Date(now.getFullYear(), b.month - 1, b.day);
       if (next <= now) next = new Date(now.getFullYear() + 1, b.month - 1, b.day);
       return { ...b, nextDate: next };
-    }).sort((a, b) => a.nextDate.getTime() - b.nextDate.getTime());
+    }).sort((a: any, b: any) => a.nextDate.getTime() - b.nextDate.getTime());
 
     const embed = baseEmbed("warning")
       .setTitle("🎂 Server Birthdays")
-      .setDescription(withNext.slice(0, 25).map((b) => `<@${b.userId}> — **${MONTHS[b.month - 1]} ${b.day}** (<t:${Math.floor(b.nextDate.getTime() / 1000)}:R>)`).join("\n"))
+      .setDescription(withNext.slice(0, 25).map((b: any) => `<@${b.userId}> — **${MONTHS[b.month - 1]} ${b.day}** (<t:${Math.floor(b.nextDate.getTime() / 1000)}:R>)`).join("\n"))
       .setFooter({ text: `${birthdays.length} birthday(s) registered` });
 
     await ctx.reply({ embeds: [embed] });

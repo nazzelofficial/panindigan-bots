@@ -66,7 +66,7 @@ const command: CommandDefinition = {
       const embed = baseEmbed("warning")
         .setTitle("📋 Pending Appeals")
         .setDescription(
-          appeals.map((a, i) => {
+          appeals.map((a: any, i: number) => {
             const ts = Math.floor(new Date((a as any).createdAt).getTime() / 1000);
             return `**${i + 1}.** ID: \`${(a as any)._id}\`\n<@${a.userId}>${a.caseId ? ` · Case #${a.caseId}` : ""} · <t:${ts}:R>\n↳ ${a.reason.slice(0, 100)}`;
           }).join("\n\n").slice(0, 4000),
