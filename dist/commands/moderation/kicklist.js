@@ -26,7 +26,7 @@ const command = {
             const ts = Math.floor(new Date(k.createdAt).getTime() / 1000);
             return `**${i + 1}.** <@${k.userId}> — kicked by <@${k.moderatorId}> <t:${ts}:R>\n↳ ${k.reason}`;
         }).join("\n\n").slice(0, 4000))
-            .setFooter({ text: `Showing last ${kicks.length} kicks · Case IDs: ${kicks.map((k) => k.caseId).join(", ")}` });
+            .setFooter({ text: `Showing last ${kicks.length} kicks · Case IDs: ${kicks.map(k => k.caseId).join(", ")}` });
         await ctx.reply({ embeds: [embed] });
     },
 };

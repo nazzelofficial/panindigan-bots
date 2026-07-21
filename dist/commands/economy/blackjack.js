@@ -112,7 +112,7 @@ const command = {
         });
         const collector = msg.createMessageComponentCollector({
             componentType: ComponentType.Button,
-            filter: (i) => i.user.id === userId,
+            filter: i => i.user.id === userId,
             time: 30_000,
         });
         let currentBet = bet;

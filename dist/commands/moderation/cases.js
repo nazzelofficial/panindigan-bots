@@ -27,7 +27,7 @@ const command = {
         }
         const embed = baseEmbed('primary')
             .setTitle('📋 Moderation Cases')
-            .setDescription(cases.map((c) => `**${c.type}**: ${c.reason} - ${new Date(c.createdAt).toLocaleString()}`).join('\n'))
+            .setDescription(cases.map(c => `**${c.type}**: ${c.reason} - ${new Date(c.createdAt).toLocaleString()}`).join('\n'))
             .setTimestamp();
         await ctx.reply({ embeds: [embed] });
     },
