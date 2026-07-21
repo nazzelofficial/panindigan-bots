@@ -33,9 +33,9 @@ const command: CommandDefinition = {
     const since = new Date(Date.now() - 30 * 86_400_000);
     const cases = await ModCaseModel.find({ guildId: guild.id, userId: targetId, createdAt: { $gte: since } }).lean();
 
-    const warnCount = cases.filter((c: any) => c.type === "warn").length;
-    const muteCount = cases.filter((c: any) => ["mute", "timeout"].includes(c.type)).length;
-    const automodCases = cases.filter((c: any) => c.reason.startsWith("[Automod]")).length;
+    const warnCount = cases.filter((c) => c.type === "warn").length;
+    const muteCount = cases.filter((c) => ["mute", "timeout"].includes(c.type)).length;
+    const automodCases = cases.filter((c) => c.reason.startsWith("[Automod]")).length;
 
     // Account age heuristic
     const createdAt = Number(BigInt(targetId) >> 22n) + 1420070400000;

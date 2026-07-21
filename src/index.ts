@@ -17,7 +17,7 @@ import { startBirthdayScheduler } from "./features/scheduler/birthdayScheduler.j
 import { Monitor } from "./structures/Monitor.js";
 import type { StartupPhaseResult } from "./structures/types.js";
 
-const VERSION = "0.2.4";
+const VERSION = "0.2.6";
 const log = scopedLogger("bootstrap");
 
 /** Run a named startup phase, record its duration, and surface errors cleanly. */
@@ -40,7 +40,7 @@ async function main(): Promise<void> {
   const bootStart = Date.now();
 
   printBanner(VERSION);
-  log.info("Starting up…");
+  log.info("Starting up… v0.2.6 Professional Modernization");
 
   // ── 1. Env validation ────────────────────────────────────────────────────
   const { missing, optionalMissing } = validateEnv();
@@ -103,12 +103,12 @@ async function main(): Promise<void> {
     const mem     = process.memoryUsage();
     const heapMB  = Math.round(mem.heapUsed / 1_048_576);
 
-    log.info("═══ Startup complete ═══", {
-      version:        VERSION,
+    log.info("═══ v0.2.6 Startup complete ═══", {
+      version:         VERSION,
       totalDurationMs: totalMs,
-      commands:       client.commands.size,
-      events:         client.events.size,
-      guilds:         client.guilds.cache.size,
+      commands:        client.commands.size,
+      events:          client.events.size,
+      guilds:          client.guilds.cache.size,
       heapMB,
     });
   });

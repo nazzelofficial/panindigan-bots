@@ -1,9 +1,8 @@
 import { PermissionFlagsBits, SlashCommandBuilder } from "discord.js";
 import type { CommandDefinition } from "../../structures/types.js";
-import { successEmbed, errorEmbed, warnEmbed } from "../../utils/embeds.js";
+import { EmbedFactory } from "../../structures/EmbedFactory.js";
 import { createModCase } from "../../features/moderation/caseEngine.js";
 import { sendLogEvent } from "../../features/logging/logEngine.js";
-import { baseEmbed } from "../../utils/embeds.js";
 
 const command: CommandDefinition = {
   name: "ban",
@@ -26,26 +25,24 @@ const command: CommandDefinition = {
     const reason = ctx.isSlash ? ctx.interaction!.options.getString("reason") ?? "No reason provided" : ctx.args.slice(1).join(" ") || "No reason provided";
     const deleteDays = ctx.isSlash ? ctx.interaction!.options.getInteger("deletedays") ?? 0 : 0;
 
-    if (!targetId) { await ctx.reply({ embeds: [errorEmbed("Provide a user.")] }); return; }
+    if (!targetId) { await ctx.reply({ embeds: [EmbedFactory.error("Provide a user.")] }); return; }
 
     const user = await ctx.client.users.fetch(targetId).catch(() => null);
-    if (!user) { await ctx.reply({ embeds: [errorEmbed("User not found.")] }); return; }
+    if (!user) { await ctx.reply({ embeds: [EmbedFactory.error("User not found.")] }); return; }
 
     const member = await guild.members.fetch(targetId).catch(() => null);
-    if (member && !member.bannable) { await ctx.reply({ embeds: [errorEmbed("I cannot ban this member.")] }); return; }
+    if (member && !member.bannable) { await ctx.reply({ embeds: [EmbedFactory.error("I cannot ban this member.")] }); return; }
 
-    await user.send({ embeds: [warnEmbed(`You have been banned from **${guild.name}**.\nReason: ${reason}`)] }).catch(() => {});
+    await user.send({ embeds: [EmbedFactory.warning(`You have been banned from **${guild.name}**.\nReason: ${reason}`)] }).catch(() => {});
     await guild.bans.create(targetId, { reason, deleteMessageSeconds: deleteDays * 86400 });
     await createModCase({ guildId: guild.id, userId: targetId, moderatorId: ctx.userId, type: "ban", reason });
     await sendLogEvent(guild.id, "ban", () =>
-      baseEmbed("danger").setTitle("🔨 Member Banned").addFields(
-        { name: "User", value: `${user.username} (<@${targetId}>)`, inline: true },
-        { name: "Moderator", value: `<@${ctx.userId}>`, inline: true },
-        { name: "Reason", value: reason, inline: false },
-        { name: "Messages Deleted", value: `${deleteDays} day(s)`, inline: true },
+      EmbedFactory.moderation(
+        `**User:** ${user.username} (<@${targetId}>)\n**Moderator:** <@${ctx.userId}>\n**Reason:** ${reason}\n**Messages Deleted:** ${deleteDays} day(s)`,
+        "🔨 Member Banned",
       ),
     );
-    await ctx.reply({ embeds: [successEmbed(`**${user.username}** has been banned. Reason: ${reason}`)] });
+    await ctx.reply({ embeds: [EmbedFactory.success(`**${user.username}** has been banned. Reason: ${reason}`)] });
   },
 };
 export default command;

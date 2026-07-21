@@ -2,7 +2,7 @@
   "bot": {
     "name": "Panindigan Official",
     "defaultPrefix": "P!",
-    "supportServerInvite": "https://discord.gg/your-invite-here",
+    "supportServerInvite": "https://discord.gg/panindigan",
     "website": "https://bot.panindigan.com",
     "shardCount": "auto",
     "presence": {
@@ -10,50 +10,64 @@
       "rotateIntervalSeconds": 30,
       "activities": [
         { "type": "WATCHING", "text": "985+ commands | /help" },
-        { "type": "PLAYING", "text": "bot.panindigan.com" },
-        { "type": "LISTENING", "text": "to your feedback" }
+        { "type": "PLAYING",  "text": "bot.panindigan.com" },
+        { "type": "LISTENING","text": "sa inyong mga feedback" },
+        { "type": "WATCHING", "text": "v0.2.6 — Professional Modernization" }
       ]
     }
   },
   "colors": {
-    "primary": "#5865F2",
-    "success": "#57F287",
-    "warning": "#FEE75C",
-    "danger": "#ED4245",
-    "info": "#5DADE2",
-    "premium": "#F1C40F"
+    "primary":      "#7C3AED",
+    "accent":       "#5865F2",
+    "success":      "#57F287",
+    "warning":      "#FEE75C",
+    "danger":       "#ED4245",
+    "error":        "#ED4245",
+    "info":         "#5865F2",
+    "loading":      "#95A5A6",
+    "surface":      "#95A5A6",
+    "premium":      "#F1C40F",
+    "gold":         "#F1C40F",
+    "music":        "#9B59B6",
+    "ai":           "#1ABC9C",
+    "moderation":   "#E67E22",
+    "welcome":      "#3498DB",
+    "ticket":       "#5865F2",
+    "logging":      "#2C3E50",
+    "statistics":   "#00BCD4",
+    "announcement": "#E91E63"
   },
   "premium": {
     "currency": "PHP",
     "tiers": {
-      "free": { "level": 0, "label": "Free", "priceOneTime": 0 },
-      "basic": { "level": 1, "label": "Basic", "priceOneTime": 50 },
-      "standard": { "level": 2, "label": "Standard", "priceOneTime": 150 },
-      "gold": { "level": 3, "label": "Gold", "priceOneTime": 350 },
-      "enterprise": { "level": 4, "label": "Enterprise", "priceOneTime": 600 }
+      "free":       { "level": 0, "label": "Free",       "priceOneTime": 0    },
+      "basic":      { "level": 1, "label": "Basic",      "priceOneTime": 50   },
+      "standard":   { "level": 2, "label": "Standard",   "priceOneTime": 150  },
+      "gold":       { "level": 3, "label": "Gold",       "priceOneTime": 350  },
+      "enterprise": { "level": 4, "label": "Enterprise", "priceOneTime": 600  }
     },
     "serverPacks": {
-      "pack3": { "servers": 3, "priceOneTime": 499, "grantsTier": "enterprise" },
-      "pack5": { "servers": 5, "priceOneTime": 799, "grantsTier": "enterprise" },
+      "pack3":  { "servers": 3,  "priceOneTime": 499,  "grantsTier": "enterprise" },
+      "pack5":  { "servers": 5,  "priceOneTime": 799,  "grantsTier": "enterprise" },
       "pack10": { "servers": 10, "priceOneTime": 1199, "grantsTier": "enterprise" }
     },
     "maxSingleServerPrice": 600,
     "maxServerPackPrice": 1199
   },
   "limits": {
-    "free": { "ticketPanels": 1, "customCommands": 5, "aiMessagesPerDay": 0, "auditLogRetentionDays": 7 },
-    "basic": { "ticketPanels": 3, "customCommands": 15, "aiMessagesPerDay": 100, "auditLogRetentionDays": 30 },
-    "standard": { "ticketPanels": 10, "customCommands": 50, "aiMessagesPerDay": 500, "auditLogRetentionDays": 90 },
-    "gold": { "ticketPanels": -1, "customCommands": -1, "aiMessagesPerDay": -1, "auditLogRetentionDays": 365 },
-    "enterprise": { "ticketPanels": -1, "customCommands": -1, "aiMessagesPerDay": -1, "auditLogRetentionDays": -1 }
+    "free":       { "ticketPanels": 1,  "customCommands": 5,   "aiMessagesPerDay": 0,   "auditLogRetentionDays": 7   },
+    "basic":      { "ticketPanels": 3,  "customCommands": 15,  "aiMessagesPerDay": 100, "auditLogRetentionDays": 30  },
+    "standard":   { "ticketPanels": 10, "customCommands": 50,  "aiMessagesPerDay": 500, "auditLogRetentionDays": 90  },
+    "gold":       { "ticketPanels": -1, "customCommands": -1,  "aiMessagesPerDay": -1,  "auditLogRetentionDays": 365 },
+    "enterprise": { "ticketPanels": -1, "customCommands": -1,  "aiMessagesPerDay": -1,  "auditLogRetentionDays": -1  }
   },
   "cooldowns": {
-    "defaultCommandSeconds": 3,
-    "economyDailySeconds": 86400,
-    "economyWorkSeconds": 1800,
-    "economyBegSeconds": 900,
-    "economyCrimeSeconds": 1800,
-    "levelXpCooldownSeconds": 60
+    "defaultCommandSeconds":   3,
+    "economyDailySeconds":     86400,
+    "economyWorkSeconds":      1800,
+    "economyBegSeconds":       900,
+    "economyCrimeSeconds":     1800,
+    "levelXpCooldownSeconds":  60
   },
   "leveling": {
     "xpPerMessageMin": 15,
@@ -61,21 +75,23 @@
     "xpFormula": "5 * (level ^ 2) + 50 * level + 100"
   },
   "economy": {
-    "startingBalance": 500,
-    "dailyAmount": 250,
-    "workMin": 50,
-    "workMax": 400,
-    "begMin": 10,
-    "begMax": 150,
+    "startingBalance":   500,
+    "dailyAmount":       250,
+    "workMin":            50,
+    "workMax":           400,
+    "begMin":             10,
+    "begMax":            150,
     "crimeSuccessChance": 0.45,
-    "crimeMin": 100,
-    "crimeMax": 600,
-    "crimeFineMin": 50,
-    "crimeFineMax": 300
+    "crimeMin":          100,
+    "crimeMax":          600,
+    "crimeFineMin":       50,
+    "crimeFineMax":      300
   },
   "moderation": {
-    "defaultMuteRoleName": "Muted",
-    "maxPurgeAmount": 1000,
+    "defaultMuteRoleName":   "Muted",
+    "maxPurgeAmount":        1000,
+    "caseRetentionDays":     365,
+    "messagLogRetentionDays": 30,
     "warnEscalation": {
       "3": "mute:1h",
       "5": "kick",
@@ -84,66 +100,80 @@
   },
   "antinuke": {
     "defaultThresholds": {
-      "channelDelete": 3,
-      "channelCreate": 5,
-      "roleDelete": 3,
-      "ban": 3,
-      "kick": 5,
-      "webhookCreate": 3
+      "channelDelete":  3,
+      "channelCreate":  5,
+      "roleDelete":     3,
+      "ban":            3,
+      "kick":           5,
+      "webhookCreate":  3
     },
     "defaultWindowSeconds": 10,
     "defaultPunishment": "strip-roles"
   },
   "verification": {
-    "defaultMethod": "button",
+    "defaultMethod":         "button",
     "defaultTimeoutMinutes": 10
   },
   "music": {
-    "defaultVolume": 80,
-    "maxQueueSize": 500,
-    "leaveOnEmptyQueueSeconds": 300,
-    "leaveOnEndSeconds": 300,
+    "defaultVolume":             80,
+    "maxQueueSize":              500,
+    "leaveOnEmptyQueueSeconds":  300,
+    "leaveOnEndSeconds":         300,
+    "voteSkipThreshold":         0.5,
     "lavalink": {
       "nodes": [
         {
-          "id": "main",
-          "host": "env:LAVALINK_HOST",
-          "port": "env:LAVALINK_PORT",
+          "id":       "main",
+          "host":     "env:LAVALINK_HOST",
+          "port":     "env:LAVALINK_PORT",
           "password": "env:LAVALINK_PASSWORD",
-          "secure": "env:LAVALINK_SECURE"
+          "secure":   "env:LAVALINK_SECURE"
         }
       ]
     }
   },
   "ai": {
-    "provider": "openai",
-    "chatModel": "gpt-4o-mini",
-    "moderationModel": "omni-moderation-latest",
-    "imageAnalysisModel": "gpt-4o-mini"
+    "provider":             "openai",
+    "chatModel":            "gpt-4o-mini",
+    "moderationModel":      "omni-moderation-latest",
+    "imageAnalysisModel":   "gpt-4o-mini",
+    "maxRetries":           3,
+    "timeoutMs":            30000,
+    "cacheCommonQueriesMs": 300000
   },
   "logging": {
-    "level": "info",
+    "level":        "info",
     "maxFileSizeMb": 20,
-    "maxFiles": 14
+    "maxFiles":      14
   },
   "api": {
-    "enabled": true,
-    "rateLimitPerMinute": 60
+    "enabled":             true,
+    "rateLimitPerMinute":  60
   },
   "features": {
-    "economy":   true,
-    "leveling":  true,
-    "music":     true,
-    "ai":        true,
-    "giveaways": true,
-    "tickets":   true
+    "economy":    true,
+    "leveling":   true,
+    "music":      true,
+    "ai":         true,
+    "giveaways":  true,
+    "tickets":    true,
+    "engagement": true,
+    "onboarding": true,
+    "digest":     true
   },
   "monitoring": {
-    "heapWarnMB":    512,
-    "heapAlertMB":   768,
-    "cpuWarnPct":    80,
-    "pingWarnMs":    400,
-    "slowQueryMs":   200,
-    "msgCacheWarn":  10000
+    "heapWarnMB":   512,
+    "heapAlertMB":  768,
+    "cpuWarnPct":   80,
+    "pingWarnMs":   400,
+    "slowQueryMs":  200,
+    "msgCacheWarn": 10000
+  },
+  "dataRetention": {
+    "moderationCaseDays":  365,
+    "messageLogDays":       30,
+    "economyHistoryDays":  180,
+    "analyticsAggrDays":    90,
+    "closedTicketDays":    180
   }
 }

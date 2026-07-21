@@ -66,7 +66,7 @@ const command: CommandDefinition = {
     (profile as any).balance = ((profile as any).balance ?? 0) - bet + winnings;
     await user.save();
 
-    const colorEmoji: Record<string, string> = { red: "🔴", black: "⚫", green: "🟢" };
+    const colorEmoji = { red: "🔴", black: "⚫", green: "🟢" };
     if (multiplier > 0) {
       await ctx.reply({ embeds: [successEmbed(`🎲 ${colorEmoji[result]} ${result.toUpperCase()}\n🎉 You won ${winnings} coins!`)] });
     } else {

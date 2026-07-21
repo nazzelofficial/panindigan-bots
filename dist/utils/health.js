@@ -86,7 +86,7 @@ async function checkLavalink(client) {
     }
     try {
         // Check if any nodes are connected
-        const nodes = client.lavalink.nodes ?? [];
+        const nodes = client.lavalink?.nodes ?? [];
         const connectedCount = nodes.filter((n) => n.connected).length;
         if (connectedCount === 0) {
             return {

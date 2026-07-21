@@ -15,7 +15,7 @@ import { startPremiumExpiryAudit } from "./features/scheduler/premiumAudit.js";
 import { startTempbanScheduler } from "./features/scheduler/tempbanScheduler.js";
 import { startBirthdayScheduler } from "./features/scheduler/birthdayScheduler.js";
 import { Monitor } from "./structures/Monitor.js";
-const VERSION = "0.2.4";
+const VERSION = "0.2.6";
 const log = scopedLogger("bootstrap");
 /** Run a named startup phase, record its duration, and surface errors cleanly. */
 async function phase(name, fn) {
@@ -36,7 +36,7 @@ async function phase(name, fn) {
 async function main() {
     const bootStart = Date.now();
     printBanner(VERSION);
-    log.info("Starting up…");
+    log.info("Starting up… v0.2.6 Professional Modernization");
     // ── 1. Env validation ────────────────────────────────────────────────────
     const { missing, optionalMissing } = validateEnv();
     if (missing.length) {
@@ -89,7 +89,7 @@ async function main() {
         const totalMs = Date.now() - bootStart;
         const mem = process.memoryUsage();
         const heapMB = Math.round(mem.heapUsed / 1_048_576);
-        log.info("═══ Startup complete ═══", {
+        log.info("═══ v0.2.6 Startup complete ═══", {
             version: VERSION,
             totalDurationMs: totalMs,
             commands: client.commands.size,

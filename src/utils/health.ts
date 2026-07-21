@@ -124,7 +124,7 @@ async function checkLavalink(client: PanindiganClient): Promise<HealthCheckResul
   
   try {
     // Check if any nodes are connected
-    const nodes = (client.lavalink as any).nodes ?? [];
+    const nodes = (client.lavalink as any)?.nodes ?? [];
     const connectedCount = nodes.filter((n: any) => n.connected).length;
     
     if (connectedCount === 0) {

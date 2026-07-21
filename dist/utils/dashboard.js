@@ -61,10 +61,10 @@ export function buildProgressSection(label, current, max, length = 20) {
  */
 export function buildStatusBadge(level) {
     const badges = {
-        operational: { emoji: "✅", label: "Operational", color: COLORS.SUCCESS },
-        degraded: { emoji: "⚠️", label: "Degraded", color: COLORS.WARNING },
-        offline: { emoji: "❌", label: "Offline", color: COLORS.ERROR },
-        maintenance: { emoji: "🔧", label: "Maintenance", color: COLORS.SURFACE },
+        operational: { emoji: "✅", label: "Operational", color: COLORS.SUCCESS.toString() },
+        degraded: { emoji: "⚠️", label: "Degraded", color: COLORS.WARNING.toString() },
+        offline: { emoji: "❌", label: "Offline", color: COLORS.ERROR.toString() },
+        maintenance: { emoji: "🔧", label: "Maintenance", color: COLORS.SURFACE.toString() },
     };
     return badges[level];
 }
@@ -142,7 +142,7 @@ export function buildDashboard(options, sections) {
     const { title, description, color, thumbnail, footer, timestamp = true } = options;
     const embed = new EmbedBuilder()
         .setTitle(title)
-        .setColor(color ?? COLORS.PRIMARY);
+        .setColor((color ?? COLORS.PRIMARY));
     if (description) {
         embed.setDescription(description);
     }
@@ -179,15 +179,11 @@ export function buildRefreshButton(customId, label = "🔄 Refresh") {
  * Build action buttons for dashboard.
  */
 export function buildActionButtons(buttons) {
-    return new ActionRowBuilder().addComponents(buttons.map((btn) => {
-        const b = new ButtonBuilder()
-            .setCustomId(btn.customId)
-            .setLabel(btn.label)
-            .setStyle(btn.style);
-        if (btn.emoji)
-            b.setEmoji(btn.emoji);
-        return b;
-    }));
+    return new ActionRowBuilder().addComponents(buttons.map((btn) => new ButtonBuilder()
+        .setCustomId(btn.customId)
+        .setLabel(btn.label)
+        .setStyle(btn.style)
+        .setEmoji(btn.emoji)));
 }
 // ── Tab navigation builder ───────────────────────────────────────────────────────
 /**
@@ -271,7 +267,7 @@ export function buildEconomyDashboard(data) {
     return buildDashboard({
         title: "💎 Economy Dashboard",
         description: "Your economy stats and progress",
-        color: COLORS.PRIMARY,
+        color: COLORS.PRIMARY.toString(),
     }, sections);
 }
 /**
@@ -314,7 +310,7 @@ export function buildModerationDashboard(data) {
     return buildDashboard({
         title: "🛡️ Moderation Dashboard",
         description: "Server moderation statistics",
-        color: COLORS.MODERATION,
+        color: COLORS.MODERATION.toString(),
     }, sections);
 }
 /**
@@ -358,7 +354,7 @@ export function buildServerStatsDashboard(data) {
     return buildDashboard({
         title: "📊 Server Statistics",
         description: "Server overview and metrics",
-        color: COLORS.INFO,
+        color: COLORS.INFO.toString(),
     }, sections);
 }
 //# sourceMappingURL=dashboard.js.map

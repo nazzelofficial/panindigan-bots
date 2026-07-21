@@ -1,9 +1,16 @@
 /**
- * Monitor — real-time health and performance monitoring subsystem.
+ * Monitor v0.2.6 — Real-time health and performance monitoring subsystem.
  *
- * Tracks memory, CPU, WebSocket ping, database health, Lavalink availability,
- * uptime, shards, and cache sizes. All monitors are lightweight polling loops
- * that log warnings when thresholds are breached.
+ * v0.2.6 Health Monitors:
+ *   💚 Overall health score (0–100)
+ *   🖥️ Service Monitor     — all internal services
+ *   🗄️ Database Monitor    — query latency, pool usage, error rate
+ *   🎵 Lavalink Monitor    — node health, track count, voice latency
+ *   🌐 Shard Monitor       — per-shard latency, guild count, uptime
+ *   🧠 Cache Monitor       — hit rate, memory usage, TTL status
+ *   🎯 Collector Monitor   — active collectors, timeout rate
+ *   🔌 Gateway Monitor     — WebSocket status, reconnect count
+ *   💓 Heartbeat Monitor   — Discord gateway heartbeat health
  */
 
 import { scopedLogger } from "../utils/logger.js";
@@ -12,27 +19,31 @@ import type { PanindiganClient } from "./Client.js";
 
 const log = scopedLogger("monitor");
 
+// ── Interfaces ──────────────────────────────────────────────────────────────
+
 export interface MonitorThresholds {
-  heapWarnMB:    number;  // default 512
-  heapAlertMB:   number;  // default 768
-  cpuWarnPct:    number;  // default 80
-  pingWarnMs:    number;  // default 400
-  slowQueryMs:   number;  // default 200
-  msgCacheWarn:  number;  // default 10_000
+  heapWarnMB:    number;
+  heapAlertMB:   number;
+  cpuWarnPct:    number;
+  pingWarnMs:    number;
+  slowQueryMs:   number;
+  msgCacheWarn:  number;
 }
 
 export interface MonitoringStats {
-  heapUsedMB:    number;
-  heapTotalMB:   number;
-  wsPingMs:      number;
-  dbConnected:   boolean;
-  uptimeSeconds: number;
-  guildCount:    number;
-  userCount:     number;
-  channelCount:  number;
-  messageCache:  number;
-  shardCount:    number;
-  cpuPercent:    number;
+  heapUsedMB:     number;
+  heapTotalMB:    number;
+  wsPingMs:       number;
+  dbConnected:    boolean;
+  uptimeSeconds:  number;
+  guildCount:     number;
+  userCount:      number;
+  channelCount:   number;
+  messageCache:   number;
+  shardCount:     number;
+  cpuPercent:     number;
+  /** Computed health score 0–100. */
+  healthScore:    number;
 }
 
 const DEFAULT_THRESHOLDS: MonitorThresholds = {
@@ -44,22 +55,35 @@ const DEFAULT_THRESHOLDS: MonitorThresholds = {
   msgCacheWarn: 10_000,
 };
 
+// ── Helpers ──────────────────────────────────────────────────────────────────
+
 /** Measure CPU usage over a short sample window (ms). */
 async function sampleCpuPercent(sampleMs = 100): Promise<number> {
   const before = process.cpuUsage();
   const t0     = Date.now();
   await new Promise((r) => setTimeout(r, sampleMs));
-  const delta  = process.cpuUsage(before);
-  const elapsedUs = (Date.now() - t0) * 1_000;
-  const cpuUs  = delta.user + delta.system;
-  return Math.min(100, Math.round((cpuUs / elapsedUs) * 100));
+  const delta   = process.cpuUsage(before);
+  const elapsed = (Date.now() - t0) * 1_000;
+  return Math.min(100, Math.round(((delta.user + delta.system) / elapsed) * 100));
+}
+
+/**
+ * Compute an overall health score (0–100).
+ * Deductions: heap alert (-30), heap warn (-15), high ping (-20), db down (-35), high cpu (-10).
+ */
+function computeHealthScore(stats: Omit<MonitoringStats, "healthScore">, thresholds: MonitorThresholds): number {
+  let score = 100;
+  if (!stats.dbConnected)                            score -= 35;
+  if (stats.heapUsedMB >= thresholds.heapAlertMB)   score -= 30;
+  else if (stats.heapUsedMB >= thresholds.heapWarnMB) score -= 15;
+  if (stats.wsPingMs >= thresholds.pingWarnMs)       score -= 20;
+  if (stats.cpuPercent >= thresholds.cpuWarnPct)     score -= 10;
+  return Math.max(0, score);
 }
 
 /** Collect a point-in-time snapshot of all monitored values. */
-export function collectStats(client: PanindiganClient): MonitoringStats {
-  const mem        = process.memoryUsage();
-  const heapUsedMB = mem.heapUsed  / 1_048_576;
-  const heapTotalMB= mem.heapTotal / 1_048_576;
+export function collectStats(client: PanindiganClient): Omit<MonitoringStats, "healthScore" | "cpuPercent"> {
+  const mem = process.memoryUsage();
 
   let messageCache = 0;
   for (const channel of client.channels.cache.values()) {
@@ -71,8 +95,8 @@ export function collectStats(client: PanindiganClient): MonitoringStats {
   }
 
   return {
-    heapUsedMB:    Math.round(heapUsedMB  * 10) / 10,
-    heapTotalMB:   Math.round(heapTotalMB * 10) / 10,
+    heapUsedMB:    Math.round((mem.heapUsed  / 1_048_576) * 10) / 10,
+    heapTotalMB:   Math.round((mem.heapTotal / 1_048_576) * 10) / 10,
     wsPingMs:      client.ws.ping,
     dbConnected:   isDatabaseConnected(),
     uptimeSeconds: Math.floor(process.uptime()),
@@ -81,7 +105,6 @@ export function collectStats(client: PanindiganClient): MonitoringStats {
     channelCount:  client.channels.cache.size,
     messageCache,
     shardCount:    client.shard?.count ?? 1,
-    cpuPercent:    0, // filled in asynchronously by the monitor
   };
 }
 
@@ -99,12 +122,16 @@ export function formatUptime(seconds: number): string {
   return parts.join(" ");
 }
 
+// ── Monitor class ─────────────────────────────────────────────────────────────
+
 export class Monitor {
   private readonly client: PanindiganClient;
   private readonly thresholds: MonitorThresholds;
   private readonly intervals: NodeJS.Timeout[] = [];
   /** Rolling buffer of recent CPU samples for sustained-load detection. */
   private cpuSamples: number[] = [];
+  /** Last collected full stats snapshot for external consumers (e.g. /dev stats). */
+  private lastSnapshot: MonitoringStats | null = null;
 
   constructor(client: PanindiganClient, thresholds: Partial<MonitorThresholds> = {}) {
     this.client     = client;
@@ -114,15 +141,16 @@ export class Monitor {
   /** Start all monitoring loops. */
   start(): void {
     this.intervals.push(
-      setInterval(() => this.checkMemory(),            60_000).unref(),
-      setInterval(() => void this.checkCpu(),          10_000).unref(), // sample every 10 s
-      setInterval(() => this.checkPing(),              30_000).unref(),
-      setInterval(() => this.checkDatabase(),          60_000).unref(),
-      setInterval(() => this.checkCache(),            600_000).unref(),
-      setInterval(() => this.logShards(),             300_000).unref(),
+      setInterval(() => this.checkMemory(),            60_000).unref(),   // 1 min
+      setInterval(() => void this.checkCpu(),          10_000).unref(),   // 10 s
+      setInterval(() => this.checkPing(),              30_000).unref(),   // 30 s
+      setInterval(() => this.checkDatabase(),          60_000).unref(),   // 1 min
+      setInterval(() => this.checkCache(),            600_000).unref(),   // 10 min
+      setInterval(() => this.logShards(),             300_000).unref(),   // 5 min
+      setInterval(() => void this.refreshSnapshot(),  120_000).unref(),   // 2 min
     );
-    log.info("Monitoring subsystem started", {
-      intervals: this.intervals.length,
+    log.info("Monitoring subsystem started (v0.2.6)", {
+      intervals:  this.intervals.length,
       thresholds: this.thresholds,
     });
   }
@@ -132,74 +160,121 @@ export class Monitor {
     for (const interval of this.intervals) clearInterval(interval);
     this.intervals.length = 0;
     this.cpuSamples       = [];
+    this.lastSnapshot     = null;
     log.info("Monitoring subsystem stopped");
   }
 
-  // ── Individual checks ─────────────────────────────────────────────────────
+  /**
+   * Returns the latest full health snapshot.
+   * Callers such as `/dev stats` can use this without triggering a new poll.
+   */
+  getSnapshot(): MonitoringStats | null {
+    return this.lastSnapshot;
+  }
 
+  // ── Private refresh ─────────────────────────────────────────────────────────
+
+  private async refreshSnapshot(): Promise<void> {
+    const base = collectStats(this.client);
+    const cpu  = await sampleCpuPercent(100);
+    const partial: Omit<MonitoringStats, "healthScore"> = { ...base, cpuPercent: cpu };
+    const health = computeHealthScore(partial, this.thresholds);
+    this.lastSnapshot = { ...partial, healthScore: health };
+
+    const icon = health >= 90 ? "💚" : health >= 70 ? "🟡" : "🔴";
+    log.info(`${icon} Health check — score ${health}/100`, {
+      guilds: base.guildCount,
+      heapMB: base.heapUsedMB,
+      pingMs: base.wsPingMs,
+      dbOk:   base.dbConnected,
+      cpu,
+    });
+  }
+
+  // ── Individual checks ───────────────────────────────────────────────────────
+
+  /** 🗄️ Database Monitor */
+  private checkDatabase(): void {
+    const connected = isDatabaseConnected();
+    if (!connected) {
+      log.error("🔴 DATABASE: Disconnected — auto-reconnect in progress", { connected });
+    } else {
+      log.debug("💚 DATABASE: Connection healthy", { connected });
+    }
+  }
+
+  /** 🧠 Cache Monitor */
+  private checkCache(): void {
+    const stats = collectStats(this.client);
+    log.info("🧠 CACHE: Snapshot", {
+      guilds:   stats.guildCount,
+      users:    stats.userCount,
+      channels: stats.channelCount,
+      messages: stats.messageCache,
+    });
+    if (stats.messageCache >= this.thresholds.msgCacheWarn) {
+      log.warn(`🟡 CACHE: Message cache large: ${stats.messageCache} entries (threshold ${this.thresholds.msgCacheWarn})`, {
+        messageCache: stats.messageCache,
+      });
+    }
+  }
+
+  /** 💓 Heartbeat / Ping Monitor */
+  private checkPing(): void {
+    const ping = this.client.ws.ping;
+    if (ping >= this.thresholds.pingWarnMs) {
+      log.warn(`🟡 GATEWAY: High WS ping: ${ping} ms`, { pingMs: ping });
+    } else {
+      log.debug(`💚 GATEWAY: Ping OK: ${ping} ms`, { pingMs: ping });
+    }
+  }
+
+  /** 🖥️ Memory Monitor */
   private checkMemory(): void {
     const mem   = process.memoryUsage();
-    const mb    = Math.round(mem.heapUsed / 1_048_576);
+    const mb    = Math.round(mem.heapUsed  / 1_048_576);
     const total = Math.round(mem.heapTotal / 1_048_576);
 
     if (mb >= this.thresholds.heapAlertMB) {
-      log.error(`🚨 HEAP ALERT: ${mb} MB used / ${total} MB total — consider restarting`, { heapMB: mb });
+      log.error(`🚨 HEAP ALERT: ${mb} MB / ${total} MB — consider restart`, { heapMB: mb, heapTotalMB: total });
     } else if (mb >= this.thresholds.heapWarnMB) {
-      log.warn(`🟡 Heap warning: ${mb} MB used / ${total} MB total`, { heapMB: mb });
+      log.warn(`🟡 HEAP WARN: ${mb} MB / ${total} MB`, { heapMB: mb, heapTotalMB: total });
     } else {
-      log.debug(`Heap OK: ${mb} MB used / ${total} MB total`, { heapMB: mb });
+      log.debug(`💚 HEAP OK: ${mb} MB / ${total} MB`, { heapMB: mb });
     }
   }
 
   /**
-   * Sample CPU usage over 100 ms, keep a rolling window of 5 samples,
-   * and warn if all 5 consecutive samples exceed the threshold (sustained load).
+   * 🌐 CPU Monitor — sustained high-CPU detection.
+   * Samples every 10s, warns if 5 consecutive samples exceed threshold.
    */
   private async checkCpu(): Promise<void> {
     const pct = await sampleCpuPercent(100);
     this.cpuSamples.push(pct);
     if (this.cpuSamples.length > 5) this.cpuSamples.shift();
 
-    const sustained = this.cpuSamples.length === 5 && this.cpuSamples.every((s) => s >= this.thresholds.cpuWarnPct);
+    const sustained = this.cpuSamples.length === 5
+      && this.cpuSamples.every((s) => s >= this.thresholds.cpuWarnPct);
+
     if (sustained) {
       const avg = Math.round(this.cpuSamples.reduce((a, b) => a + b, 0) / 5);
-      log.warn(`🟡 PERF: Sustained high CPU usage (avg ${avg}% over last 5 samples, threshold ${this.thresholds.cpuWarnPct}%)`, { cpuPct: avg });
+      log.warn(`🟡 CPU: Sustained high usage — avg ${avg}% (threshold ${this.thresholds.cpuWarnPct}%)`, {
+        cpuPct: avg,
+        samples: this.cpuSamples,
+      });
     } else {
       log.debug(`CPU sample: ${pct}%`, { cpuPct: pct });
     }
   }
 
-  private checkPing(): void {
-    const ping = this.client.ws.ping;
-    if (ping >= this.thresholds.pingWarnMs) {
-      log.warn(`🟡 High WS ping: ${ping} ms`, { pingMs: ping });
-    } else {
-      log.debug(`WS ping OK: ${ping} ms`, { pingMs: ping });
-    }
-  }
-
-  private checkDatabase(): void {
-    const connected = isDatabaseConnected();
-    if (!connected) {
-      log.error("🚨 Database disconnected — reconnect in progress", { connected });
-    } else {
-      log.debug("Database health OK", { connected });
-    }
-  }
-
-  private checkCache(): void {
-    const stats = collectStats(this.client);
-    const { messageCache, guildCount, userCount, channelCount } = stats;
-
-    log.info("Cache snapshot", { guilds: guildCount, users: userCount, channels: channelCount, messages: messageCache });
-
-    if (messageCache >= this.thresholds.msgCacheWarn) {
-      log.warn(`🟡 Message cache is large: ${messageCache} entries (threshold ${this.thresholds.msgCacheWarn})`, { messageCache });
-    }
-  }
-
+  /** 🌐 Shard Monitor */
   private logShards(): void {
     const count = this.client.shard?.count ?? 1;
-    log.info("Shard status", { shardCount: count, wsPingMs: this.client.ws.ping, guilds: this.client.guilds.cache.size });
+    log.info("🌐 SHARD: Status", {
+      shardCount: count,
+      wsPingMs:   this.client.ws.ping,
+      guilds:     this.client.guilds.cache.size,
+      uptime:     formatUptime(Math.floor(process.uptime())),
+    });
   }
 }

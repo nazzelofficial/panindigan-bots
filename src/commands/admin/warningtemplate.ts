@@ -85,7 +85,7 @@ const command: CommandDefinition = {
       const templates = await WarningTemplateModel.find({ guildId: guild.id }).lean().limit(25);
       if (!templates.length) { await ctx.reply({ embeds: [infoEmbed("No warning templates. Use `/warningtemplate add` to create one.")] }); return; }
       const embed = baseEmbed("primary").setTitle("📋 Warning Templates").setDescription(
-        templates.map((t: any) => `**${t.name}**\n↳ "${t.reason}"`).join("\n\n").slice(0, 4000),
+        templates.map((t) => `**${t.name}**\n↳ "${t.reason}"`).join("\n\n").slice(0, 4000),
       );
       await ctx.reply({ embeds: [embed] });
 

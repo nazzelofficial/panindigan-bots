@@ -312,7 +312,9 @@ export function cacheResponse(prompt: string, response: string, model: string, p
   // Enforce max cache size
   if (responseCache.size >= CACHE_CONFIG.maxSize) {
     const oldestKey = responseCache.keys().next().value;
-    if (oldestKey) responseCache.delete(oldestKey);
+    if (oldestKey) {
+      responseCache.delete(oldestKey);
+    }
   }
 
   responseCache.set(key, {
@@ -423,7 +425,7 @@ export async function completeChat(
             messages: fullMessages as any,
             max_tokens: maxTokens,
             temperature,
-            stream: false,
+            stream,
           });
         },
         {
@@ -435,7 +437,7 @@ export async function completeChat(
         },
       );
 
-      const content = (completion as any).choices[0]?.message?.content ?? "";
+      const content = ("choices" in completion) ? completion.choices[0]?.message?.content ?? "" : "";
 
       // Cache the response
       if (useCache && !stream) {

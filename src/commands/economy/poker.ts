@@ -240,11 +240,11 @@ const command: CommandDefinition = {
     // Collect hold/draw interactions for 30 seconds
     const collector = msg.createMessageComponentCollector({
       componentType: ComponentType.Button,
-      filter: (i: any) => i.user.id === userId,
+      filter: i => i.user.id === userId,
       time: 30_000,
     });
 
-    collector.on("collect", async (btnInteraction: any) => {
+    collector.on("collect", async btnInteraction => {
       if (btnInteraction.customId === "draw") {
         collector.stop("draw");
         return;
@@ -260,7 +260,7 @@ const command: CommandDefinition = {
       });
     });
 
-    collector.on("end", async (_: any, reason: string) => {
+    collector.on("end", async (_, reason) => {
       // Replace non-held cards
       for (let i = 0; i < 5; i++) {
         if (!held[i]) hand[i] = deck.splice(0, 1)[0];

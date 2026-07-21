@@ -152,7 +152,7 @@ const command: CommandDefinition = {
 
     const collector = msg.createMessageComponentCollector({
       componentType: ComponentType.Button,
-      filter: (i: any) => i.user.id === userId,
+      filter: i => i.user.id === userId,
       time: 30_000,
     });
 
@@ -202,7 +202,7 @@ const command: CommandDefinition = {
       await msg.edit({ embeds: [buildEmbed(finalPlayer, dealerHand, "result", outcome, currentBet, color)], components: [] });
     };
 
-    collector.on("collect", async (btn: any) => {
+    collector.on("collect", async btn => {
       if (btn.customId === "bj_hit") {
         playerHand.push(deck.pop()!);
         await btn.deferUpdate();
@@ -236,7 +236,7 @@ const command: CommandDefinition = {
       }
     });
 
-    collector.on("end", async (_: any, reason: string) => {
+    collector.on("end", async (_, reason) => {
       if (reason !== "done") {
         // Timed out — auto-stand
         await settle(playerHand);

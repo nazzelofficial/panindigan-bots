@@ -95,7 +95,7 @@ const command: CommandDefinition = {
           baseEmbed("warning")
             .setTitle(`⚠️ Your Warnings — ${displayName}`)
             .setDescription(
-              cases.map((c: any, i: number) => `${i + 1}. Case #${c.caseId} — ${c.reason ?? "No reason"}\n   <t:${Math.floor(new Date(c.createdAt as any).getTime() / 1000)}:R>`).join("\n\n"),
+              cases.map((c, i) => `${i + 1}. Case #${c.caseId} — ${c.reason ?? "No reason"}\n   <t:${Math.floor(new Date(c.createdAt as any).getTime() / 1000)}:R>`).join("\n\n"),
             )
             .setFooter({ text: `${cases.length} active warning${cases.length !== 1 ? "s" : ""}` }),
         ],

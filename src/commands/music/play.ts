@@ -1,11 +1,11 @@
 import { SlashCommandBuilder } from "discord.js";
 import type { CommandDefinition } from "../../structures/types.js";
-import { errorEmbed } from "../../utils/embeds.js";
+import { EmbedFactory } from "../../structures/EmbedFactory.js";
 import { validateMusicOperation } from "../../utils/music.js";
 import { MusicService } from "../../services/MusicService.js";
 
 function getMusicUnavailableEmbed() {
-  return errorEmbed("❌ Music service is currently unavailable.\nThe Lavalink server is offline or unreachable.\nPlease try again later.");
+  return EmbedFactory.error("❌ Music service is currently unavailable.\nThe Lavalink server is offline or unreachable.\nPlease try again later.");
 }
 
 const command: CommandDefinition = {
@@ -51,7 +51,7 @@ const command: CommandDefinition = {
   async execute(ctx) {
     const validationError = validateMusicOperation(ctx.client);
     if (validationError) {
-      await ctx.reply({ embeds: [errorEmbed(validationError)] });
+      await ctx.reply({ embeds: [EmbedFactory.error(validationError)] });
       return;
     }
 
@@ -61,12 +61,12 @@ const command: CommandDefinition = {
 
     const voiceChannelId = (member as any).voice?.channelId;
     if (!voiceChannelId) {
-      await ctx.reply({ embeds: [errorEmbed("You need to be in a voice channel to use music commands.")] });
+      await ctx.reply({ embeds: [EmbedFactory.error("You need to be in a voice channel to use music commands.")] });
       return;
     }
 
     const query = ctx.isSlash ? ctx.interaction!.options.getString("query", true) : ctx.args.join(" ");
-    if (!query) { await ctx.reply({ embeds: [errorEmbed("Provide a song name or URL.")] }); return; }
+    if (!query) { await ctx.reply({ embeds: [EmbedFactory.error("Provide a song name or URL.")] }); return; }
 
     const textChannelId = ctx.interaction?.channelId ?? ctx.message?.channelId;
 
@@ -88,7 +88,7 @@ const command: CommandDefinition = {
     });
 
     if (!result.success) {
-      await ctx.reply({ embeds: [errorEmbed(result.message)] });
+      await ctx.reply({ embeds: [EmbedFactory.error(result.message)] });
     }
   },
 };

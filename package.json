@@ -1,6 +1,6 @@
 {
   "name": "panindigan-official",
-  "version": "0.2.4",
+  "version": "0.2.6",
   "private": true,
   "type": "module",
   "main": "dist/index.js",
@@ -10,7 +10,8 @@
   "keywords": [
     "discord-bot",
     "panindigan",
-    "enterprise"
+    "enterprise",
+    "filipino"
   ],
   "scripts": {
     "dev": "tsx watch src/index.ts",

@@ -71,7 +71,7 @@ const command: CommandDefinition = {
       const backups = await ServerBackupModel.find({ guildId: guild.id }).lean().limit(5).sort({ createdAt: -1 });
       if (!backups.length) { await ctx.reply({ embeds: [infoEmbed("No backups found. Use `/serverbackup create` to create one.")] }); return; }
       const embed = baseEmbed("primary").setTitle("💾 Server Backups").setDescription(
-        backups.map((b: any, i: number) => {
+        backups.map((b, i) => {
           const d = b.data as any;
           const ts = Math.floor(new Date((b as any).createdAt).getTime() / 1000);
           return `**${i + 1}.** \`${(b as any)._id}\` · <t:${ts}:R>\n↳ ${d.roles?.length ?? 0} roles, ${d.channels?.length ?? 0} channels · by <@${b.createdBy}>`;

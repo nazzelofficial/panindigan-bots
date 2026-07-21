@@ -25,12 +25,12 @@ const command: CommandDefinition = {
     const embed = baseEmbed("warning")
       .setTitle("👢 Recent Kicks")
       .setDescription(
-        kicks.map((k: any, i: number) => {
+        kicks.map((k, i) => {
           const ts = Math.floor(new Date((k as any).createdAt).getTime() / 1000);
           return `**${i + 1}.** <@${k.userId}> — kicked by <@${k.moderatorId}> <t:${ts}:R>\n↳ ${k.reason}`;
         }).join("\n\n").slice(0, 4000),
       )
-      .setFooter({ text: `Showing last ${kicks.length} kicks · Case IDs: ${kicks.map((k: any) => k.caseId).join(", ")}` });
+      .setFooter({ text: `Showing last ${kicks.length} kicks · Case IDs: ${kicks.map(k => k.caseId).join(", ")}` });
 
     await ctx.reply({ embeds: [embed] });
   },

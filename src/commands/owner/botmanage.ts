@@ -285,7 +285,7 @@ const command: CommandDefinition = {
         }
         const embed = baseEmbed("primary")
           .setTitle("🚩 Feature Flags")
-          .setDescription(flags.map((f: any) => `**${f.name}**: ${f.enabled ? "✅" : "❌"} — ${f.description || "no description"}`).join("\n"));
+          .setDescription(flags.map((f) => `**${f.name}**: ${f.enabled ? "✅" : "❌"} — ${f.description || "no description"}`).join("\n"));
         await ctx.reply({ embeds: [embed] });
       } else if (action === "toggle") {
         if (!flagName) {

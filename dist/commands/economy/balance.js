@@ -1,5 +1,5 @@
 import { UserModel } from "../../database/models/User.js";
-import { baseEmbed, errorEmbed } from "../../utils/embeds.js";
+import { EmbedFactory } from "../../structures/EmbedFactory.js";
 const command = {
     name: "balance",
     description: "View your or another user's coin balance",
@@ -19,17 +19,14 @@ const command = {
                 ? await ctx.client.users.fetch(ctx.args[0].replace(/\D/g, "")).catch(() => null)
                 : await ctx.client.users.fetch(ctx.userId);
         if (!target) {
-            await ctx.reply({ embeds: [errorEmbed("User not found.")] });
+            await ctx.reply({ embeds: [EmbedFactory.error("User not found.")] });
             return;
         }
         const doc = await UserModel.findOne({ userId: target.id }).lean();
         const guildData = doc?.guilds?.find((g) => g.guildId === guild.id) ?? {};
         const wallet = guildData.balance ?? 0;
         const bank = guildData.bank ?? 0;
-        const embed = baseEmbed("primary")
-            .setTitle(`💰 Balance — ${target.username}`)
-            .setThumbnail(target.displayAvatarURL())
-            .addFields({ name: "👛 Wallet", value: `🪙 **${wallet.toLocaleString()}**`, inline: true }, { name: "🏦 Bank", value: `🪙 **${bank.toLocaleString()}**`, inline: true }, { name: "💎 Net Worth", value: `🪙 **${(wallet + bank).toLocaleString()}**`, inline: true });
+        const embed = EmbedFactory.dashboard(`👛 Wallet: **${wallet.toLocaleString()}**\n🏦 Bank: **${bank.toLocaleString()}**\n💎 Net Worth: **${(wallet + bank).toLocaleString()}**`, `💰 Balance — ${target.username}`).setThumbnail(target.displayAvatarURL());
         await ctx.reply({ embeds: [embed] });
     },
 };

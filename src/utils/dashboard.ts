@@ -43,7 +43,7 @@ export interface DashboardSection {
 export interface DashboardOptions {
   title: string;
   description?: string;
-  color?: number;
+  color?: string;
   thumbnail?: string;
   footer?: string;
   timestamp?: boolean;
@@ -127,12 +127,12 @@ export type StatusLevel = "operational" | "degraded" | "offline" | "maintenance"
 /**
  * Build a status badge with emoji and color.
  */
-export function buildStatusBadge(level: StatusLevel): { emoji: string; label: string; color: number } {
-  const badges: Record<StatusLevel, { emoji: string; label: string; color: number }> = {
-    operational: { emoji: "✅", label: "Operational", color: COLORS.SUCCESS },
-    degraded: { emoji: "⚠️", label: "Degraded", color: COLORS.WARNING },
-    offline: { emoji: "❌", label: "Offline", color: COLORS.ERROR },
-    maintenance: { emoji: "🔧", label: "Maintenance", color: COLORS.SURFACE },
+export function buildStatusBadge(level: StatusLevel): { emoji: string; label: string; color: string } {
+  const badges: Record<StatusLevel, { emoji: string; label: string; color: string }> = {
+    operational: { emoji: "✅", label: "Operational", color: COLORS.SUCCESS.toString() },
+    degraded: { emoji: "⚠️", label: "Degraded", color: COLORS.WARNING.toString() },
+    offline: { emoji: "❌", label: "Offline", color: COLORS.ERROR.toString() },
+    maintenance: { emoji: "🔧", label: "Maintenance", color: COLORS.SURFACE.toString() },
   };
   
   return badges[level];
@@ -243,7 +243,7 @@ export function buildDashboard(
   
   const embed = new EmbedBuilder()
     .setTitle(title)
-    .setColor(color ?? COLORS.PRIMARY);
+    .setColor((color ?? COLORS.PRIMARY) as `#${string}`);
   
   if (description) {
     embed.setDescription(description);
@@ -294,14 +294,13 @@ export function buildActionButtons(
   buttons: Array<{ label: string; style: ButtonStyle; customId: string; emoji?: string }>,
 ): ActionRowBuilder<ButtonBuilder> {
   return new ActionRowBuilder<ButtonBuilder>().addComponents(
-    buttons.map((btn) => {
-      const b = new ButtonBuilder()
+    buttons.map((btn) =>
+      new ButtonBuilder()
         .setCustomId(btn.customId)
         .setLabel(btn.label)
-        .setStyle(btn.style);
-      if (btn.emoji) b.setEmoji(btn.emoji);
-      return b;
-    }),
+        .setStyle(btn.style)
+        .setEmoji(btn.emoji!),
+    ),
   );
 }
 
@@ -426,7 +425,7 @@ export function buildEconomyDashboard(data: {
     {
       title: "💎 Economy Dashboard",
       description: "Your economy stats and progress",
-      color: COLORS.PRIMARY as number,
+      color: COLORS.PRIMARY.toString(),
     },
     sections,
   );
@@ -482,7 +481,7 @@ export function buildModerationDashboard(data: {
     {
       title: "🛡️ Moderation Dashboard",
       description: "Server moderation statistics",
-      color: COLORS.MODERATION as number,
+      color: COLORS.MODERATION.toString(),
     },
     sections,
   );
@@ -540,7 +539,7 @@ export function buildServerStatsDashboard(data: {
     {
       title: "📊 Server Statistics",
       description: "Server overview and metrics",
-      color: COLORS.INFO as number,
+      color: COLORS.INFO.toString(),
     },
     sections,
   );

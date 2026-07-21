@@ -122,7 +122,7 @@ const command: CommandDefinition = {
       const panels = await ButtonRoleModel.find({ guildId: guild.id }).lean().limit(10);
       if (!panels.length) { await ctx.reply({ embeds: [infoEmbed("No button role panels.")] }); return; }
       const embed = baseEmbed("primary").setTitle("🔘 Button Role Panels").setDescription(
-        panels.map((p: any) => `**${p.title}** — ${(p.buttons as any[]).length} button(s) · <#${p.channelId}> · \`${p.messageId}\``).join("\n"),
+        panels.map((p) => `**${p.title}** — ${(p.buttons as any[]).length} button(s) · <#${p.channelId}> · \`${p.messageId}\``).join("\n"),
       );
       await ctx.reply({ embeds: [embed] });
     } else {

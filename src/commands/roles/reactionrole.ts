@@ -82,7 +82,7 @@ const command: CommandDefinition = {
       const rrs = await ReactionRoleModel.find({ guildId: guild.id }).lean();
       if (!rrs.length) { await ctx.reply({ embeds: [infoEmbed("No reaction roles configured.")] }); return; }
       const embed = baseEmbed("primary").setTitle("🎭 Reaction Roles").setDescription(
-        rrs.map((r: any) => `${r.emoji} → <@&${r.roleId}> (msg: \`${r.messageId}\` in <#${r.channelId}>)`).join("\n").slice(0, 4000),
+        rrs.map((r) => `${r.emoji} → <@&${r.roleId}> (msg: \`${r.messageId}\` in <#${r.channelId}>)`).join("\n").slice(0, 4000),
       );
       await ctx.reply({ embeds: [embed] });
     } else if (sub === "clear") {

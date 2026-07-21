@@ -92,7 +92,7 @@ const command: CommandDefinition = {
       });
     });
 
-    collector.on('end', async (collected: any) => {
+    collector.on('end', async (collected) => {
       if (collected.size === 0) {
         await (msg as any).edit({
           embeds: [new EmbedBuilder().setTitle('⚡ Reaction Test').setColor(0xFF4444).setDescription('⏰ Time\'s up! You took too long (>5 seconds).')],

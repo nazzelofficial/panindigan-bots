@@ -49,71 +49,109 @@ async function getGuildConfig(guildId) {
     return doc;
 }
 // ── Command dispatcher ───────────────────────────────────────────────────────
+//
+// v0.2.6 Execution Pipeline (8 steps):
+//   1. ✅ Sanitize args
+//   2. 🚫 Blacklist check
+//   3. 🔧 Maintenance mode
+//   4. 🏠 Guild-only gate
+//   5. 🔐 Access tier + permissions
+//   6. 👑 Premium gate
+//   7. ❄️ Cooldown check
+//   8. ⚡ Execute + log + cleanup
 export async function dispatchCommand(client, command, ctx, member) {
     const start = Date.now();
     try {
-        // ── Sanitize args ──────────────────────────────────────────────────────
+        // ── 1. Sanitize args ───────────────────────────────────────────────────
         ctx.args = sanitizeArgs(ctx.args);
-        // ── Blacklist ──────────────────────────────────────────────────────────
+        // ── 2. Blacklist ───────────────────────────────────────────────────────
         if (await BlacklistModel.exists({ entityId: ctx.userId, entityType: "user" }))
             return;
         if (ctx.guildId && await BlacklistModel.exists({ entityId: ctx.guildId, entityType: "server" }))
             return;
-        // ── Maintenance mode ───────────────────────────────────────────────────
+        // ── 3. Maintenance mode ────────────────────────────────────────────────
         const maintenance = await MaintenanceStateModel.findOne({ key: "singleton" }).lean();
         if (maintenance?.enabled && !isBotOwner(ctx.userId)) {
-            await ctx.reply({ embeds: [EmbedFactory.warning(maintenance.message ?? "The bot is under maintenance. Please try again later.")], ephemeral: true });
+            await ctx.reply({
+                embeds: [EmbedFactory.warning(maintenance.message ?? "Ang bot ay kasalukuyang nasa maintenance. Subukan ulit mamaya!", "🔧 Maintenance Mode")],
+                ephemeral: true,
+            });
             return;
         }
-        // ── Guild-only gate ────────────────────────────────────────────────────
+        // ── 4. Guild-only gate ─────────────────────────────────────────────────
         if (command.guildOnly !== false && !ctx.guildId) {
-            await ctx.reply({ embeds: [EmbedFactory.error("This command can only be used inside a server.")], ephemeral: true });
+            await ctx.reply({
+                embeds: [EmbedFactory.error("Ang command na ito ay server-only. Hindi ito pwedeng gamitin sa DMs. 🏠")],
+                ephemeral: true,
+            });
             return;
         }
-        // ── Per-server config checks ───────────────────────────────────────────
+        // ── 5. Per-server config checks ────────────────────────────────────────
         if (ctx.guildId) {
             const guildConfig = await getGuildConfig(ctx.guildId);
-            if (Array.isArray(guildConfig?.["disabledCommands"]) && guildConfig["disabledCommands"].includes(command.name)) {
-                await ctx.reply({ embeds: [EmbedFactory.error(`The \`${command.name}\` command is disabled in this server.`)], ephemeral: true });
+            if (Array.isArray(guildConfig?.["disabledCommands"]) &&
+                guildConfig["disabledCommands"].includes(command.name)) {
+                await ctx.reply({
+                    embeds: [EmbedFactory.error(`Ang \`/${command.name}\` ay naka-disable sa server na ito.\n\nMakipag-ugnayan sa isang admin para i-enable ito.`)],
+                    ephemeral: true,
+                });
                 return;
             }
-            if (Array.isArray(guildConfig?.["ignoredUsers"]) && guildConfig["ignoredUsers"].includes(ctx.userId))
+            if (Array.isArray(guildConfig?.["ignoredUsers"]) &&
+                guildConfig["ignoredUsers"].includes(ctx.userId))
                 return;
         }
-        // ── Access tier ────────────────────────────────────────────────────────
+        // ── 5b. Access tier ────────────────────────────────────────────────────
         const tier = await resolveAccessTier(member, ctx.userId);
         if (!tierSatisfies(tier, command.access)) {
-            await ctx.reply({ embeds: [EmbedFactory.error(`You need **${TIER_LABELS[command.access]}** access to use this command.`)], ephemeral: true });
+            await ctx.reply({
+                embeds: [EmbedFactory.error(`Kailangan mo ng **${TIER_LABELS[command.access]}** access para magamit ang command na ito.\n\nMakipag-ugnayan sa iyong server admin kung sa tingin mo ay may karapatang-ari ka nito. 🔐`)],
+                ephemeral: true,
+            });
             return;
         }
-        // ── Member permissions ─────────────────────────────────────────────────
+        // ── 5c. Member permissions ─────────────────────────────────────────────
         if (command.memberPermissions?.length && member && !member.permissions.has(command.memberPermissions)) {
-            await ctx.reply({ embeds: [EmbedFactory.error("You don't have the required Discord permissions to use this command.")], ephemeral: true });
+            const perms = command.memberPermissions;
+            await ctx.reply({
+                embeds: [EmbedFactory.error(`Wala kang sapat na Discord permissions para magamit ang command na ito.\n\n**Kailangan:** ${perms.join(", ")}\n\nMakipag-ugnayan sa iyong server admin para sa tulong. 🔐`)],
+                ephemeral: true,
+            });
             return;
         }
-        // ── Bot permissions ────────────────────────────────────────────────────
+        // ── 5d. Bot permissions ────────────────────────────────────────────────
         if (command.botPermissions?.length && member?.guild.members.me) {
             if (!member.guild.members.me.permissions.has(command.botPermissions)) {
-                await ctx.reply({ embeds: [EmbedFactory.error("I'm missing the permissions required to run this command.")], ephemeral: true });
+                const perms = command.botPermissions;
+                await ctx.reply({
+                    embeds: [EmbedFactory.error(`Wala akong sapat na permissions para patakbuhin ang command na ito!\n\n**Kailangan ko:** ${perms.join(", ")}\n\nPakilagyan ng tamang permissions ang aking role. 🤖`)],
+                    ephemeral: true,
+                });
                 return;
             }
         }
-        // ── Premium gate ───────────────────────────────────────────────────────
+        // ── 6. Premium gate ────────────────────────────────────────────────────
         if (command.premium && ctx.guildId) {
             const premium = await isGuildPremium(ctx.guildId);
             if (!premium) {
-                await ctx.reply({ embeds: [EmbedFactory.premium(`\`${command.name}\` is a Premium-only command. Type \`/premium\` to see plans and pricing.`)], ephemeral: true });
+                await ctx.reply({
+                    embeds: [EmbedFactory.premium(`Ang \`/${command.name}\` ay exclusive sa **Premium** subscribers.\n\nI-upgrade ang iyong server para ma-unlock ang feature na ito at daan-daang iba pa! 🚀`, "⭐ Premium Feature")],
+                    ephemeral: true,
+                });
                 return;
             }
         }
-        // ── Cooldown ───────────────────────────────────────────────────────────
+        // ── 7. Cooldown ────────────────────────────────────────────────────────
         const cooldownSeconds = command.cooldown ?? client.config.cooldowns?.defaultCommandSeconds ?? 0;
         const remaining = client.isOnCooldown(command.name, ctx.userId, cooldownSeconds);
         if (remaining) {
-            await ctx.reply({ embeds: [EmbedFactory.warning(`Slow down! Try \`/${command.name}\` again in **${remaining}s**.`)], ephemeral: true });
+            await ctx.reply({
+                embeds: [EmbedFactory.warning(`Sandali lang! Subukan ang \`/${command.name}\` muli pagkatapos ng **${remaining}s**. ⏱️`, "❄️ Cooldown")],
+                ephemeral: true,
+            });
             return;
         }
-        // ── Execute ────────────────────────────────────────────────────────────
+        // ── 8. Execute ─────────────────────────────────────────────────────────
         await command.execute(ctx);
         const duration = Date.now() - start;
         recordHit(ctx.guildId, command.name);
@@ -130,9 +168,17 @@ export async function dispatchCommand(client, command, ctx, member) {
     catch (err) {
         const message = err instanceof Error ? err.message : String(err);
         const stack = err instanceof Error ? err.stack : undefined;
-        log.error(`Command "${command.name}" threw an error`, { error: message, stack, userId: ctx.userId, guildId: ctx.guildId });
+        log.error(`Command "${command.name}" threw an error`, {
+            error: message,
+            stack,
+            userId: ctx.userId,
+            guildId: ctx.guildId,
+        });
         try {
-            await ctx.reply({ embeds: [EmbedFactory.error("Something went wrong while running that command. The error has been logged.")], ephemeral: true });
+            await ctx.reply({
+                embeds: [EmbedFactory.error("May nangyaring mali habang pinoproseso ang iyong kahilingan.\n\nAng error ay nai-log na. Subukan ulit! Kung patuloy ang problema, huwag mag-atubiling makipag-ugnayan sa aming support server. 🙏", "❌ Internal Error")],
+                ephemeral: true,
+            });
         }
         catch { /* interaction may already be dead */ }
     }
@@ -149,31 +195,29 @@ function walk(dir) {
         else if (entry.name.endsWith(".ts") || entry.name.endsWith(".js")) {
             files.push(full);
         }
-        // Skip non-.ts/.js files silently
     }
     return files;
 }
 // ── Command loader ───────────────────────────────────────────────────────────
-/** Convert CommandDefinition to CommandMetadata for parity tracking */
 function commandToMetadata(command) {
     return {
         name: command.name,
         description: command.description,
         category: command.category,
-        prefixSupport: true, // All commands support prefix by default in this architecture
-        slashSupport: !!command.slashData, // Commands with slashData support slash
+        prefixSupport: true,
+        slashSupport: !!command.slashData,
         aliases: command.aliases ?? [],
         permissions: command.memberPermissions ?? [],
         botPermissions: command.botPermissions ?? [],
         cooldown: command.cooldown ?? 0,
         usage: `${command.name} [args]`,
-        examples: [`/${command.name}`, `p!${command.name}`],
+        examples: [`/${command.name}`, `P!${command.name}`],
         premiumRequired: command.premium ?? false,
         guildOnly: command.guildOnly ?? true,
         ownerOnly: command.access === "owner" || command.access === "coowner",
         nsfw: false,
         autocomplete: !!command.autocomplete,
-        options: [], // Could be parsed from slashData if needed
+        options: [],
     };
 }
 export async function loadCommands(client) {
@@ -207,12 +251,11 @@ export async function loadCommands(client) {
                         if (ctx.isSlash)
                             await oldExecute(ctx.interaction);
                         else
-                            await ctx.reply({ content: `This command only supports slash. Use \`/${cmdName}\`.` });
+                            await ctx.reply({ content: `Gamitin ang \`/${cmdName}\` para sa command na ito.` });
                     },
                 };
             }
             const command = rawCommand;
-            // ── Validation ─────────────────────────────────────────────────────
             if (!command || !command.name || typeof command.execute !== "function") {
                 log.warn(`Skipping malformed command file (missing name or execute)`, { file });
                 continue;
@@ -232,7 +275,6 @@ export async function loadCommands(client) {
                 continue;
             }
             client.commands.set(command.name, command);
-            // ── Register in CommandRegistry for parity tracking ─────────────────
             const metadata = commandToMetadata(command);
             commandRegistry.register(command, metadata);
             for (const alias of command.aliases ?? []) {
@@ -263,8 +305,8 @@ export async function loadCommands(client) {
     }
     // ── Log parity report ─────────────────────────────────────────────────
     const parityReport = commandRegistry.validateParity();
-    log.info(`Command parity report: ${parityReport.both.length} both, ${parityReport.prefixOnly.length} prefix-only, ${parityReport.slashOnly.length} slash-only`);
-    log.info(`Loaded ${loaded} commands from ${files.length} files`);
+    log.info(`Command parity: ${parityReport.both.length} dual, ${parityReport.prefixOnly.length} prefix-only, ${parityReport.slashOnly.length} slash-only`);
+    log.info(`✔ Loaded ${loaded} commands from ${files.length} files (v0.2.6)`);
     return loaded;
 }
 //# sourceMappingURL=commandHandler.js.map

@@ -97,7 +97,7 @@ const command: CommandDefinition = {
       if (!codes.length) { await ctx.reply({ embeds: [infoEmbed("No unused premium codes.")] }); return; }
       const embed = baseEmbed("primary")
         .setTitle("🔑 Unused Premium Codes")
-        .setDescription(codes.map((c: any) => `\`${c.code}\` — ${TIER_LABELS[c.tier] ?? c.tier}`).join("\n").slice(0, 4000))
+        .setDescription(codes.map((c) => `\`${c.code}\` — ${TIER_LABELS[c.tier] ?? c.tier}`).join("\n").slice(0, 4000))
         .setFooter({ text: `${codes.length} unused code(s)` });
       await ctx.reply({ embeds: [embed] });
     } else {

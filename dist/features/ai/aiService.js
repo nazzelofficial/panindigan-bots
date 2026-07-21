@@ -220,8 +220,9 @@ export function cacheResponse(prompt, response, model, persona) {
     // Enforce max cache size
     if (responseCache.size >= CACHE_CONFIG.maxSize) {
         const oldestKey = responseCache.keys().next().value;
-        if (oldestKey)
+        if (oldestKey) {
             responseCache.delete(oldestKey);
+        }
     }
     responseCache.set(key, {
         response,
@@ -290,7 +291,7 @@ export async function completeChat(options) {
                     messages: fullMessages,
                     max_tokens: maxTokens,
                     temperature,
-                    stream: false,
+                    stream,
                 });
             }, {
                 maxAttempts: 1, // We handle retries at this level
@@ -299,7 +300,7 @@ export async function completeChat(options) {
                     log.warn(`Retry attempt ${attempt} for provider "${currentProvider.name}"`, { error: error.message });
                 },
             });
-            const content = completion.choices[0]?.message?.content ?? "";
+            const content = ("choices" in completion) ? completion.choices[0]?.message?.content ?? "" : "";
             // Cache the response
             if (useCache && !stream) {
                 cacheResponse(prompt, content, currentProvider.model, persona);

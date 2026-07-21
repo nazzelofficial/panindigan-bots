@@ -293,7 +293,7 @@ const command: CommandDefinition = {
       const panels = await TicketPanelModel.find({ guildId: guild.id }).lean();
       if (!panels.length) { await ctx.reply({ embeds: [infoEmbed("No panels found. Run `ticket setup` first.")] }); return; }
       const embed = baseEmbed("primary").setTitle("🎫 Ticket Panels").setDescription(
-        panels.map((p: any, i: number) => `**${i + 1}.** ${p.name} — <#${p.channelId}>`).join("\n"),
+        panels.map((p, i) => `**${i + 1}.** ${p.name} — <#${p.channelId}>`).join("\n"),
       );
       await ctx.reply({ embeds: [embed] });
       return;
@@ -460,7 +460,7 @@ const command: CommandDefinition = {
       if (!targetUser) { await ctx.reply({ embeds: [errorEmbed("User not found.")] }); return; }
       const ch = guild.channels.cache.get(tktDoc!.channelId) as TextChannel | undefined;
       if (ch) await ch.permissionOverwrites.delete(targetUser.id).catch(() => {});
-      tktDoc!.participants = tktDoc!.participants.filter((id: string) => id !== targetUser.id);
+      tktDoc!.participants = tktDoc!.participants.filter((id) => id !== targetUser.id);
       await tktDoc!.save();
       await ctx.reply({ embeds: [successEmbed(`Removed <@${targetUser.id}> from the ticket.`)] });
       return;
@@ -527,7 +527,7 @@ const command: CommandDefinition = {
       const closed = await TicketModel.countDocuments({ guildId: guild.id, status: "closed" });
       const archived = await TicketModel.countDocuments({ guildId: guild.id, status: "archived" });
       const rated = await TicketModel.find({ guildId: guild.id, rating: { $ne: null } }).lean();
-      const avgRating = rated.length ? (rated.reduce((sum: number, t: any) => sum + (t.rating ?? 0), 0) / rated.length).toFixed(2) : "N/A";
+      const avgRating = rated.length ? (rated.reduce((sum, t) => sum + (t.rating ?? 0), 0) / rated.length).toFixed(2) : "N/A";
       const embed = baseEmbed("primary")
         .setTitle("🎫 Ticket Statistics")
         .addFields(

@@ -48,7 +48,7 @@ const command: CommandDefinition = {
     const embed = baseEmbed("warning")
       .setTitle("🔨 Recent Moderation Actions")
       .setDescription(
-        cases.map((c: any) => {
+        cases.map((c) => {
           const emoji = TYPE_EMOJI[c.type] ?? "🔨";
           const ts = Math.floor(new Date((c as any).createdAt).getTime() / 1000);
           return `${emoji} **${c.type.toUpperCase()}** [#${c.caseId}] <@${c.userId}> · by <@${c.moderatorId}> <t:${ts}:R>\n↳ ${c.reason.slice(0, 100)}`;
